@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, Button } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ReceiptIcon from '@mui/icons-material/Receipt';
@@ -32,6 +32,13 @@ const drawerWidth = 320;
 
 const Sidebar = () => {
   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('isAuthenticated');
+    navigate('/login');
+  };
 
   if (!isAuthenticated) {
     return null;
@@ -80,6 +87,13 @@ const Sidebar = () => {
             </ListItem>
           ))}
         </List>
+        <Button
+          onClick={handleLogout}
+          variant="contained"
+          sx={{ color: 'white', mt: 2, width: '100%' }}
+        >
+          Çıkış Yap
+        </Button>
       </Box>
     </Drawer>
   );

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Typography, Grid, Paper } from '@mui/material';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import PaymentsIcon from '@mui/icons-material/Payments';
