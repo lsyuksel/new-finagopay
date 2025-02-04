@@ -28,7 +28,7 @@ const menuItems = [
   }
 ];
 
-const drawerWidth = 240;
+const drawerWidth = 320;
 
 const Sidebar = () => {
   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
@@ -76,7 +76,7 @@ const Sidebar = () => {
               <ListItemIcon sx={{ color: 'white' }}>
                 {item.icon}
               </ListItemIcon>
-              <ListItemText primary={item.title} />
+              <ListItemText sx={{ color: 'white' }} primary={item.title} />
             </ListItem>
           ))}
         </List>

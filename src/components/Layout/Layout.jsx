@@ -13,8 +13,6 @@ const Layout = ({ children }) => {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { sm: `calc(100% - ${240}px)` },
-          ml: isAuthenticated ? '240px' : 0,
           mt: '64px'
         }}
       >

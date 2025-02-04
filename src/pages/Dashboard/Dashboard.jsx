@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Typography, Grid, Paper } from '@mui/material';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import PaymentsIcon from '@mui/icons-material/Payments';
@@ -33,40 +34,43 @@ const Dashboard = () => {
   ];
 
   return (
-    <Box>
-      <Typography variant="h4" gutterBottom>
-        Hoş Geldiniz
-      </Typography>
-      <Grid container spacing={3}>
-        {summaryCards.map((card, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
-            <Paper
-              sx={{
-                p: 3,
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%',
-                borderRadius: 2,
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-              }}
-            >
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                {card.icon}
-                <Typography variant="h4" component="div">
-                  {card.value}
+    <div>
+      <h1>Dashboard</h1>
+      <Box>
+        <Typography variant="h4" gutterBottom>
+          Hoş Geldiniz
+        </Typography>
+        <Grid container spacing={3}>
+          {summaryCards.map((card, index) => (
+            <Grid item xs={12} sm={6} md={3} key={index}>
+              <Paper
+                sx={{
+                  p: 3,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                  borderRadius: 2,
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                }}
+              >
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                  {card.icon}
+                  <Typography variant="h4" component="div">
+                    {card.value}
+                  </Typography>
+                </Box>
+                <Typography variant="subtitle1" gutterBottom>
+                  {card.title}
                 </Typography>
-              </Box>
-              <Typography variant="subtitle1" gutterBottom>
-                {card.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {card.change}
-              </Typography>
-            </Paper>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+                <Typography variant="body2" color="text.secondary">
+                  {card.change}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </div>
   );
 };
 
