@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import 'react-toastify/dist/ReactToastify.css';
 import Login from './pages/Login/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
+import './App.scss';
 
 // Protected Route bileşeni
 const ProtectedRoute = ({ children }) => {
