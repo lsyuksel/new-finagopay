@@ -3,9 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { Paper, Typography, Container, Box, Button } from '@mui/material';
 import { toast } from 'react-toastify';
 import AuthCode from 'react-auth-code-input';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import { authService } from '../../services/api';
+import { setCredentials, setLoading, setError } from '../../store/slices/authSlice';
 
-const OtpVerification = () => {
+const OtpVerification = ({ loginData }) => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
   const [otp, setOtp] = useState('');
   const navigate = useNavigate();
 
@@ -16,18 +22,17 @@ const OtpVerification = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (otp.length !== 6) {
-      toast.error('Lütfen 6 haneli doğrulama kodunu giriniz');
+      toast.error(t('errors.invalidOtp'));
       return;
     }
 
     try {
+      dispatch(setLoading(true));
+      dispatch(setError(null));
+
       const verificationData = {
-        userName: localStorage.getItem('userName'),
-        password: localStorage.getItem('enteredPassword'),
+        ...loginData,
         verificationCode: otp,
-        qrString: localStorage.getItem('qrString'),
-        phone: localStorage.getItem('phone'),
-        otpDatetime: localStorage.getItem('otpDatetime')
       };
 
       console.log('OTP verification attempt with:', verificationData);
@@ -35,47 +40,33 @@ const OtpVerification = () => {
       const response = await authService.verifyOtp(verificationData);
       console.log('OTP verification response:', response);
       
-      // API yanıtını detaylı kontrol edelim
       if (response && (response.data || response.accessToken)) {
         const responseData = response.data || response;
         console.log('Processing response data:', responseData);
 
-        // Tüm response verisini localStorage'a kaydedelim
-        if (typeof responseData === 'object') {
-          Object.entries(responseData).forEach(([key, value]) => {
-            if (value !== null && value !== undefined) {
-              localStorage.setItem(key, value.toString());
-            }
-          });
-        }
+        // Redux store'a kullanıcı bilgilerini kaydet
+        dispatch(setCredentials({
+          user: responseData.user || responseData,
+          token: responseData.accessToken,
+        }));
         
-        // Token bilgilerini özel olarak kaydedelim
-        if (responseData.accessToken) {
-          localStorage.setItem('token', responseData.accessToken);
-        }
-        if (responseData.refreshToken) {
-          localStorage.setItem('refreshToken', responseData.refreshToken);
-        }
-        
-        localStorage.setItem('isAuthenticated', 'true');
-        toast.success('Giriş başarılı');
-        
-        // Önce yönlendirmeyi yapalım, sonra sayfayı yenileyelim
+        toast.success(t('messages.success'));
         navigate('/dashboard');
-        setTimeout(() => {
-          window.location.reload();
-        }, 100);
       } else {
         console.error('Invalid OTP verification response structure:', response);
-        toast.error('Doğrulama başarısız - API yanıtı geçersiz format');
+        dispatch(setError(t('errors.invalidResponse')));
+        toast.error(t('errors.invalidResponse'));
       }
     } catch (error) {
       console.error('OTP verification error:', error);
       const errorMessage = error.response?.data?.message || 
                           error.response?.data?.error || 
                           error.message || 
-                          'Doğrulama başarısız';
+                          t('messages.error');
+      dispatch(setError(errorMessage));
       toast.error(errorMessage);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -100,10 +91,10 @@ const OtpVerification = () => {
           }}
         >
           <Typography component="h1" variant="h5" gutterBottom>
-            SMS Doğrulama
+            {t('common.otpVerification')}
           </Typography>
           <Typography variant="body2" color="text.secondary" align="center" sx={{ mb: 3 }}>
-            Telefonunuza gönderilen 6 haneli doğrulama kodunu giriniz
+            {t('common.otpInstructions')}
           </Typography>
           
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, width: '100%' }}>
@@ -113,6 +104,7 @@ const OtpVerification = () => {
                 length={6}
                 inputClassName="otp-input"
                 containerClassName="otp-container"
+                disabled={loading}
               />
             </Box>
             
@@ -121,9 +113,9 @@ const OtpVerification = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              disabled={otp.length !== 6}
+              disabled={otp.length !== 6 || loading}
             >
-              Doğrula
+              {loading ? t('common.verifying') : t('common.verify')}
             </Button>
           </Box>
         </Paper>

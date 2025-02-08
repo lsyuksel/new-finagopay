@@ -1,0 +1,39 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "otpVerification": "SMS Verification",
+    "otpInstructions": "Please enter the 6-digit verification code sent to your phone",
+    "verify": "Verify",
+    "verifying": "Verifying...",
+    "language": "Language",
+    "turkish": "Turkish",
+    "english": "English"
+
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "accounts": "Accounts",
+    "transactions": "Transactions",
+    "settings": "Settings"
+  },
+  "errors": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email address",
+    "invalidPassword": "Password must be at least 6 characters",
+    "invalidOtp": "Please enter the 6-digit verification code",
+    "invalidResponse": "Verification failed - Invalid API response format"
+  },
+  "messages": {
+    "success": "Operation successful",
+    "error": "An error occurred",
+    "loginSuccess": "Login successful",
+    "otpSent": "Verification code sent",
+    "logoutSuccess": "Logout successful"
+  }
+} 

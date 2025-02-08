@@ -1,15 +1,28 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Login from '../../pages/Login/Login';
 import Dashboard from '../../pages/Dashboard/Dashboard';
 import Accounts from '../../pages/Accounts/Accounts';
 import Transactions from '../../pages/Transactions/Transactions';
 import Settings from '../../pages/Settings/Settings';
-import ProtectedRoute from './ProtectedRoute'; // Eğer ayrı bir dosyada tanımladıysanız
+import ProtectedRoute from './ProtectedRoute';
 
 const AppRoutes = () => {
+    const { isAuthenticated } = useSelector((state) => state.auth);
+
     return (
         <Routes>
-            <Route path="/login" element={<Login />} />
+            {/* Public Routes */}
+            <Route 
+                path="/login" 
+                element={
+                    isAuthenticated 
+                        ? <Navigate to="/dashboard" replace /> 
+                        : <Login />
+                } 
+            />
+
+            {/* Protected Routes */}
             <Route
                 path="/dashboard"
                 element={
@@ -42,7 +55,26 @@ const AppRoutes = () => {
                     </ProtectedRoute>
                 }
             />
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+
+            {/* Default Route */}
+            <Route 
+                path="/" 
+                element={
+                    isAuthenticated 
+                        ? <Navigate to="/dashboard" replace />
+                        : <Navigate to="/login" replace />
+                } 
+            />
+
+            {/* 404 Route */}
+            <Route 
+                path="*" 
+                element={
+                    isAuthenticated 
+                        ? <Navigate to="/dashboard" replace />
+                        : <Navigate to="/login" replace />
+                } 
+            />
         </Routes>
     );
 };

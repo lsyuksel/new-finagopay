@@ -1,9 +1,10 @@
 import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import Sidebar from './Sidebar';
+import { useSelector } from 'react-redux';
 
 const Layout = ({ children }) => {
-  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <Box sx={{ display: 'flex' }}>

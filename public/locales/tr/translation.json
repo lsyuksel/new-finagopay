@@ -1,0 +1,38 @@
+{
+  "common": {
+    "welcome": "Hoş Geldiniz",
+    "login": "Giriş Yap",
+    "logout": "Çıkış Yap",
+    "email": "E-posta",
+    "password": "Şifre",
+    "submit": "Gönder",
+    "cancel": "İptal",
+    "otpVerification": "SMS Doğrulama",
+    "otpInstructions": "Telefonunuza gönderilen 6 haneli doğrulama kodunu giriniz",
+    "verify": "Doğrula",
+    "verifying": "Doğrulanıyor...",
+    "language": "Dil",
+    "turkish": "Türkçe",
+    "english": "İngilizce"
+  },
+  "menu": {
+    "dashboard": "Ana Sayfa",
+    "accounts": "Hesaplar",
+    "transactions": "İşlemler",
+    "settings": "Ayarlar"
+  },
+  "errors": {
+    "required": "Bu alan zorunludur",
+    "invalidEmail": "Geçersiz e-posta adresi",
+    "invalidPassword": "Şifre en az 6 karakter olmalıdır",
+    "invalidOtp": "Lütfen 6 haneli doğrulama kodunu giriniz",
+    "invalidResponse": "Doğrulama başarısız - API yanıtı geçersiz format"
+  },
+  "messages": {
+    "success": "İşlem başarılı",
+    "error": "Bir hata oluştu",
+    "loginSuccess": "Giriş başarılı",
+    "otpSent": "Doğrulama kodu gönderildi",
+    "logoutSuccess": "Çıkış başarılı"
+  }
+} 
