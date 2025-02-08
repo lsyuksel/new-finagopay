@@ -13,7 +13,26 @@
     "verifying": "Doğrulanıyor...",
     "language": "Dil",
     "turkish": "Türkçe",
-    "english": "İngilizce"
+    "english": "İngilizce",
+    "save": "Kaydet",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "addNew": "Yeni Ekle",
+    "actions": "İşlemler",
+    "active": "Aktif",
+    "passive": "Pasif",
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "success": "Başarılı",
+    "itemsPerPage": "Kayıt/Sayfa",
+    "showing": "Gösterilen",
+    "items": "kayıt",
+    "of": "/",
+    "page": "Sayfa",
+    "first": "İlk",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "last": "Son"
   },
   "menu": {
     "dashboards": "Ana Sayfa",
@@ -39,13 +58,30 @@
     "empty": "Menü öğesi bulunamadı",
     "retry": "Tekrar Dene"
   },
+  "user": {
+    "name": "Ad",
+    "surname": "Soyad",
+    "email": "E-posta",
+    "phone": "Telefon",
+    "status": "Durum",
+    "role": "Rol",
+    "noData": "Kullanıcı bulunamadı",
+    "addUser": "Kullanıcı Ekle",
+    "editUser": "Kullanıcı Düzenle",
+    "deleteUser": "Kullanıcı Sil",
+    "deleteConfirm": "Bu kullanıcıyı silmek istediğinizden emin misiniz?",
+    "userAdded": "Kullanıcı başarıyla eklendi",
+    "userUpdated": "Kullanıcı başarıyla güncellendi",
+    "userDeleted": "Kullanıcı başarıyla silindi"
+  },
   "errors": {
     "required": "Bu alan zorunludur",
     "invalidEmail": "Geçersiz e-posta adresi",
     "invalidPassword": "Şifre en az 6 karakter olmalıdır",
     "invalidOtp": "Lütfen 6 haneli doğrulama kodunu giriniz",
     "invalidResponse": "Doğrulama başarısız - API yanıtı geçersiz format",
-    "menuError": "Menü verileri alınamadı"
+    "menuError": "Menü verileri alınamadı",
+    "userError": "Kullanıcı verileri alınamadı"
   },
   "messages": {
     "success": "İşlem başarılı",
@@ -54,4 +90,4 @@
     "otpSent": "Doğrulama kodu gönderildi",
     "logoutSuccess": "Çıkış başarılı"
   }
-} 
+}
