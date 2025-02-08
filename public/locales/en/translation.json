@@ -14,20 +14,38 @@
     "language": "Language",
     "turkish": "Turkish",
     "english": "English"
-
   },
   "menu": {
-    "dashboard": "Dashboard",
-    "accounts": "Accounts",
-    "transactions": "Transactions",
-    "settings": "Settings"
+    "dashboards": "Dashboard",
+    "welcome": "Welcome",
+    "profile": "Profile",
+    "applicationmanagement": "Application Management",
+    "merchantapplication": "Merchant Application",
+    "transactionmanagement": "Transaction Management",
+    "transactionmonitoring": "Transaction Monitoring",
+    "reconciliationmanagement": "Reconciliation Management",
+    "merchantreconciliation": "Merchant Reconciliation",
+    "chargebackmanagement": "Chargeback Management",
+    "chargebackmonitoring": "Chargeback Monitoring",
+    "installmentandcommissionmanagement": "Installment & Commission Management",
+    "merchantcommissionlist": "Merchant Commission List",
+    "keymanagement": "Key Management",
+    "keydefinition": "Key Definition",
+    "usermanagement": "User Management",
+    "userdefinition": "User Definition",
+    "userrolerelation": "User Role Relation",
+    "loading": "Loading menu...",
+    "error": "Error loading menu",
+    "empty": "No menu items found",
+    "retry": "Try Again"
   },
   "errors": {
     "required": "This field is required",
     "invalidEmail": "Invalid email address",
     "invalidPassword": "Password must be at least 6 characters",
     "invalidOtp": "Please enter the 6-digit verification code",
-    "invalidResponse": "Verification failed - Invalid API response format"
+    "invalidResponse": "Verification failed - Invalid API response format",
+    "menuError": "Failed to fetch menu data"
   },
   "messages": {
     "success": "Operation successful",

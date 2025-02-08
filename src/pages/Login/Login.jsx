@@ -38,9 +38,7 @@ const Login = () => {
         dispatch(setLoading(true));
         dispatch(setError(null));
         
-        console.log('Login attempt with:', values);
         const response = await authService.login(values);
-        console.log('Login response:', response);
         
         if (response && response.otpDatetime) {
           setLoginData(response);

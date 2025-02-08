@@ -2,9 +2,14 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Login from '../../pages/Login/Login';
 import Dashboard from '../../pages/Dashboard/Dashboard';
-import Accounts from '../../pages/Accounts/Accounts';
-import Transactions from '../../pages/Transactions/Transactions';
-import Settings from '../../pages/Settings/Settings';
+import MerchantApplication from '../../pages/ApplicationManagement/MerchantApplication';
+import TransactionMonitoring from '../../pages/TransactionManagement/TransactionMonitoring';
+import MerchantReconciliation from '../../pages/ReconciliationManagement/MerchantReconciliation';
+import ChargebackMonitoring from '../../pages/ChargebackManagement/ChargebackMonitoring';
+import MerchantCommissionList from '../../pages/InstallmentAndCommissionManagement/MerchantCommissionList';
+import KeyDefinition from '../../pages/KeyManagement/KeyDefinition';
+import UserDefinition from '../../pages/UserManagement/UserDefinition';
+import UserRoleRelation from '../../pages/UserManagement/UserRoleRelation';
 import ProtectedRoute from './ProtectedRoute';
 
 const AppRoutes = () => {
@@ -32,26 +37,88 @@ const AppRoutes = () => {
                 }
             />
             <Route
-                path="/accounts"
+                path="/profile"
                 element={
                     <ProtectedRoute>
-                        <Accounts />
+                        <Dashboard />
+                    </ProtectedRoute>
+                }
+            />
+
+            {/* Application Management */}
+            <Route
+                path="/merchant-application"
+                element={
+                    <ProtectedRoute>
+                        <MerchantApplication />
+                    </ProtectedRoute>
+                }
+            />
+
+            {/* Transaction Management */}
+            <Route
+                path="/transaction-monitoring"
+                element={
+                    <ProtectedRoute>
+                        <TransactionMonitoring />
+                    </ProtectedRoute>
+                }
+            />
+
+            {/* Reconciliation Management */}
+            <Route
+                path="/merchant-reconciliation"
+                element={
+                    <ProtectedRoute>
+                        <MerchantReconciliation />
+                    </ProtectedRoute>
+                }
+            />
+
+            {/* Chargeback Management */}
+            <Route
+                path="/chargeback-monitoring"
+                element={
+                    <ProtectedRoute>
+                        <ChargebackMonitoring />
+                    </ProtectedRoute>
+                }
+            />
+
+            {/* Installment & Commission Management */}
+            <Route
+                path="/merchant-commission-list"
+                element={
+                    <ProtectedRoute>
+                        <MerchantCommissionList />
+                    </ProtectedRoute>
+                }
+            />
+
+            {/* Key Management */}
+            <Route
+                path="/key-definition"
+                element={
+                    <ProtectedRoute>
+                        <KeyDefinition />
+                    </ProtectedRoute>
+                }
+            />
+
+            {/* User Management */}
+            <Route
+                path="/user-definition"
+                element={
+                    <ProtectedRoute>
+                        <UserDefinition />
                     </ProtectedRoute>
                 }
             />
             <Route
-                path="/transactions"
+                path="/user-role-relation"
                 element={
                     <ProtectedRoute>
-                        <Transactions />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path="/settings"
-                element={
-                    <ProtectedRoute>
-                        <Settings />
+                        <UserRoleRelation />
                     </ProtectedRoute>
                 }
             />

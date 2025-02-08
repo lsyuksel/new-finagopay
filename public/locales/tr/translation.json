@@ -16,17 +16,36 @@
     "english": "İngilizce"
   },
   "menu": {
-    "dashboard": "Ana Sayfa",
-    "accounts": "Hesaplar",
-    "transactions": "İşlemler",
-    "settings": "Ayarlar"
+    "dashboards": "Ana Sayfa",
+    "welcome": "Hoş Geldiniz",
+    "profile": "Profil",
+    "applicationmanagement": "Başvuru Yönetimi",
+    "merchantapplication": "Üye İşyeri Başvurusu",
+    "transactionmanagement": "İşlem Yönetimi",
+    "transactionmonitoring": "İşlem İzleme",
+    "reconciliationmanagement": "Mutabakat Yönetimi",
+    "merchantreconciliation": "Üye İşyeri Mutabakatı",
+    "chargebackmanagement": "Chargeback Yönetimi",
+    "chargebackmonitoring": "Chargeback İzleme",
+    "installmentandcommissionmanagement": "Taksit ve Komisyon Yönetimi",
+    "merchantcommissionlist": "Üye İşyeri Komisyon Listesi",
+    "keymanagement": "Anahtar Yönetimi",
+    "keydefinition": "Anahtar Tanımlama",
+    "usermanagement": "Kullanıcı Yönetimi",
+    "userdefinition": "Kullanıcı Tanımlama",
+    "userrolerelation": "Kullanıcı Rol İlişkisi",
+    "loading": "Menü yükleniyor...",
+    "error": "Menü yüklenirken bir hata oluştu",
+    "empty": "Menü öğesi bulunamadı",
+    "retry": "Tekrar Dene"
   },
   "errors": {
     "required": "Bu alan zorunludur",
     "invalidEmail": "Geçersiz e-posta adresi",
     "invalidPassword": "Şifre en az 6 karakter olmalıdır",
     "invalidOtp": "Lütfen 6 haneli doğrulama kodunu giriniz",
-    "invalidResponse": "Doğrulama başarısız - API yanıtı geçersiz format"
+    "invalidResponse": "Doğrulama başarısız - API yanıtı geçersiz format",
+    "menuError": "Menü verileri alınamadı"
   },
   "messages": {
     "success": "İşlem başarılı",
