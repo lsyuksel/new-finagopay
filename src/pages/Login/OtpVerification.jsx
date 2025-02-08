@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Paper, Typography, Container, Box, Button } from '@mui/material';
+import { Container, Card, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import AuthCode from 'react-auth-code-input';
 import { useTranslation } from 'react-i18next';
@@ -34,17 +34,12 @@ const OtpVerification = ({ loginData }) => {
         ...loginData,
         verificationCode: otp,
       };
-
-      console.log('OTP verification attempt with:', verificationData);
       
       const response = await authService.verifyOtp(verificationData);
-      console.log('OTP verification response:', response);
       
       if (response && (response.data || response.accessToken)) {
         const responseData = response.data || response;
-        console.log('Processing response data:', responseData);
 
-        // Redux store'a kullanıcı bilgilerini kaydet
         dispatch(setCredentials({
           user: responseData.user || responseData,
           token: responseData.accessToken,
@@ -53,12 +48,10 @@ const OtpVerification = ({ loginData }) => {
         toast.success(t('messages.success'));
         navigate('/dashboard');
       } else {
-        console.error('Invalid OTP verification response structure:', response);
         dispatch(setError(t('errors.invalidResponse')));
         toast.error(t('errors.invalidResponse'));
       }
     } catch (error) {
-      console.error('OTP verification error:', error);
       const errorMessage = error.response?.data?.message || 
                           error.response?.data?.error || 
                           error.message || 
@@ -71,56 +64,48 @@ const OtpVerification = ({ loginData }) => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Paper
-          elevation={3}
-          sx={{
-            padding: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '100%',
-          }}
-        >
-          <Typography component="h1" variant="h5" gutterBottom>
-            {t('common.otpVerification')}
-          </Typography>
-          <Typography variant="body2" color="text.secondary" align="center" sx={{ mb: 3 }}>
-            {t('common.otpInstructions')}
-          </Typography>
-          
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, width: '100%' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-              <AuthCode
-                onChange={handleOnChange}
-                length={6}
-                inputClassName="otp-input"
-                containerClassName="otp-container"
-                disabled={loading}
-              />
-            </Box>
+    <div className="auth-container">
+      <Container>
+        <Card className="auth-card mx-auto">
+          <Card.Body>
+            <h4 className="text-center mb-3">
+              {t('common.otpVerification')}
+            </h4>
+            <p className="text-center text-muted mb-4">
+              {t('common.otpInstructions')}
+            </p>
             
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              disabled={otp.length !== 6 || loading}
-            >
-              {loading ? t('common.verifying') : t('common.verify')}
-            </Button>
-          </Box>
-        </Paper>
-      </Box>
-    </Container>
+            <form onSubmit={handleSubmit}>
+              <div className="d-flex justify-content-center mb-4">
+                <AuthCode
+                  onChange={handleOnChange}
+                  length={6}
+                  inputClassName="form-control otp-input"
+                  containerClassName="d-flex gap-2"
+                  disabled={loading}
+                />
+              </div>
+              
+              <Button
+                type="submit"
+                variant="primary"
+                className="w-100"
+                disabled={otp.length !== 6 || loading}
+              >
+                {loading ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    {t('common.verifying')}
+                  </>
+                ) : (
+                  t('common.verify')
+                )}
+              </Button>
+            </form>
+          </Card.Body>
+        </Card>
+      </Container>
+    </div>
   );
 };
 

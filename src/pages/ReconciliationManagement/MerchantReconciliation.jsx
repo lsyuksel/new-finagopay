@@ -1,18 +1,18 @@
-import { Box, Typography } from '@mui/material';
+import { Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 const MerchantReconciliation = () => {
   const { t } = useTranslation();
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom>
+    <Container className="py-3">
+      <h4 className="mb-4">
         {t('menu.merchantreconciliation')}
-      </Typography>
-      <Typography variant="body1">
+      </h4>
+      <p>
         Üye İşyeri Mutabakatı sayfası içeriği burada yer alacak.
-      </Typography>
-    </Box>
+      </p>
+    </Container>
   );
 };
 

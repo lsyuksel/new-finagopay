@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { TextField, Button, Paper, Typography, Container, Box } from '@mui/material';
+import { Container, Card, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -65,72 +65,70 @@ const Login = () => {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Paper
-          elevation={3}
-          sx={{
-            padding: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '100%',
-          }}
-        >
-          <Typography component="h1" variant="h5">
-            {t('common.login')}
-          </Typography>
-          <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              fullWidth
-              id="email"
-              name="email"
-              label={t('common.email')}
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-              disabled={loading}
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              id="password"
-              name="password"
-              label={t('common.password')}
-              type="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-              disabled={loading}
-            />
-            {error && (
-              <Typography color="error" variant="body2" sx={{ mt: 1 }}>
-                {error}
-              </Typography>
-            )}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              disabled={loading}
-            >
-              {loading ? 'Giriş yapılıyor...' : t('common.login')}
-            </Button>
-          </Box>
-        </Paper>
-      </Box>
-    </Container>
+    <div className="auth-container">
+      <Container>
+        <Card className="auth-card mx-auto">
+          <Card.Body>
+            <h4 className="text-center mb-4">{t('common.login')}</h4>
+            <Form onSubmit={formik.handleSubmit}>
+              <Form.Group className="mb-3">
+                <Form.Label>{t('common.email')}</Form.Label>
+                <Form.Control
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  isInvalid={formik.touched.email && formik.errors.email}
+                  disabled={loading}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {formik.touched.email && formik.errors.email}
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>{t('common.password')}</Form.Label>
+                <Form.Control
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  isInvalid={formik.touched.password && formik.errors.password}
+                  disabled={loading}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {formik.touched.password && formik.errors.password}
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              {error && (
+                <div className="text-danger mb-3">
+                  {error}
+                </div>
+              )}
+
+              <Button
+                type="submit"
+                variant="primary"
+                className="w-100"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    {t('common.loading')}
+                  </>
+                ) : (
+                  t('common.login')
+                )}
+              </Button>
+            </Form>
+          </Card.Body>
+        </Card>
+      </Container>
+    </div>
   );
 };
 

@@ -6,17 +6,9 @@ import { store, persistor } from './store'
 import App from './App.jsx'
 import './App.scss'
 import './i18n'
-import { CircularProgress, Box } from '@mui/material'
 
 const LoadingFallback = () => (
-  <Box
-    display="flex"
-    justifyContent="center"
-    alignItems="center"
-    minHeight="100vh"
-  >
-    <CircularProgress />
-  </Box>
+  <div>Loading...</div>
 )
 
 createRoot(document.getElementById('root')).render(
