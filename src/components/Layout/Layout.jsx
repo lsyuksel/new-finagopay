@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import Sidebar from './Sidebar';
 import './Layout.scss';
 import { useSelector } from 'react-redux';
@@ -19,10 +18,6 @@ const Layout = ({ children }) => {
       </main>
     </div>
   );
-};
-
-Layout.propTypes = {
-  children: PropTypes.node.isRequired
 };
 
 export default Layout; 
