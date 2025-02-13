@@ -1,7 +1,7 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Layout from './components/Layout/Layout';
-import AppRoutes from './components/routes';
+import AppRoutes from './components/Routes';
 import './App.scss';
 
 function App() {
