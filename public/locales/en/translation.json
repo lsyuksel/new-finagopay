@@ -32,7 +32,14 @@
     "first": "First",
     "previous": "Previous",
     "next": "Next",
-    "last": "Last"
+    "last": "Last",
+    "search": "Search",
+    "searching": "Searching...",
+    "select": "Select",
+    "noDataFound": "No data found",
+    "entries": "entries",
+    "close": "Close",
+    "details": "Details"
   },
   "menu": {
     "dashboards": "Home",
@@ -58,6 +65,36 @@
     "empty": "Menu item not found",
     "retry": "Try Again"
   },
+  "transaction": {
+    "provisions": "Provisions",
+    "provisionSettles": "Provision Settles",
+    "transactionDate": "Transaction Date",
+    "orderId": "Order ID",
+    "paymentId": "Payment ID",
+    "bankUniqueReferenceNumber": "Bank Reference Number",
+    "transactionNetwork": "Transaction Network",
+    "responseCode": "Response Code",
+    "transactionType": "Transaction Type",
+    "cardNo": "Card Number",
+    "cardType": "Card Type",
+    "provisionStatus": "Provision Status",
+    "preAuthAmount": "Pre-Auth Amount",
+    "transactionAmount": "Transaction Amount",
+    "settlementAmount": "Settlement Amount",
+    "bankName": "Bank Name",
+    "authorizationNumber": "Authorization Number",
+    "terminalId": "Terminal ID",
+    "paymentStatus": "Payment Status",
+    "currency": "Currency",
+    "transactionStartDate": "Transaction Start Date",
+    "transactionEndDate": "Transaction End Date",
+    "transactionAmountLow": "Min Transaction Amount",
+    "transactionAmountHigh": "Max Transaction Amount",
+    "paymentDate": "Payment Date",
+    "eodDate": "EOD Date",
+    "provisionDetails": "Provision Details",
+    "provisionSettleDetails": "Provision Settle Details"
+  },
   "user": {
     "name": "First Name",
     "surname": "Last Name",
@@ -81,7 +118,9 @@
     "invalidOtp": "Please enter 6 digit verification code",
     "invalidResponse": "Verification failed - API response invalid format",
     "menuError": "Failed to retrieve menu data",
-    "userError": "Failed to retrieve user data"
+    "userError": "Failed to retrieve user data",
+    "maxLengthError": "This field can be at most {{length}} characters",
+    "mustBeNumber": "This field must be a number"
   },
   "messages": {
     "success": "Operation successful",

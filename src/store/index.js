@@ -7,6 +7,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 import menuReducer from './slices/menuSlice';
 import userReducer from './slices/userSlice';
+import transactionReducer from './slices/transactionSlice';
 
 const persistConfig = {
   key: 'root',
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   menu: menuReducer,
   users: userReducer,
+  transaction: transactionReducer,
   // Diğer reducer'lar buraya eklenecek
 });
 

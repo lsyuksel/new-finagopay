@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AUTH_URL } from '../constants/apiUrls';
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -46,7 +47,7 @@ api.interceptors.response.use(
 export const authService = {
   login: async (credentials) => {
     try {
-      const response = await api.post('/Authentication/Login', {
+      const response = await api.post(AUTH_URL.Login, {
         userName: credentials.email,
         password: credentials.password,
       });
@@ -71,7 +72,7 @@ export const authService = {
   },
   
   verifyOtp: async (data) => {
-    const response = await api.post('/Authentication/VerifyTwoFactorSecret', {
+    const response = await api.post(AUTH_URL.VerifyTwoFactorSecret, {
       userName: data.userName,
       password: data.password,
       verificationCode: data.verificationCode,
@@ -89,7 +90,7 @@ export const authService = {
 
   sendVerificationCode: async () => {
     try {
-      const response = await api.post('/Authentication/SendVerificationCode', {
+      const response = await api.post(AUTH_URL.SendVerificationCode, {
         userName: localStorage.getItem('userName'),
         password: localStorage.getItem('enteredPassword'),
         otpDatetime: localStorage.getItem('otpDatetime'),

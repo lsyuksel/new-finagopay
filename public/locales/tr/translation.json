@@ -32,7 +32,14 @@
     "first": "İlk",
     "previous": "Önceki",
     "next": "Sonraki",
-    "last": "Son"
+    "last": "Son",
+    "search": "Ara",
+    "searching": "Aranıyor...",
+    "select": "Seçiniz",
+    "noDataFound": "Veri bulunamadı",
+    "entries": "kayıt",
+    "close": "Kapat",
+    "details": "Detaylar"
   },
   "menu": {
     "dashboards": "Ana Sayfa",
@@ -58,6 +65,36 @@
     "empty": "Menü öğesi bulunamadı",
     "retry": "Tekrar Dene"
   },
+  "transaction": {
+    "provisions": "Tahsisler",
+    "provisionSettles": "Tahsil Çözümlemeleri",
+    "transactionDate": "İşlem Tarihi",
+    "orderId": "Sipariş No",
+    "paymentId": "Ödeme No",
+    "bankUniqueReferenceNumber": "Banka Referans No",
+    "transactionNetwork": "İşlem Ağı",
+    "responseCode": "Otarizasyon Cevap Kodu",
+    "transactionType": "İşlem Tipi",
+    "cardNo": "Kart No",
+    "cardType": "Kart Tipi",
+    "provisionStatus": "Tahsis Durumu",
+    "preAuthAmount": "Ön Yetkilendirme Tutarı",
+    "transactionAmount": "İşlem Tutarı",
+    "settlementAmount": "Mutabakat Tutarı",
+    "bankName": "Banka Adı",
+    "authorizationNumber": "Yetkilendirme Numarası",
+    "terminalId": "Terminal ID",
+    "paymentStatus": "Ödeme Durumu",
+    "currency": "Para Birimi",
+    "transactionStartDate": "İşlem Başlangıç Tarihi",
+    "transactionEndDate": "İşlem Bitiş Tarihi",
+    "transactionAmountLow": "En Düşük İşlem Tutarı",
+    "transactionAmountHigh": "En Yüksek İşlem Tutarı",
+    "paymentDate": "Ödeme Tarihi",
+    "eodDate": "Gün Sonu Tarihi",
+    "provisionDetails": "Tahsis Detayları",
+    "provisionSettleDetails": "Tahsil Çözümleme Detayları"
+  },
   "user": {
     "name": "Ad",
     "surname": "Soyad",
@@ -81,7 +118,9 @@
     "invalidOtp": "Lütfen 6 haneli doğrulama kodunu giriniz",
     "invalidResponse": "Doğrulama başarısız - API yanıtı geçersiz format",
     "menuError": "Menü verileri alınamadı",
-    "userError": "Kullanıcı verileri alınamadı"
+    "userError": "Kullanıcı verileri alınamadı",
+    "maxLengthError": "Bu alan en fazla {{length}} karakter olabilir",
+    "mustBeNumber": "Bu alan sayısal olmalıdır"
   },
   "messages": {
     "success": "İşlem başarılı",
