@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+$font-family: 'Inter', sans-serif;
+
+$white-color: #ffffff;
+$text-color: #333843;
+$sub-text-color: #667085;
+$black: #000000;
+$gray: #9d9d9d;
+$gray-2: #f1f1f1;
+$light-gray: #f6f9fd;
+$purple-light: #fcf8ff;
+$border-1: #ebebeb;
+$border-2: #e8e8e8;
+$title-bg-color: #f4f4ff;
+$background: #f7e9ff;
+$secondary-color-2: #f0dff8;
+$primary-color: #8200ba;
+$secondary-color-1: #7b00c0;
+$secondary-color-3: #7713ec;
+$secondary-color-4: #e7e7fc;
+$fourth-color: #bf1ee1;
+$blue-color: #1d7afc;
+$other-brand-color: #c700e1;
+$fith-color: #8700c8;
+$brand-2-color: #7713ec;
+$brand-3-color: #c920bf;
+$orange-color: #ff9f43;
+$red: #eb3d4d;
+$gray-secondary: #758195;
+$waiting-color: #e02c05;
+$waiting-secondary-color: #ffddce;
+$green-succes: #00b69b;
+$purple-color: #f0dff8;
+$succes-color: #039d55;
+$succes-secondary-color: #e7f4ee;
+$refund-color: #f04438;
+$refund-secondary-color: #fff1f0;
+$cancel-secondary-color: #efefef;
+$blue-bg: #eaf2ff;
+
+$aspect-ratio: 1;
+$percentage-ratio: 10%;
+$border-radius: 0;
+$gutter: var(--spacer-3);
+
+$xxxs : 374;
+$xxs : 424;
+$xs : 575;
+$sm : 767;
+$md : 991;
+$lg : 1199;
+$xlg : 1441;
+$xxlg : 1681;
+$transition: all .35s linear;

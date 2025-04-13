@@ -1,14 +1,13 @@
-@import 'bootstrap/dist/css/bootstrap.min.css';
-@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import 'primeicons/primeicons.css';
+@import "primereact/resources/themes/lara-light-cyan/theme.css";
+@import 'bootstrap/dist/css/bootstrap-grid.min.css';
+@import 'bootstrap/dist/css/bootstrap-utilities.min.css';
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #f8f9fa;
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import 'assets/css/theme.scss';
+
+::root {
+  
 }
 
 .layout {
@@ -34,7 +33,7 @@ body {
   .sidebar-brand {
     padding: 16px 20px;
     margin: 0 0 12px;
-    color: #0d6efd;
+    color: $primary-color;
     font-size: 1.25rem;
     font-weight: 600;
     text-decoration: none;
@@ -59,38 +58,21 @@ body {
   }
 }
 
+.sidebar + .main-content {
+  padding: 2rem;
+}
+
 .main-content {
-  padding: 2rem;
-  flex: 1 0 0;
-}
-
-.auth-container {
-  min-height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f8f9fa;
-  padding: 2rem;
-}
-
-.auth-card {
-  width: 100%;
-  max-width: 400px;
-  background-color: #fff;
-  border-radius: 0.5rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  padding: 2rem;
+  flex-direction: column;
+  flex: 1 0 0;
 }
 
 .menu-icon {
   width: 24px;
   text-align: center;
   margin-right: 0.5rem;
-  color: #0d6efd;
-}
-
-.language-selector {
-  margin-bottom: 1rem;
+  color: $primary-color;
 }
 
 .loading-spinner {
@@ -110,88 +92,3 @@ body {
   padding: 1rem;
   text-align: center;
 }
-
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: #333333;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-  
-  a {
-    font-weight: 500;
-    color: #646cff;
-    text-decoration: inherit;
-  }
-  a:hover {
-    color: #535bf2;
-  }
-  
-  h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
-  }
-  
-  button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    cursor: pointer;
-    transition: border-color 0.25s;
-  }
-  button:hover {
-    border-color: #646cff;
-  }
-  button:focus,
-  button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-  }
-  
-  @media (prefers-color-scheme: light) {
-    :root {
-      color: #213547;
-      background-color: #ffffff;
-    }
-    a:hover {
-      color: #747bff;
-    }
-    button {
-      background-color: #f9f9f9;
-    }
-  }
-  
-  .otp-container {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-  }
-  
-  .otp-input {
-    width: 40px !important;
-    height: 40px;
-    padding: 0;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    text-align: center;
-    font-size: 1.2rem;
-    background: white;
-    color: currentColor;
-  }
-  
-  .otp-input:focus {
-    outline: none;
-    border-color: #1976d2;
-    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
-  }
-  

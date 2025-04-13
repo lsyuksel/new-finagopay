@@ -1,0 +1,302 @@
+@mixin line-rule($value) {
+    line-height: calc(var(--font-size-#{$value}) + 8px);
+    font-size: var(--font-size-#{$value});
+}
+
+@mixin text-1-regular {
+  @include line-rule(12);
+  font-weight: 400;
+}
+
+@mixin text-2-medium {
+  @include line-rule(12);
+  font-weight: 500;
+}
+
+@mixin text-3-regular {
+  @include line-rule(13);
+  font-weight: 400;
+}
+
+@mixin text-4-medium {
+  @include line-rule(13);
+  font-weight: 500;
+}
+
+@mixin text-5-semibold {
+  @include line-rule(13);
+  font-weight: 600;
+}
+
+@mixin text-6-bold {
+  @include line-rule(13);
+  font-weight: 700;
+}
+
+@mixin text-7-regular {
+  @include line-rule(14);
+  font-weight: 400;
+}
+
+@mixin text-8-medium {
+  @include line-rule(14);
+  font-weight: 500;
+}
+
+@mixin text-9-semibold {
+  @include line-rule(14);
+  font-weight: 600;
+}
+
+@mixin text-10-bold {
+  @include line-rule(14);
+  font-weight: 700;
+}
+
+@mixin text-11-medium {
+  @include line-rule(15);
+  font-weight: 500;
+}
+
+@mixin text-12-semibold {
+  @include line-rule(15);
+  font-weight: 600;
+}
+
+@mixin text-13-regular {
+  @include line-rule(16);
+  font-weight: 400;
+}
+
+@mixin text-14-medium {
+  @include line-rule(16);
+  font-weight: 500;
+}
+
+@mixin text-15-semibold {
+  @include line-rule(16);
+  font-weight: 600;
+}
+
+@mixin text-16-bold {
+  @include line-rule(16);
+  font-weight: 700;
+}
+
+@mixin text-17-regular {
+  @include line-rule(18);
+  font-weight: 400;
+}
+
+@mixin text-18-medium {
+  @include line-rule(18);
+  font-weight: 500;
+}
+
+@mixin text-19-semibold {
+  @include line-rule(18);
+  font-weight: 600;
+}
+
+@mixin text-20-bold {
+  @include line-rule(18);
+  font-weight: 700;
+}
+
+@mixin text-21-regular {
+  @include line-rule(22);
+  font-weight: 400;
+}
+
+@mixin text-22-medium {
+  @include line-rule(22);
+  font-weight: 500;
+}
+
+@mixin text-23-semibold {
+  @include line-rule(22);
+  font-weight: 600;
+}
+
+@mixin text-24-bold {
+  @include line-rule(22);
+  font-weight: 700;
+}
+
+@mixin text-25-regular {
+  @include line-rule(24);
+  font-weight: 400;
+}
+
+@mixin text-26-medium {
+  @include line-rule(24);
+  font-weight: 500;
+}
+
+@mixin text-27-semibold {
+  @include line-rule(24);
+  font-weight: 600;
+}
+
+@mixin text-28-bold {
+  @include line-rule(24);
+  font-weight: 700;
+}
+
+@mixin text-29-regular {
+  @include line-rule(26);
+  font-weight: 400;
+}
+
+@mixin text-30-medium {
+  @include line-rule(26);
+  font-weight: 500;
+}
+
+@mixin text-31-semibold {
+  @include line-rule(26);
+  font-weight: 600;
+}
+
+@mixin text-32-bold {
+  @include line-rule(26);
+  font-weight: 700;
+}
+
+@mixin text-33-regular {
+  @include line-rule(28);
+  font-weight: 400;
+}
+
+@mixin text-34-medium {
+  @include line-rule(28);
+  font-weight: 500;
+}
+
+@mixin text-35-semibold {
+  @include line-rule(28);
+  font-weight: 600;
+}
+
+@mixin text-36-bold {
+  @include line-rule(28);
+  font-weight: 700;
+}
+
+@mixin text-37-regular {
+  @include line-rule(30);
+  font-weight: 400;
+}
+
+@mixin text-38-medium {
+  @include line-rule(30);
+  font-weight: 500;
+}
+
+@mixin text-39-semibold {
+  @include line-rule(30);
+  font-weight: 600;
+}
+
+@mixin text-40-bold {
+  @include line-rule(30);
+  font-weight: 700;
+}
+
+@mixin text-41-regular {
+  @include line-rule(32);
+  font-weight: 400;
+}
+
+@mixin text-42-medium {
+  @include line-rule(32);
+  font-weight: 500;
+}
+
+@mixin text-43-semibold {
+  @include line-rule(32);
+  font-weight: 600;
+}
+
+@mixin text-44-bold {
+  @include line-rule(32);
+  font-weight: 700;
+}
+
+@mixin text-45-regular {
+  @include line-rule(34);
+  font-weight: 400;
+}
+
+@mixin text-46-medium {
+  @include line-rule(34);
+  font-weight: 500;
+}
+
+@mixin text-47-semibold {
+  @include line-rule(34);
+  font-weight: 600;
+}
+
+@mixin text-48-bold {
+  @include line-rule(34);
+  font-weight: 700;
+}
+
+@mixin text-49-semibold {
+  @include line-rule(36);
+  font-weight: 600;
+}
+
+@mixin text-50-bold {
+  @include line-rule(36);
+  font-weight: 700;
+}
+
+@mixin text-51-bold {
+  @include line-rule(38);
+  font-weight: 700;
+}
+
+@mixin text-52-bold {
+  @include line-rule(40);
+  font-weight: 700;
+}
+
+@mixin text-53-bold {
+  @include line-rule(42);
+  font-weight: 700;
+}
+
+@mixin text-54-bold {
+  @include line-rule(44);
+  font-weight: 700;
+}
+
+@mixin gradient {
+    background: linear-gradient(0deg, #AF30D9 0%, #770EB3 100%);
+}
+  
+@mixin gradient-2 {
+    background: linear-gradient(90deg, #770EB3 0%, #AF30D9 100%);
+}
+  
+@mixin gradient-l {
+    background: linear-gradient(90deg, #F15BA3 0%, #5D51F3 100%);
+}
+
+@mixin box-shadow {
+    box-shadow: 0px 1.5px 12px rgba(16, 24, 40, 0.04);
+}
+
+@mixin box-shadow-2 {
+    box-shadow: 0px 4px 16px rgba(16, 24, 40, 0.2);
+}
+
+@mixin light-shadow {
+    box-shadow: 0px 0px 20px rgba(194, 161, 210, 0.36);
+}
+
+@mixin light-shadow-2 {
+    box-shadow: 0px 0px 20px rgba(198, 198, 198, 0.3);
+}

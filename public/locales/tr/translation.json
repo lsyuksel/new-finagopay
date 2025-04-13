@@ -1,10 +1,23 @@
 {
+  "login": {
+    "logosText": "Dünyasında,",
+    "footerText": "Copyright 2025 © <b>MorPos</b> Her hakkı saklıdır. <b>MorPos,</b> bir <b>A Ödeme ve Elektronik Para Hizmetleri A.Ş.</b> markasıdır. Kredi kartı bilgileriniz 256bit SSL sertifikası ile korunmaktadır.",
+    "bannerTitle": "Finansal özgürlüğünüze çok az kaldı!",
+    "bannerSubTitle": "<b>Henüz üye değilseniz</b> hızlı ve kolayca yeni bir üyelik oluşturup, Sizde <b>MorPos</b> dünyasına adım atın.",
+    "bannerListItem1": "Hesabınızı oluşturun",
+    "bannerListItem2": "Bilgilerinizi girin",
+    "bannerListItem3": "Sözleşmenizi Onaylayın",
+    "bannerButton": "Hızlı Hesap Oluştur",
+    "welcomeTitle": "Hoş Geldiniz,",
+    "welcomeSubTitle": "Lütfen Giriş Yapın"
+
+  },
   "common": {
     "welcome": "Hoş Geldiniz",
     "login": "Giriş Yap",
     "logout": "Çıkış Yap",
-    "email": "E-posta",
-    "password": "Şifre",
+    "email": "E-Mail adresiniz",
+    "password": "Şifre Belirleyin",
     "submit": "Gönder",
     "cancel": "İptal",
     "otpVerification": "SMS Doğrulama",
@@ -14,6 +27,8 @@
     "language": "Dil",
     "turkish": "Türkçe",
     "english": "İngilizce",
+    "french": "Fransızca",
+    "arabic": "Arapça",
     "save": "Kaydet",
     "delete": "Sil",
     "edit": "Düzenle",
@@ -39,7 +54,10 @@
     "noDataFound": "Veri bulunamadı",
     "entries": "kayıt",
     "close": "Kapat",
-    "details": "Detaylar"
+    "details": "Detaylar",
+    "forgotMyPassword": "Şifremi Unuttum?",
+    "rememberMe": "Beni Hatırla"
+    
   },
   "menu": {
     "dashboards": "Ana Sayfa",
@@ -112,6 +130,7 @@
     "userDeleted": "Kullanıcı başarıyla silindi"
   },
   "errors": {
+    "incorrectPassword": "Girmiş olduğunuz şifre hatalı. Lütfen tekrar deneyiniz.",
     "required": "Bu alan zorunludur",
     "invalidEmail": "Geçersiz e-posta adresi",
     "invalidPassword": "Şifre en az 6 karakter olmalıdır",

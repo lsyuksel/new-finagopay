@@ -19,6 +19,8 @@
     "i18next": "^24.2.2",
     "i18next-browser-languagedetector": "^8.0.2",
     "i18next-http-backend": "^3.0.2",
+    "primeicons": "^7.0.0",
+    "primereact": "^10.9.4",
     "react": "^18.3.1",
     "react-auth-code-input": "^3.2.1",
     "react-bootstrap": "^2.10.9",

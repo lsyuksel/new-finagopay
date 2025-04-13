@@ -1,0 +1,373 @@
+@import 'mixin';
+
+body {
+	position: relative;
+	color: $text-color;
+	font-size: var(--font-size-15);
+	font-family: $font-family;
+	background: $white-color;
+	transition: left .2s linear, right .2s linear;
+    margin: 0;
+    padding: 0;
+}
+
+@include min($lg) {
+    .container {
+        max-width: calc(1156px + calc(2*var(--gutter)));
+    }
+}
+
+button,
+.p-input-icon {
+    box-shadow: none;
+    outline: none;
+    cursor: pointer;
+	font-family: $font-family;
+}
+
+body {
+	/*padding: var(--spacer-8) 0;
+    @include text-19-semibold;*/
+}
+
+.language-selector {
+    position: relative;
+    .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: $text-color;
+        @include text-8-medium;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        cursor: pointer;
+    }
+    .dropdown-menu {
+        left: 50% !important;
+        transform: translateX(-50%) translateY(40px) !important;
+        overflow: hidden;
+        min-width: 150px;
+        background-color: $white-color;
+        border-radius: 8px;
+        display: none;
+        @include box-shadow;
+        &.show {
+            display: block;
+        }
+        > a {
+            display: flex;
+            align-items: center;
+            color: $text-color;
+            @include text-8-medium;
+            padding: var(--spacer-2) var(--spacer-5);
+            transition: $transition;
+            gap: var(--spacer-2);
+            margin: var(--spacer-1) 0;
+            &:hover {
+                background: $gray-2;
+            }
+        }
+    }
+}
+
+.p-form-control,
+.p-form-control.p-component > *{
+    display: flex;
+    width: 100%;
+}
+
+.p-icon-field, .p-icon-field * {
+    outline: none;
+}
+
+.p-form-control .p-component,
+.form-control {
+    font-family: $font-family;
+    width: 100%;
+    background-color: #F5F8FB;
+    border: 1px solid #F5F8FB;
+    border-radius: 50px;
+    padding: var(--spacer-4) var(--spacer-6);
+    color: $black;
+    @include text-3-regular;
+    box-shadow: none;
+    outline: none;
+    transition: $transition;
+    &::placeholder {
+        opacity: 1;
+        @include text-4-medium;
+        color: $gray;
+    }
+    &.p-invalid,
+    &.is-invalid {
+        border-color: $refund-color;
+    }
+}
+
+.p-inputswitch {
+    width: 42px;
+    height: 24px;
+    .p-inputswitch-slider {
+        background: #B8B8F6;
+        &:before {
+            width: 14px;
+            height: 14px;
+            margin-top: -7px;
+            left: 5px;
+            background: $white-color;
+            @include box-shadow;
+        }
+    }
+    &.p-highlight {
+        .p-inputswitch-slider {
+            background: $fourth-color;
+            &:before {
+                background: $white-color;
+                @include box-shadow;
+                transform: translateX(17px);
+            }
+        }
+    }
+}
+
+.p-inline-message {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 8px;
+    @include text-8-medium;
+    padding: var(--spacer-4) var(--spacer-4);
+    b {
+        @include text-10-bold;
+    }
+    &.p-inline-message-error {
+        color: $text-color;
+        background: $refund-secondary-color;
+        b {
+            color: $refund-color;
+        }
+    }
+}
+
+/*Login*/
+.auth-container {
+    background: $purple-light;
+    background-image: url('@/assets/images/auth-body-bg.png');
+    background-repeat: no-repeat;
+    background-position: right 70px top 70px;
+    min-height: 100vh;
+}
+/*Login Header*/
+.login-header {
+    padding: var(--spacer-8) 0;
+    background-color: $white-color;
+    border-bottom: 1px solid $border-2;
+    .logo {
+        img {
+            max-height: 33px;
+        }
+        > a {
+            display: flex;
+            align-items: center;
+            gap: var(--spacer-5);
+            color: $text-color;
+            @include text-15-semibold;
+        }
+    }
+    .header-info-text {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        @include text-3-regular;
+        color: $sub-text-color;
+        min-width: fit-content;
+    }
+}
+/*Login Content*/
+.auth-content {
+    padding: var(--spacer-8) 0;
+}
+
+.auth-banner-container {
+    position: relative;
+    width: 100%;
+    padding: var(--spacer-17) var(--spacer-17) var(--spacer-50);
+    min-height: 100%;
+    border-radius: 20px;
+    background-image: url('@/assets/images/auth-banner.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('@/assets/images/auth-banner-after.png');
+        background-repeat: no-repeat;
+        background-position: right var(--spacer-8) bottom var(--spacer-8);
+        background-color: rgb(46, 24, 79,82%);
+    }
+    > * {
+        position: relative;
+        z-index: 1;
+    }
+    .logos {
+        display: flex;
+        align-items: flex-end;
+        gap: 12px;
+        @include text-19-semibold;
+        color: $white-color;
+        margin-bottom: var(--spacer-8);
+        img {
+            max-height: 41px;
+            transform: translateY(2px);
+        }
+    }
+    .content {
+        margin-bottom: var(--spacer-17);
+        .title {
+            color: $white-color;
+            @include text-48-bold;
+            margin-bottom: var(--spacer-8);
+        }
+        .subtitle {
+            color: $background;
+            @include text-13-regular;
+            margin-bottom: var(--spacer-10);
+            b {
+                @include text-16-bold;
+            }
+        }
+        ul {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacer-6);
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            li {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                @include text-18-medium;
+                color: $background;
+                gap: 12px;
+                &:before {
+                    content: '';
+                    width: 30px;
+                    height: 30px;
+                    display: block;
+                    background-image: url('data:image/svg+xml,<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(%23clip0_1028_16924)"><path d="M29.0625 15C29.0625 16.2 27.5883 17.1891 27.293 18.2953C26.9883 19.4391 27.7594 21.0328 27.1805 22.0336C26.5922 23.0508 24.8227 23.1727 23.9977 23.9977C23.1727 24.8227 23.0508 26.5922 22.0336 27.1805C21.0328 27.7594 19.4391 26.9883 18.2953 27.293C17.1891 27.5883 16.2 29.0625 15 29.0625C13.8 29.0625 12.8109 27.5883 11.7047 27.293C10.5609 26.9883 8.96719 27.7594 7.96641 27.1805C6.94922 26.5922 6.82734 24.8227 6.00234 23.9977C5.17734 23.1727 3.40781 23.0508 2.81953 22.0336C2.24062 21.0328 3.01172 19.4391 2.70703 18.2953C2.41172 17.1891 0.9375 16.2 0.9375 15C0.9375 13.8 2.41172 12.8109 2.70703 11.7047C3.01172 10.5609 2.24062 8.96719 2.81953 7.96641C3.40781 6.94922 5.17734 6.82734 6.00234 6.00234C6.82734 5.17734 6.94922 3.40781 7.96641 2.81953C8.96719 2.24062 10.5609 3.01172 11.7047 2.70703C12.8109 2.41172 13.8 0.9375 15 0.9375C16.2 0.9375 17.1891 2.41172 18.2953 2.70703C19.4391 3.01172 21.0328 2.24062 22.0336 2.81953C23.0508 3.40781 23.1727 5.17734 23.9977 6.00234C24.8227 6.82734 26.5922 6.94922 27.1805 7.96641C27.7594 8.96719 26.9883 10.5609 27.293 11.7047C27.5883 12.8109 29.0625 13.8 29.0625 15Z" fill="%238200BA"/><path d="M19.0637 10.8111L13.7105 16.1643L10.9355 13.3916C10.3332 12.7893 9.35586 12.7893 8.75352 13.3916C8.15117 13.9939 8.15117 14.9713 8.75352 15.5736L12.6465 19.4666C13.2324 20.0525 14.184 20.0525 14.7699 19.4666L21.2434 12.9932C21.8457 12.3908 21.8457 11.4135 21.2434 10.8111C20.641 10.2088 19.666 10.2088 19.0637 10.8111Z" fill="%23FFFCEE"/></g><defs><clipPath id="clip0_1028_16924"><rect width="30" height="30" fill="white"/></clipPath></defs></svg>');
+                    background-repeat: no-repeat;
+                    background-size: initial;
+                    background-position: center;
+                }
+                > span {
+                    flex: 1 0 0;
+                }
+            }
+        }
+    }
+    .button {
+        @include center;
+        > * {
+            min-width: 332px;
+            max-width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacer-4);
+            border-radius: 50px;
+            @include gradient-2;
+            color: $white-color;
+            @include text-10-bold;
+        }
+    }
+}
+
+.auth-form-area {
+    padding: var(--spacer-18) var(--spacer-8);
+    min-height: 100%;
+    background: $white-color;
+    @include box-shadow;
+    border-radius: 20px;
+    .form-subtitle {
+        color: $sub-text-color;
+        @include text-8-medium;
+        margin-bottom: var(--spacer-2);
+    }
+    .form-title {
+        color: $text-color;
+        @include text-20-bold;
+        margin-bottom: var(--spacer-6);
+    }
+    .form-item {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacer-3);
+        margin-bottom: var(--spacer-5);
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    .forgot-password {
+        @include text-4-medium;
+        color: $sub-text-color;
+        transition: $transition;
+        &:Hover {
+            color: $primary-color;
+        }
+    }
+    .remember-me {
+        display: flex;
+        align-items: center;
+        gap: var(--spacer-3);
+        @include text-3-regular;
+        color: $sub-text-color;
+    }
+    .login-button {
+        width: 280px;
+        max-width: 100%;
+        padding: var(--spacer-4);
+        @include center;
+        margin-left: auto;
+        @include gradient-2;
+        border-radius: 50px;
+        @include text-10-bold;
+        color: $white-color;
+        border: 0;
+        transition: $transition;
+    }
+}
+/*Login Footer*/
+.login-footer-container {
+    @include text-3-regular;
+    color: $sub-text-color;
+    display: block;
+    text-align: center;
+    padding: 0 0 var(--spacer-8);
+    b {
+        @include text-15-semibold;
+    }
+}
+
+.otp-input-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacer-3);
+    margin: 0 0 var(--spacer-5);
+    padding: 0 var(--spacer-15);
+    > * {
+        flex: 1;
+        height: 52px;
+        padding: 0;
+        text-align: center;
+        border-radius: 50%;
+    }
+}

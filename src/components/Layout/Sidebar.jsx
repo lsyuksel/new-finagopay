@@ -6,6 +6,7 @@ import { logout } from '../../store/slices/authSlice';
 import { fetchMenuItems, toggleMenuItem } from '../../store/slices/menuSlice';
 import { startTransition, useCallback, useEffect } from 'react';
 import 'boxicons/css/boxicons.min.css';
+import LanguageSelector from '../LanguageSelector/LanguageSelector';
 
 const Sidebar = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -26,13 +27,6 @@ const Sidebar = () => {
     dispatch(logout());
     navigate('/login');
   };
-
-  const handleLanguageChange = useCallback((event) => {
-    const newLang = event.target.value;
-    startTransition(() => {
-      i18n.changeLanguage(newLang);
-    });
-  }, [i18n]);
 
   const toKebabCase = (str) => {
     return str.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
@@ -102,19 +96,10 @@ const Sidebar = () => {
           </div>
         )}
       </Nav>
-
       <div className="p-3 border-top">
-        <Form.Group className="language-selector">
-          <Form.Select
-            value={i18n.language}
-            onChange={handleLanguageChange}
-            className="mb-3"
-          >
-            <option value="tr">{t('common.turkish')}</option>
-            <option value="en">{t('common.english')}</option>
-          </Form.Select>
-        </Form.Group>
-
+        <LanguageSelector />
+      </div>
+      <div className="px-3">
         <Button
           variant="primary"
           onClick={handleLogout}

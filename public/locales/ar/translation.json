@@ -1,7 +1,7 @@
 {
   "common": {
     "welcome": "Welcome",
-    "login": "Login",
+    "login": "تسجيل الدخول",
     "logout": "Logout",
     "email": "Email",
     "password": "Password",
