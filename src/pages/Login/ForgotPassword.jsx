@@ -12,19 +12,17 @@ import {
   setLoading,
   setError,
 } from "../../store/slices/authSlice";
-import OtpVerification from "./OtpVerification";
 
 import { Message } from "primereact/message";
 import { Password } from "primereact/password";
 import { InputSwitch } from "primereact/inputswitch";
 
-const Login = () => {
+export default function ForgotPassword() {
+  
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.auth);
 
-  const [showOtp, setShowOtp] = useState(false);
-  const [loginData, setLoginData] = useState(null);
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
@@ -69,11 +67,7 @@ const Login = () => {
       }
     },
   });
-
-  if (showOtp) {
-    return <OtpVerification loginData={loginData} />;
-  }
-
+  
   return (
     <Form onSubmit={formik.handleSubmit}>
       {error && (
@@ -107,6 +101,8 @@ const Login = () => {
         />
       )}
 
+  <h1>ForgotPassword Test</h1>
+      
       <div className="form-subtitle">{t("login.welcomeSubTitle")}</div>
       <div className="form-title">{t("login.welcomeTitle")}</div>
 
@@ -189,6 +185,4 @@ const Login = () => {
       </Button>
     </Form>
   );
-};
-
-export default Login;
+}

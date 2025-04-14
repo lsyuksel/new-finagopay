@@ -7,20 +7,21 @@ import { combineReducers } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 import menuReducer from './slices/menuSlice';
 import userReducer from './slices/userSlice';
+import registerReducer from './slices/registerSlice';
 import transactionReducer from './slices/transactionSlice';
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth'], // Sadece auth state'ini persist et
+  whitelist: ['auth'],
 };
 
 const rootReducer = combineReducers({
   auth: authReducer,
   menu: menuReducer,
   users: userReducer,
+  register: registerReducer,
   transaction: transactionReducer,
-  // Diğer reducer'lar buraya eklenecek
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,7 +1,9 @@
 export const AUTH_URL = {
   Login: '/Authentication/Login',
+  Register: '/UserAcount/CreateUserAcount',
   VerifyTwoFactorSecret: '/Authentication/VerifyTwoFactorSecret',
-  SendVerificationCode: '/Authentication/SendVerificationCode'
+  SendVerificationCode: '/Authentication/SendVerificationCode',
+  GetUserAgreementByCreateAcount: '/UserAgreement/GetUserAgreementByCreateAcount',
 };
 
 export const TRANSACTION_URL = {

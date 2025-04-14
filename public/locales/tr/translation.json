@@ -9,7 +9,8 @@
     "bannerListItem3": "Sözleşmenizi Onaylayın",
     "bannerButton": "Hızlı Hesap Oluştur",
     "welcomeTitle": "Hoş Geldiniz,",
-    "welcomeSubTitle": "Lütfen Giriş Yapın"
+    "welcomeSubTitle": "Lütfen Giriş Yapın",
+    "newAccount":"Yeni Hesap Bilgileriniz"
 
   },
   "common": {
@@ -56,7 +57,11 @@
     "close": "Kapat",
     "details": "Detaylar",
     "forgotMyPassword": "Şifremi Unuttum?",
-    "rememberMe": "Beni Hatırla"
+    "rememberMe": "Beni Hatırla",
+    "firstName":"İsim",
+    "lastName":"Soyisim",
+    "passwordAgain":"Şifreyi Tekrar Girin",
+    "register":"Hesap Oluştur"
     
   },
   "menu": {
@@ -133,6 +138,7 @@
     "incorrectPassword": "Girmiş olduğunuz şifre hatalı. Lütfen tekrar deneyiniz.",
     "required": "Bu alan zorunludur",
     "invalidEmail": "Geçersiz e-posta adresi",
+    "passwordsMustMatch": "Şifreler eşleşmiyor",
     "invalidPassword": "Şifre en az 6 karakter olmalıdır",
     "invalidOtp": "Lütfen 6 haneli doğrulama kodunu giriniz",
     "invalidResponse": "Doğrulama başarısız - API yanıtı geçersiz format",
@@ -146,6 +152,8 @@
     "error": "Bir hata oluştu",
     "loginSuccess": "Giriş başarılı",
     "otpSent": "Doğrulama kodu gönderildi",
-    "logoutSuccess": "Çıkış başarılı"
+    "logoutSuccess": "Çıkış başarılı",
+    "registerSuccess": "Kayıt işlemi başarılı! Giriş yapabilirsiniz.",
+    "registerError": "Kayıt işlemi başarısız oldu."
   }
 }

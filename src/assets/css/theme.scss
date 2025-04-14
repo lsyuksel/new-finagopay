@@ -81,6 +81,7 @@ body {
     outline: none;
 }
 
+.p-form-control.p-inputtext,
 .p-form-control .p-component,
 .form-control {
     font-family: $font-family;
@@ -147,6 +148,9 @@ body {
         b {
             color: $refund-color;
         }
+    }
+    .p-inline-message-text {
+        @include text-8-medium;
     }
 }
 

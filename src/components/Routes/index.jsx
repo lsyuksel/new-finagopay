@@ -11,6 +11,8 @@ import KeyDefinition from '../../pages/KeyManagement/KeyDefinition';
 import UserDefinition from '../../pages/UserManagement/UserDefinition';
 import UserRoleRelation from '../../pages/UserManagement/UserRoleRelation';
 import ProtectedRoute from './ProtectedRoute';
+import AuthLayout from '../../pages/Login/AuthLayout';
+import ForgotPassword from '../../pages/Login/ForgotPassword';
 
 const AppRoutes = () => {
     const { isAuthenticated } = useSelector((state) => state.auth);
@@ -23,7 +25,24 @@ const AppRoutes = () => {
                 element={
                     isAuthenticated 
                         ? <Navigate to="/dashboard" replace /> 
-                        : <Login />
+                        : <AuthLayout page='login' />
+                } 
+            />
+            <Route 
+                path="/register" 
+                element={
+                    isAuthenticated 
+                        ? <Navigate to="/register" replace /> 
+                        : <AuthLayout page='register' />
+                } 
+            />
+            <Route 
+                path="/forgot-password" 
+                element={
+                    isAuthenticated 
+                        ? <Navigate to="/forgot-password" replace /> 
+//                        : <AuthLayout page='forgot-password' />
+                        : <ForgotPassword />
                 } 
             />
 

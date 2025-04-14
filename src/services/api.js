@@ -1,12 +1,16 @@
 import axios from 'axios';
 import { AUTH_URL } from '../constants/apiUrls';
+import JSONbig from 'json-bigint';
+
+const JSONbigInt = JSONbig({ storeAsString: true });
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
-  }
+  },
+  transformResponse: [data => data] // Ham veriyi dönüştürmeden al
 });
 
 // Request interceptor
@@ -27,8 +31,10 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => {
     try {
-      return typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
-    } catch {
+      // response.data string olarak gelecek, JSONbigInt ile parse et
+      return response.data ? JSONbigInt.parse(response.data) : response.data;
+    } catch (error) {
+      console.warn('JSON parse error:', error);
       return response.data;
     }
   },
