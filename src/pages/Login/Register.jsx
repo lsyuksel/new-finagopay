@@ -352,7 +352,7 @@ export default function Register() {
           </div>
         </div>
       ))}
-      <Button type="submit" className="login-button" disabled={loading}>
+      <Button type="submit" className="login-button mx-0" disabled={loading}>
         {loading ? (
           <>
             <span

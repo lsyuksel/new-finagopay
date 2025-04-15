@@ -210,6 +210,7 @@ body {
         }
     }
     & + .switch-link {
+        flex: 1 0 0;
         @include text-3-regular;
         color: $sub-text-color;
         .text-link {
@@ -472,7 +473,7 @@ body {
     text-align: center;
     padding: 0 0 var(--spacer-8);
     b {
-        @include text-15-semibold;
+        @include text-5-semibold;
     }
 }
 
