@@ -14,13 +14,11 @@
     "authHeaderTitlelogin":"Giriş Yapın",
     "authHeaderTitleregister":"Yeni Üyelik Başvurusu",
     "authHeaderTitlepassword":"Yeni Üyelik Başvurusu",
-
     "passwordTitle":"Şifre Sıfırlama",
     "passwordSubTitle":"Şifrenizi unuttuysanız bu sayfadan şifrenizi yenileyebilirsiniz.",
     "passwordText":"Sisteme kayıt olduğunuz e-posta adresini girdiğinizde şifrenizi nasıl yenileyebileceğinize dair yönergeleri içeren bir e-posta göndereceğiz.",
     "passwordInputTitle":"E-Posta Adresiniz",
     "passwordInputPlaceholder":"E-Mail adresinizi yazınız"
-
   },
   "common": {
     "welcome": "Hoş Geldiniz",
@@ -70,8 +68,8 @@
     "firstName":"İsim",
     "lastName":"Soyisim",
     "passwordAgain":"Şifreyi Tekrar Girin",
-    "register":"Hesap Oluştur"
-    
+    "register":"Hesap Oluştur",
+    "safeShopping":"%100 Güvenli Alışveriş"
   },
   "menu": {
     "dashboards": "Ana Sayfa",
@@ -167,6 +165,5 @@
     "registerError": "Kayıt işlemi başarısız oldu.",
     "passwordChangeSuccess": "Şifre Sıfırlama başarılı!",
     "passwordChangeError": "Şifre Sıfırlama başarısız oldu."
-    
   }
 }
