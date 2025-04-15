@@ -4,6 +4,8 @@ export const AUTH_URL = {
   VerifyTwoFactorSecret: '/Authentication/VerifyTwoFactorSecret',
   SendVerificationCode: '/Authentication/SendVerificationCode',
   ForgotPassword: '/User/UserChangePasswordSendEmail',
+  UpdateUserNewPassword: '/User/UpdateUserNewPassword',
+  GetUser: '/User/GetUser',
   
   GetUserAgreementByCreateAcount: '/UserAgreement/GetUserAgreementByCreateAcount',
 };

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Login from '../../pages/Login/Login';
@@ -13,6 +14,7 @@ import UserRoleRelation from '../../pages/UserManagement/UserRoleRelation';
 import ProtectedRoute from './ProtectedRoute';
 import AuthLayout from '../../pages/Login/AuthLayout';
 import ForgotPassword from '../../pages/Login/ForgotPassword';
+import PasswordChangeConfirm from '../../pages/Login/PasswordChangeConfirm';
 
 const AppRoutes = () => {
     const { isAuthenticated } = useSelector((state) => state.auth);
@@ -31,18 +33,19 @@ const AppRoutes = () => {
             <Route 
                 path="/register" 
                 element={
-                    isAuthenticated 
-                        ? <Navigate to="/register" replace /> 
-                        : <AuthLayout page='register' />
+                    <AuthLayout page='register' />
                 } 
             />
             <Route 
                 path="/forgot-password" 
                 element={
-                    isAuthenticated 
-                        ? <Navigate to="/forgot-password" replace /> 
-//                        : <AuthLayout page='forgot-password' />
-                        : <ForgotPassword />
+                    <ForgotPassword />
+                } 
+            />
+            <Route 
+                path="/passwordChangeConfirm" 
+                element={
+                    <PasswordChangeConfirm />
                 } 
             />
 
