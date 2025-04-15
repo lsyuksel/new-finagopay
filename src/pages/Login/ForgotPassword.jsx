@@ -18,7 +18,7 @@ export default function ForgotPassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading, error } = useSelector((state) => state.forgotPassword);
   const [showPasswordChanged, setShowPasswordChanged] = useState(false);
 
   useEffect(() => {

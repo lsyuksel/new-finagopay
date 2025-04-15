@@ -31,9 +31,7 @@ export default function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, error } = useSelector((state) => state.auth);
-  const { success, userAgreement } = useSelector((state) => state.register);
-
+  const { loading, error, success, userAgreement } = useSelector((state) => state.register);
   const [selectedAgreements, setSelectedAgreements] = useState([]);
   const [visibleDialogs, setVisibleDialogs] = useState({});
 

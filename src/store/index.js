@@ -9,6 +9,7 @@ import menuReducer from './slices/menuSlice';
 import userReducer from './slices/userSlice';
 import registerReducer from './slices/registerSlice';
 import transactionReducer from './slices/transactionSlice';
+import forgotPasswordReducer from './slices/forgotPasswordSlice';
 
 const persistConfig = {
   key: 'root',
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   menu: menuReducer,
   users: userReducer,
   register: registerReducer,
+  forgotPassword: forgotPasswordReducer,
   transaction: transactionReducer,
 });
 
