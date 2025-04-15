@@ -71,6 +71,7 @@ body {
     }
 }
 
+.phone-input-container .form-control,
 .p-form-control,
 .p-form-control.p-component > *{
     display: flex;
@@ -81,6 +82,7 @@ body {
     outline: none;
 }
 
+.phone-input-container .form-control,
 .p-form-control.p-inputtext,
 .p-form-control .p-component,
 .form-control {
@@ -103,6 +105,83 @@ body {
     &.p-invalid,
     &.is-invalid {
         border-color: $refund-color;
+    }
+}
+
+.phone-input-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacer-5);
+    .react-tel-input {
+        width: 124px;
+        .country-list {
+            transform: translateY(48px);
+        }
+        input {
+            padding-left: 48px;
+            @include text-4-medium;
+            color: $black;
+        }
+        .flag-dropdown {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            padding: 0;
+            border-radius: 0;
+            width: 100%;
+            height: 100%;
+            .selected-flag {
+                cursor: pointer;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                padding: 0;
+                border-radius: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 20px;
+                .flag {
+                    position: relative;
+                    left: initial;
+                    top: initial;
+                    margin: 0;
+                    width: 25px;
+                    height: 24px;
+                }
+                .arrow {
+                    display: none;
+                }
+                &:before {
+                    display: none;
+                }
+                &:after {
+                    content: '';
+                    width: 12px;
+                    height: 12px;
+                    display: block;
+                    border: 0;
+                    top: initial;
+                    left: initial;
+                    margin: 0;
+                    background-image: url('data:image/svg+xml,<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.1014 3.94675L6.57388 8.75729C6.26263 9.088 5.73707 9.088 5.42582 8.75729L0.89822 3.94675C0.558058 3.58529 0.814295 2.99219 1.31065 2.99219H10.689C11.1854 2.99219 11.4416 3.58529 11.1014 3.94675Z" fill="%239D9D9D"/></svg>');
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: initial;
+                }
+                &.open {
+                    &:after {
+                        background-image: url('data:image/svg+xml,<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.898556 8.0513L5.42612 3.24076C5.73737 2.91005 6.26293 2.91005 6.57418 3.24076L11.1018 8.0513C11.4419 8.41276 11.1857 9.00586 10.6894 9.00586L1.31102 9.00586C0.814631 9.00586 0.558393 8.41276 0.898556 8.0513Z" fill="%239D9D9D"/></svg>');
+                    }
+                }
+            }
+        }
+        & + * {
+            flex: 1 0 0;
+        }
     }
 }
 
@@ -219,6 +298,11 @@ body {
 /*Login Content*/
 .auth-content {
     padding: var(--spacer-8) 0;
+    @include max($lg) {
+        .container {
+            max-width: 100%;
+        }
+    }
 }
 
 .auth-banner-container {

@@ -137,6 +137,7 @@
   "errors": {
     "incorrectPassword": "Girmiş olduğunuz şifre hatalı. Lütfen tekrar deneyiniz.",
     "required": "Bu alan zorunludur",
+    "phoneStartsWithZero": "Telefon numarası '0' ile başlayamaz.",
     "invalidEmail": "Geçersiz e-posta adresi",
     "passwordsMustMatch": "Şifreler eşleşmiyor",
     "invalidPassword": "Şifre en az 6 karakter olmalıdır",

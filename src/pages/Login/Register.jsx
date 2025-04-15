@@ -1,3 +1,6 @@
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/bootstrap.css'
+
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -49,17 +52,14 @@ export default function Register() {
     };
   }, []);
 
-  /*  useEffect(() => {
-    if (success) {
-      toast.success(t("messages.registerSuccess"));
-      navigate('/login');
-    }
-  }, [success]);*/
-
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required(t("errors.required")),
     lastName: Yup.string().required(t("errors.required")),
-    phone: Yup.string().required(t("errors.required")),
+    phone: Yup.string()
+    .required(t("errors.required"))
+    .test(
+      "not-start-with-zero", t("errors.phoneStartsWithZero"), (value) => value ? !value.startsWith("0") : true
+    ),
     email: Yup.string()
       .email(t("errors.invalidEmail"))
       .required(t("errors.required")),
@@ -80,6 +80,7 @@ export default function Register() {
       firstName: "",
       lastName: "",
       phone: null,
+      phoneCode:"90",
       email: "",
       password: "",
       passwordAgain: "",
@@ -88,7 +89,7 @@ export default function Register() {
     validationSchema,
     onSubmit: async (values) => {
       values.agreements = selectedAgreements;
-
+      console.log("values",values)
       dispatch(registerUser(values))
         .unwrap()
         .then(() => {
@@ -189,19 +190,28 @@ export default function Register() {
       )}
 
       <div className="form-title">{t("login.newAccount")}</div>
-
       <Form.Group className="form-item">
-        <InputMask
-          className="p-form-control"
-          mask="(999) 999-9999"
-          placeholder="(999) 999-9999"
-          id="phone"
-          invalid={formik.touched.phone && formik.errors.phone}
-          value={formik.values.phone}
-          onChange={formik.handleChange}
-          disabled={loading}
-        ></InputMask>
-
+        <div className='phone-input-container'>
+          <PhoneInput
+            inputProps={{
+              disabled: true,
+            }}
+            country={'tr'}
+            id="phoneCode"
+            value={formik.values.phoneCode}
+            onChange={phone => formik.values.phoneCode = phone}
+          />
+          <InputMask
+            className="p-form-control"
+            mask="999 999 99 99"
+            placeholder="999 999 99 99"
+            id="phone"
+            invalid={formik.touched.phone && formik.errors.phone}
+            value={formik.values.phone}
+            onChange={formik.handleChange}
+            disabled={loading}
+          ></InputMask>
+        </div>
         {formik.touched.phone && formik.errors.phone && (
           <Message
             className="d-flex"
@@ -342,15 +352,6 @@ export default function Register() {
           </div>
         </div>
       ))}
-      {/*
-        formik.touched.agreements && formik.errors.agreements && (
-          <Message
-            className="d-flex"
-            severity="error"
-            text={formik.touched.agreements && formik.errors.agreements}
-          />
-        )*/
-      }
       <Button type="submit" className="login-button" disabled={loading}>
         {loading ? (
           <>

@@ -26,7 +26,7 @@ export const registerUser = createAsyncThunk(
       const response = await api.post(AUTH_URL.Register, {
         FirstName: userData.firstName,
         LastName: userData.lastName,
-        Phone: userData.phone,
+        Phone: userData.phoneCode + userData.phone,
         Email: userData.email,
         Password: userData.password,
         PasswordAgain: userData.passwordAgain,
