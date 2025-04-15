@@ -4,13 +4,14 @@ import storage from 'redux-persist/lib/storage';
 import { combineReducers } from '@reduxjs/toolkit';
 
 // Reducers
-import authReducer from './slices/authSlice';
 import menuReducer from './slices/menuSlice';
 import userReducer from './slices/userSlice';
-import registerReducer from './slices/registerSlice';
 import transactionReducer from './slices/transactionSlice';
-import forgotPasswordReducer from './slices/forgotPasswordSlice';
-import passwordChangeConfirmReducer from './slices/passwordChangeConfirmSlice';
+
+import authReducer from './slices/login/authSlice';
+import registerReducer from './slices/login/registerSlice';
+import forgotPasswordReducer from './slices/login/forgotPasswordSlice';
+import passwordChangeConfirmReducer from './slices/login/passwordChangeConfirmSlice';
 
 const persistConfig = {
   key: 'root',

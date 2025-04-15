@@ -10,7 +10,7 @@ import {
   setCredentials,
   setLoading,
   setError,
-} from "../../store/slices/authSlice";
+} from "../../store/slices/login/authSlice";
 import { Message } from "primereact/message";
 
 const OtpVerification = ({ loginData }) => {

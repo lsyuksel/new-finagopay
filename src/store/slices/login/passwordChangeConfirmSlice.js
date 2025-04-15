@@ -1,7 +1,7 @@
 // src/store/slices/passwordChangeConfirm.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { api, parseErrorResponse } from "../../services/api";
-import { AUTH_URL } from "../../constants/apiUrls";
+import { api, parseErrorResponse } from "@/services/api";
+import { AUTH_URL } from "@/constants/apiUrls";
 import { t } from "i18next";
 
 export const passwordChangeConfirm = createAsyncThunk(

@@ -1,8 +1,8 @@
 // src/store/slices/registerSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { api, parseErrorResponse } from "../../services/api";
-import { AUTH_URL } from "../../constants/apiUrls";
+import { api, parseErrorResponse } from "@/services/api";
 import { t } from "i18next";
+import { AUTH_URL } from "@/constants/apiUrls";
 
 export const getUserAgreementByCreateAcount = createAsyncThunk(
   "getUserAgreementByCreateAcount",

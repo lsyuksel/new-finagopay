@@ -1,5 +1,5 @@
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/bootstrap.css'
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/bootstrap.css";
 
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
@@ -15,7 +15,7 @@ import {
   clearRegisterState,
   getUserAgreementByCreateAcount,
   setRegisterError,
-} from "../../store/slices/registerSlice";
+} from "../../store/slices/login/registerSlice";
 
 import { InputMask } from "primereact/inputmask";
 
@@ -24,14 +24,19 @@ import { Password } from "primereact/password";
 import { InputSwitch } from "primereact/inputswitch";
 import { classNames } from "primereact/utils";
 
-import { Dialog } from 'primereact/dialog';
+import { Dialog } from "primereact/dialog";
+
+import errorIcon from "@/assets/images/alerts/error.svg";
+import { getErrorMessage } from "@/utils/formikHelpers";
 
 export default function Register() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, error, success, userAgreement } = useSelector((state) => state.register);
+  const { loading, error, success, userAgreement } = useSelector(
+    (state) => state.register
+  );
   const [selectedAgreements, setSelectedAgreements] = useState([]);
   const [visibleDialogs, setVisibleDialogs] = useState({});
 
@@ -50,10 +55,10 @@ export default function Register() {
     firstName: Yup.string().required(t("errors.required")),
     lastName: Yup.string().required(t("errors.required")),
     phone: Yup.string()
-    .required(t("errors.required"))
-    .test(
-      "not-start-with-zero", t("errors.phoneStartsWithZero"), (value) => value ? !value.startsWith("0") : true
-    ),
+      .required(t("errors.required"))
+      .test("not-start-with-zero", t("errors.phoneStartsWithZero"), (value) =>
+        value ? !value.startsWith("0") : true
+      ),
     email: Yup.string()
       .email(t("errors.invalidEmail"))
       .required(t("errors.required")),
@@ -63,10 +68,13 @@ export default function Register() {
     passwordAgain: Yup.string()
       .oneOf([Yup.ref("password")], t("errors.passwordsMustMatch"))
       .required(t("errors.required")),
-    agreements: Yup.array()
-      .test('all-agreements', t("errors.required"), function(value) {
+    agreements: Yup.array().test(
+      "all-agreements",
+      t("errors.required"),
+      function (value) {
         return selectedAgreements.length === userAgreement.length;
-      }),
+      }
+    ),
   });
 
   const formik = useFormik({
@@ -74,7 +82,7 @@ export default function Register() {
       firstName: "",
       lastName: "",
       phone: null,
-      phoneCode:"90",
+      phoneCode: "90",
       email: "",
       password: "",
       passwordAgain: "",
@@ -83,12 +91,11 @@ export default function Register() {
     validationSchema,
     onSubmit: async (values) => {
       values.agreements = selectedAgreements;
-      console.log("values",values)
       dispatch(registerUser(values))
         .unwrap()
         .then(() => {
           toast.success(t("messages.registerSuccess"));
-          navigate('/login');
+          navigate("/login");
         })
         .catch((error) => {
           dispatch(setRegisterError(error));
@@ -102,10 +109,11 @@ export default function Register() {
       ? [...selectedAgreements, { guid: guid }]
       : selectedAgreements.filter((agreement) => agreement.guid !== guid);
     setSelectedAgreements(newSelectedAgreements);
-    formik.setFieldValue('agreements', 
-      value 
+    formik.setFieldValue(
+      "agreements",
+      value
         ? [...formik.values.agreements, guid]
-        : formik.values.agreements.filter(guid => guid !== guid)
+        : formik.values.agreements.filter((guid) => guid !== guid)
     );
   };
 
@@ -114,36 +122,34 @@ export default function Register() {
     return (
       <>
         {parts[0]}
-        <a 
-          href="#" 
+        <a
+          href="#"
           onClick={(e) => {
             e.preventDefault();
-            setVisibleDialogs(prev => ({
+            setVisibleDialogs((prev) => ({
               ...prev,
-              [item.guid]: true
+              [item.guid]: true,
             }));
-          }} 
+          }}
           className="text-link"
         >
           {item.linkedText}
         </a>
-        
-        <Dialog 
-          header={item.name} 
-          visible={visibleDialogs[item.guid]} 
-          modal={false} 
-          style={{ width: '70vw' }} 
+
+        <Dialog
+          header={item.name}
+          visible={visibleDialogs[item.guid]}
+          modal={false}
+          style={{ width: "70vw" }}
           onHide={() => {
             if (!visibleDialogs[item.guid]) return;
-            setVisibleDialogs(prev => ({
+            setVisibleDialogs((prev) => ({
               ...prev,
-              [item.guid]: false
+              [item.guid]: false,
             }));
           }}
         >
-          <div 
-            dangerouslySetInnerHTML={{ __html: item.agreementContent }}
-          />
+          <div dangerouslySetInnerHTML={{ __html: item.agreementContent }} />
         </Dialog>
         {parts[1]}
       </>
@@ -158,42 +164,47 @@ export default function Register() {
           className="d-flex justify-content-start gap-1 mb-4"
           content={
             <>
-              <svg
-                width="22"
-                height="22"
-                viewBox="0 0 22 22"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M21.0729 16.9113C19.0112 13.2432 16.9489 9.57369 14.8866 5.90495C14.3613 4.96984 13.837 4.03931 13.3136 3.10442C13.0298 2.55231 12.676 1.97536 12.086 1.70968C11.6874 1.52365 11.2966 1.42152 10.8541 1.45005C10.1 1.49329 9.39537 1.91666 8.99294 2.55444C8.85798 2.79307 8.7276 3.03336 8.58815 3.27162C8.0274 4.27382 7.46061 5.27693 6.89858 6.27896C4.88312 9.93456 2.75084 13.5295 0.793731 17.2149C0.817928 17.1181 0.861916 17.0279 0.908133 16.9421C-0.0544954 18.4772 1.06235 20.5686 2.89252 20.5566C3.15867 20.5588 3.42709 20.5566 3.69327 20.5566H19.1061C20.9576 20.5401 22.0512 18.4739 21.0729 16.9113ZM11.8375 17.1225C11.1062 17.8588 9.81192 17.3238 9.81794 16.2865C9.79924 15.6519 10.372 15.0926 11.0015 15.1029C12.0405 15.0934 12.5786 16.4004 11.8375 17.1225ZM12.1829 12.6588C12.1899 13.6985 10.8874 14.2339 10.1633 13.4947C9.95211 13.2792 9.81792 12.9602 9.81792 12.6588V9.36109C9.87715 7.79755 12.1265 7.79886 12.1829 9.36111C12.1829 9.36109 12.1829 12.6588 12.1829 12.6588Z"
-                  fill="#F04438"
-                />
-                <path
-                  d="M0.789062 17.2142C0.813259 17.1174 0.857247 17.0272 0.903464 16.9414C0.868257 17.0316 0.828673 17.1218 0.789062 17.2142Z"
-                  fill="#F04438"
-                />
-              </svg>
+              <img src={errorIcon} />
               <div>
-                <b>Hata: </b>
+                <b>{t("common.error")}: </b>
                 {error}
               </div>
             </>
           }
         />
       )}
+      {getErrorMessage(formik)
+        ? (() => {
+            const errorMessage = getErrorMessage(formik);
+            return errorMessage ? (
+              <Message
+                severity="error"
+                className="d-flex justify-content-start gap-1 mb-4"
+                content={
+                  <>
+                    <img src={errorIcon} />
+                    <div>
+                      <b>{t("common.error")}: </b>
+                      {errorMessage}
+                    </div>
+                  </>
+                }
+              />
+            ) : null;
+          })()
+        : null}
 
       <div className="form-title">{t("login.newAccount")}</div>
       <Form.Group className="form-item">
-        <div className='phone-input-container'>
+        <div className="phone-input-container">
           <PhoneInput
             inputProps={{
               disabled: true,
             }}
-            country={'tr'}
+            country={"tr"}
             id="phoneCode"
             value={formik.values.phoneCode}
-            onChange={phone => formik.values.phoneCode = phone}
+            onChange={(phone) => (formik.values.phoneCode = phone)}
           />
           <InputMask
             className="p-form-control"
@@ -206,13 +217,6 @@ export default function Register() {
             disabled={loading}
           ></InputMask>
         </div>
-        {formik.touched.phone && formik.errors.phone && (
-          <Message
-            className="d-flex"
-            severity="error"
-            text={formik.touched.phone && formik.errors.phone}
-          />
-        )}
       </Form.Group>
       <Form.Group className="form-item">
         <Form.Control
@@ -225,14 +229,6 @@ export default function Register() {
           isInvalid={formik.touched.firstName && formik.errors.firstName}
           disabled={loading}
         />
-
-        {formik.touched.firstName && formik.errors.firstName && (
-          <Message
-            className="d-flex"
-            severity="error"
-            text={formik.touched.firstName && formik.errors.firstName}
-          />
-        )}
       </Form.Group>
       <Form.Group className="form-item">
         <Form.Control
@@ -245,14 +241,6 @@ export default function Register() {
           isInvalid={formik.touched.lastName && formik.errors.lastName}
           disabled={loading}
         />
-
-        {formik.touched.lastName && formik.errors.lastName && (
-          <Message
-            className="d-flex"
-            severity="error"
-            text={formik.touched.lastName && formik.errors.lastName}
-          />
-        )}
       </Form.Group>
       <Form.Group className="form-item">
         <Form.Control
@@ -265,14 +253,6 @@ export default function Register() {
           isInvalid={formik.touched.email && formik.errors.email}
           disabled={loading}
         />
-
-        {formik.touched.email && formik.errors.email && (
-          <Message
-            className="d-flex"
-            severity="error"
-            text={formik.touched.email && formik.errors.email}
-          />
-        )}
       </Form.Group>
       <Form.Group className="form-item">
         <Password
@@ -289,14 +269,6 @@ export default function Register() {
           tabIndex={1}
           toggleMask
         />
-
-        {formik.touched.password && formik.errors.password && (
-          <Message
-            className="d-flex"
-            severity="error"
-            text={formik.touched.password && formik.errors.password}
-          />
-        )}
       </Form.Group>
       <Form.Group className="form-item">
         <Password
@@ -313,14 +285,6 @@ export default function Register() {
           tabIndex={1}
           toggleMask
         />
-
-        {formik.touched.passwordAgain && formik.errors.passwordAgain && (
-          <Message
-            className="d-flex"
-            severity="error"
-            text={formik.touched.passwordAgain && formik.errors.passwordAgain}
-          />
-        )}
       </Form.Group>
 
       {userAgreement?.map((item, index) => (
@@ -329,16 +293,21 @@ export default function Register() {
             <InputSwitch
               inputId={`agreement_${item.guid}`}
               name={`agreement_${item.guid}`}
-              checked={selectedAgreements.some(agreement => agreement.guid === item.guid)}
+              checked={selectedAgreements.some(
+                (agreement) => agreement.guid === item.guid
+              )}
               onChange={(e) => {
                 handleAgreementChange(e.value, item.guid);
-                formik.setFieldValue('agreements', 
-                  e.value 
+                formik.setFieldValue(
+                  "agreements",
+                  e.value
                     ? [...formik.values.agreements, item.guid]
-                    : formik.values.agreements.filter(guid => guid !== item.guid)
+                    : formik.values.agreements.filter(
+                        (guid) => guid !== item.guid
+                      )
                 );
               }}
-              className={classNames({ 'p-invalid': formik.errors.agreements })}
+              className={classNames({ "p-invalid": formik.errors.agreements })}
             />
             <label htmlFor={`agreement_${item.guid}`} className="switch-link">
               {renderAgreementText(item)}
