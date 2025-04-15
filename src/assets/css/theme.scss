@@ -465,6 +465,45 @@ body {
         transition: $transition;
     }
 }
+
+.forgot-password-container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: var(--spacer-29) 0;
+    text-align: center;
+    .title {
+        @include text-28-bold;
+        color: $primary-color;
+        margin-bottom: var(--spacer-9);
+    }
+    .subtitle {
+        @include text-12-semibold;
+        color: $text-color;
+        margin-bottom: var(--spacer-4);
+
+    }
+    .text {
+        @include text-11-medium;
+        color: $sub-text-color;
+        margin-bottom: var(--spacer-9);
+    }
+    .form-item {
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+        max-width: 635px;
+        gap: var(--spacer-3);
+        margin: 0 auto var(--spacer-9);
+        .form-label {
+            @include text-8-medium;
+            color: $sub-text-color;
+            & + input {
+                flex: 1 0 0;
+            }
+        }
+    }
+}
+
 /*Login Footer*/
 .login-footer-container {
     @include text-3-regular;

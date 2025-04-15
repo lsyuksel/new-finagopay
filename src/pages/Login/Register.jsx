@@ -9,16 +9,12 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { authService } from "../../services/api";
-import {
-  setCredentials,
-  setLoading,
-  setError,
-} from "../../store/slices/authSlice";
+
 import {
   registerUser,
   clearRegisterState,
   getUserAgreementByCreateAcount,
+  setRegisterError,
 } from "../../store/slices/registerSlice";
 
 import { InputMask } from "primereact/inputmask";
@@ -42,7 +38,7 @@ export default function Register() {
   const [visibleDialogs, setVisibleDialogs] = useState({});
 
   useEffect(() => {
-    dispatch(setError(null));
+    dispatch(setRegisterError(null));
     dispatch(getUserAgreementByCreateAcount());
   }, []);
 
@@ -97,7 +93,7 @@ export default function Register() {
           navigate('/login');
         })
         .catch((error) => {
-          dispatch(setError(error));
+          dispatch(setRegisterError(error));
           toast.error(error);
         });
     },

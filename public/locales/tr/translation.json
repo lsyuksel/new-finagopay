@@ -10,7 +10,16 @@
     "bannerButton": "Hızlı Hesap Oluştur",
     "welcomeTitle": "Hoş Geldiniz,",
     "welcomeSubTitle": "Lütfen Giriş Yapın",
-    "newAccount":"Yeni Hesap Bilgileriniz"
+    "newAccount":"Yeni Hesap Bilgileriniz",
+    "authHeaderTitlelogin":"Giriş Yapın",
+    "authHeaderTitleregister":"Yeni Üyelik Başvurusu",
+    "authHeaderTitlepassword":"Yeni Üyelik Başvurusu",
+
+    "passwordTitle":"Şifre Sıfırlama",
+    "passwordSubTitle":"Şifrenizi unuttuysanız bu sayfadan şifrenizi yenileyebilirsiniz.",
+    "passwordText":"Sisteme kayıt olduğunuz e-posta adresini girdiğinizde şifrenizi nasıl yenileyebileceğinize dair yönergeleri içeren bir e-posta göndereceğiz.",
+    "passwordInputTitle":"E-Posta Adresiniz",
+    "passwordInputPlaceholder":"E-Mail adresinizi yazınız"
 
   },
   "common": {
@@ -155,6 +164,9 @@
     "otpSent": "Doğrulama kodu gönderildi",
     "logoutSuccess": "Çıkış başarılı",
     "registerSuccess": "Kayıt işlemi başarılı! Giriş yapabilirsiniz.",
-    "registerError": "Kayıt işlemi başarısız oldu."
+    "registerError": "Kayıt işlemi başarısız oldu.",
+    "passwordChangeSuccess": "Şifre Sıfırlama başarılı!",
+    "passwordChangeError": "Şifre Sıfırlama başarısız oldu."
+    
   }
 }

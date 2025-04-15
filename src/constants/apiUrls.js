@@ -3,6 +3,8 @@ export const AUTH_URL = {
   Register: '/UserAcount/CreateUserAcount',
   VerifyTwoFactorSecret: '/Authentication/VerifyTwoFactorSecret',
   SendVerificationCode: '/Authentication/SendVerificationCode',
+  ForgotPassword: '/User/UserChangePasswordSendEmail',
+  
   GetUserAgreementByCreateAcount: '/UserAgreement/GetUserAgreementByCreateAcount',
 };
 

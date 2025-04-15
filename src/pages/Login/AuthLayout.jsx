@@ -19,7 +19,7 @@ export default function AuthLayout({page}) {
 
     return (
         <div className='auth-container'>
-            <LoginHeader pageTitle='Giriş Yapın' />
+            <LoginHeader pageTitle={t('login.authHeaderTitle'+page)} />
             <div className="auth-content">
                 <div className="container">
                 <div className="row align-items-strech">
