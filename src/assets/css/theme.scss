@@ -130,6 +130,18 @@ body {
             }
         }
     }
+    & + .switch-link {
+        @include text-3-regular;
+        color: $sub-text-color;
+        .text-link {
+            color: $sub-text-color;
+            text-decoration: underline !important;
+            transition: $transition;
+            &:hover {
+                color: $primary-color;
+            }
+        }
+    }
 }
 
 .p-inline-message {
@@ -154,6 +166,21 @@ body {
     }
 }
 
+.p-dialog {
+    @include box-shadow;
+    border-radius: 20px;
+    .p-dialog-content {
+        color: $text-color;
+        @include text-7-regular;
+    }
+    .p-dialog-header {
+        .p-dialog-title {
+            color: $primary-color;
+            @include text-20-bold;
+        }
+    }
+}
+
 /*Login*/
 .auth-container {
     background: $purple-light;
@@ -168,12 +195,13 @@ body {
     background-color: $white-color;
     border-bottom: 1px solid $border-2;
     .logo {
+        height: 28px;
         img {
             max-height: 33px;
         }
         > a {
             display: flex;
-            align-items: center;
+            align-items: flex-end;
             gap: var(--spacer-5);
             color: $text-color;
             @include text-15-semibold;
@@ -317,6 +345,10 @@ body {
         margin-bottom: var(--spacer-5);
         &:last-child {
             margin-bottom: 0;
+        }
+        .p-inline-message {
+            padding: 0;
+            background: transparent !important;
         }
     }
     .forgot-password {

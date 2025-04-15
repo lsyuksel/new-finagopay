@@ -50,6 +50,25 @@ api.interceptors.response.use(
   }
 );
 
+export const parseErrorResponse = (errorString) => {
+  try {
+    const errorObj = JSON.parse(errorString);
+    return {
+      code: errorObj.Code,
+      message: errorObj.Message?.replace("{0}", ""),
+      details: errorObj.Details?.replace("{0}", ""),
+      correlationId: errorObj.CorrelationId,
+      errorCode: errorObj.validationResults?.[0]?.ErrorMessage
+    };
+  } catch (e) {
+    return {
+      code: "ERROR",
+      message: errorString || t("messages.registerError"),
+      details: errorString
+    };
+  }
+};
+
 export const authService = {
   login: async (credentials) => {
     try {

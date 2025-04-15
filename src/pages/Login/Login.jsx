@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { authService } from "../../services/api";
+import { authService, parseErrorResponse } from "../../services/api";
 import {
   setCredentials,
   setLoading,
@@ -60,8 +60,7 @@ const Login = () => {
           toast.error(t("messages.error"));
         }
       } catch (error) {
-        const errorMessage =
-          error.response?.data?.message || t("errors.incorrectPassword");
+        const errorMessage = parseErrorResponse(error.response.data).message || t("messages.incorrectPassword")
         dispatch(setError(errorMessage));
         toast.error(errorMessage);
       } finally {

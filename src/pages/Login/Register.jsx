@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Container, Card, Form, Button } from "react-bootstrap";
@@ -12,7 +12,11 @@ import {
   setLoading,
   setError,
 } from "../../store/slices/authSlice";
-import { registerUser, clearRegisterState, getUserAgreementByCreateAcount } from "../../store/slices/registerSlice";
+import {
+  registerUser,
+  clearRegisterState,
+  getUserAgreementByCreateAcount,
+} from "../../store/slices/registerSlice";
 
 import { InputMask } from "primereact/inputmask";
 
@@ -21,22 +25,22 @@ import { Password } from "primereact/password";
 import { InputSwitch } from "primereact/inputswitch";
 import { classNames } from "primereact/utils";
 
+import { Dialog } from 'primereact/dialog';
+
 export default function Register() {
-  
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const { loading, error } = useSelector((state) => state.auth);
   const { success, userAgreement } = useSelector((state) => state.register);
+
+  const [selectedAgreements, setSelectedAgreements] = useState([]);
+  const [visibleDialogs, setVisibleDialogs] = useState({});
 
   useEffect(() => {
     dispatch(setError(null));
     dispatch(getUserAgreementByCreateAcount());
-    
-    setTimeout(() => {
-      console.log("userAgreement",userAgreement);
-    }, 4000);
   }, []);
 
   useEffect(() => {
@@ -45,20 +49,17 @@ export default function Register() {
     };
   }, []);
 
-/*  useEffect(() => {
+  /*  useEffect(() => {
     if (success) {
       toast.success(t("messages.registerSuccess"));
       navigate('/login');
     }
   }, [success]);*/
 
-  const validationSchema = Yup.object({
-    firstName: Yup.string()
-      .required(t("errors.required")),
-    lastName: Yup.string()
-      .required(t("errors.required")),
-    phone: Yup.string()
-      .required(t("errors.required")),
+  const validationSchema = Yup.object().shape({
+    firstName: Yup.string().required(t("errors.required")),
+    lastName: Yup.string().required(t("errors.required")),
+    phone: Yup.string().required(t("errors.required")),
     email: Yup.string()
       .email(t("errors.invalidEmail"))
       .required(t("errors.required")),
@@ -66,33 +67,28 @@ export default function Register() {
       .min(6, t("errors.invalidPassword"))
       .required(t("errors.required")),
     passwordAgain: Yup.string()
-      .oneOf([Yup.ref('password')], t("errors.passwordsMustMatch"))
+      .oneOf([Yup.ref("password")], t("errors.passwordsMustMatch"))
       .required(t("errors.required")),
-/*
-      check1: Yup.boolean()
-      .oneOf([true], t('validation.mustAccept'))
-      .required(t('validation.required')),
-    check2: Yup.boolean()
-      .oneOf([true], t('validation.mustAccept'))
-      .required(t('validation.required'))
-*/
+    agreements: Yup.array()
+      .test('all-agreements', t("errors.required"), function(value) {
+        return selectedAgreements.length === userAgreement.length;
+      }),
   });
 
   const formik = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
-      phone: "",
+      phone: null,
       email: "",
       password: "",
       passwordAgain: "",
-      userAgreements: [],
-      check1: false,
-      check2: false,
+      agreements: [],
     },
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values)
+      values.agreements = selectedAgreements;
+
       dispatch(registerUser(values))
         .unwrap()
         .then(() => {
@@ -105,7 +101,60 @@ export default function Register() {
         });
     },
   });
-  
+
+  const handleAgreementChange = (value, guid) => {
+    const newSelectedAgreements = value
+      ? [...selectedAgreements, { guid: guid }]
+      : selectedAgreements.filter((agreement) => agreement.guid !== guid);
+    setSelectedAgreements(newSelectedAgreements);
+    formik.setFieldValue('agreements', 
+      value 
+        ? [...formik.values.agreements, guid]
+        : formik.values.agreements.filter(guid => guid !== guid)
+    );
+  };
+
+  const renderAgreementText = (item) => {
+    const parts = item.description.split(item.linkedText);
+    return (
+      <>
+        {parts[0]}
+        <a 
+          href="#" 
+          onClick={(e) => {
+            e.preventDefault();
+            setVisibleDialogs(prev => ({
+              ...prev,
+              [item.guid]: true
+            }));
+          }} 
+          className="text-link"
+        >
+          {item.linkedText}
+        </a>
+        
+        <Dialog 
+          header={item.name} 
+          visible={visibleDialogs[item.guid]} 
+          modal={false} 
+          style={{ width: '70vw' }} 
+          onHide={() => {
+            if (!visibleDialogs[item.guid]) return;
+            setVisibleDialogs(prev => ({
+              ...prev,
+              [item.guid]: false
+            }));
+          }}
+        >
+          <div 
+            dangerouslySetInnerHTML={{ __html: item.agreementContent }}
+          />
+        </Dialog>
+        {parts[1]}
+      </>
+    );
+  };
+
   return (
     <Form onSubmit={formik.handleSubmit}>
       {error && (
@@ -150,8 +199,8 @@ export default function Register() {
           invalid={formik.touched.phone && formik.errors.phone}
           value={formik.values.phone}
           onChange={formik.handleChange}
-          disabled={loading}>
-        </InputMask>
+          disabled={loading}
+        ></InputMask>
 
         {formik.touched.phone && formik.errors.phone && (
           <Message
@@ -269,54 +318,39 @@ export default function Register() {
           />
         )}
       </Form.Group>
-      
-        {
-          userAgreement?.map((item,index)=>(
-            <div className="field mb-3" key={index}>
-              <div className="d-flex align-items-center gap-2">
-                <InputSwitch
-                  inputId="check1"
-                  name="check1"
-                  checked={formik.values.check1}
-                  onChange={(e) => formik.setFieldValue('check1', e.value)}
-                  className={classNames({ 'p-invalid': formik.touched.check1 && formik.errors.check1 })}
-                />
-                <label htmlFor="check1" className="cursor-pointer">
-                  <b>{item.guid}</b><br />
-                  <b>{item.name}</b><br />
-                  {t("common.check1")}
-                </label>
-              </div>
-              {/*formik.touched.check1 && formik.errors.check1 && (
-                <Message
-                  className="p-error"
-                  text={formik.touched.check1 && formik.errors.check1}
-                />
-              )*/}
-            </div>
-          ))
-        }
 
-      <div className="field mb-3">
-        <div className="d-flex align-items-center gap-2">
-          <InputSwitch
-            inputId="check2"
-            name="check2"
-            checked={formik.values.check2}
-            onChange={(e) => formik.setFieldValue('check2', e.value)}
-            className={classNames({ 'p-invalid': formik.touched.check2 && formik.errors.check2 })}
-          />
-          <label htmlFor="check2" className="cursor-pointer">
-            {t("common.check2")}
-          </label>
+      {userAgreement?.map((item, index) => (
+        <div className="field mb-3" key={index}>
+          <div className="d-flex align-items-center gap-2">
+            <InputSwitch
+              inputId={`agreement_${item.guid}`}
+              name={`agreement_${item.guid}`}
+              checked={selectedAgreements.some(agreement => agreement.guid === item.guid)}
+              onChange={(e) => {
+                handleAgreementChange(e.value, item.guid);
+                formik.setFieldValue('agreements', 
+                  e.value 
+                    ? [...formik.values.agreements, item.guid]
+                    : formik.values.agreements.filter(guid => guid !== item.guid)
+                );
+              }}
+              className={classNames({ 'p-invalid': formik.errors.agreements })}
+            />
+            <label htmlFor={`agreement_${item.guid}`} className="switch-link">
+              {renderAgreementText(item)}
+            </label>
+          </div>
         </div>
-        {/*formik.touched.check2 && formik.errors.check2 && (
+      ))}
+      {/*
+        formik.touched.agreements && formik.errors.agreements && (
           <Message
-            className="p-error"
-            text={formik.touched.check2 && formik.errors.check2}
+            className="d-flex"
+            severity="error"
+            text={formik.touched.agreements && formik.errors.agreements}
           />
-        )*/}
-      </div>
+        )*/
+      }
       <Button type="submit" className="login-button" disabled={loading}>
         {loading ? (
           <>
