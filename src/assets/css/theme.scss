@@ -308,6 +308,7 @@ main {
 
     .main-content {
         padding: var(--spacer-6) var(--spacer-6) var(--spacer-8);
+        min-height: 1200px;
     }
 }
 
@@ -316,7 +317,6 @@ main {
     flex-direction: column;
     flex: 1 0 0;
     width: 100%;
-    min-height: 1200px;
 }
 
 /*Sidebar Component*/
