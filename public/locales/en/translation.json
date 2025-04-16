@@ -90,6 +90,10 @@
     "usermanagement": "User Management",
     "userdefinition": "User Definition",
     "userrolerelation": "User Role Relation",
+    
+    "getPaid": "Ödeme Al",
+    "linkPaymentList":"Link İle Ödeme Listesi",
+    
     "loading": "Loading menu...",
     "error": "An error occurred while loading the menu",
     "empty": "Menu item not found",
@@ -164,6 +168,8 @@
     "registerSuccess": "Registration successful! You can log in.",
     "registerError": "Registration failed.",
     "passwordChangeSuccess": "Password reset successful!",
-    "passwordChangeError": "Password reset failed."
+    "passwordChangeError": "Password reset failed.",
+    "confirmationEmailSent": "Confirmation Email Sent!",
+    "confirmationEmailContent": "<p>The password reset process has been initiated, and an email containing instructions on what to do next has been sent to your email address. Please check your email address.<br /><br />If you did not receive the email with the instructions, please remember to check your junk mail folder as well. We kindly ask you to add our email address to your safe senders list.</p>"
   }
 }

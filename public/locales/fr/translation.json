@@ -90,6 +90,10 @@
     "usermanagement": "Gestion des utilisateurs",
     "userdefinition": "Définition des utilisateurs",
     "userrolerelation": "Relation des rôles des utilisateurs",
+    
+    "getPaid": "Ödeme Al",
+    "linkPaymentList":"Link İle Ödeme Listesi",
+    
     "loading": "Chargement du menu...",
     "error": "Une erreur s'est produite lors du chargement du menu",
     "empty": "Aucun élément de menu trouvé",
@@ -164,6 +168,8 @@
     "registerSuccess": "Inscription réussie! Vous pouvez vous connecter.",
     "registerError": "L'inscription a échoué.",
     "passwordChangeSuccess": "Réinitialisation du mot de passe réussie!",
-    "passwordChangeError": "La réinitialisation du mot de passe a échoué."
+    "passwordChangeError": "La réinitialisation du mot de passe a échoué.",
+    "confirmationEmailSent": "E-mail de confirmation envoyé !",
+    "confirmationEmailContent": "<p>Le processus de réinitialisation du mot de passe a été lancé et un e-mail contenant des instructions sur ce qu'il faut faire ensuite a été envoyé à votre adresse e-mail. Veuillez vérifier votre adresse e-mail.<br /><br />Si vous n'avez pas reçu l'e-mail contenant les instructions, n'oubliez pas de vérifier votre dossier de courrier indésirable. Nous vous prions de bien vouloir ajouter notre adresse e-mail à votre liste d'expéditeurs sûrs.</p>"
   }
 }

@@ -1,12 +1,12 @@
-@import 'mixin';
+@import "mixin";
 
 body {
-	position: relative;
-	color: $text-color;
-	font-size: var(--font-size-15);
-	font-family: $font-family;
-	background: $white-color;
-	transition: left .2s linear, right .2s linear;
+    position: relative;
+    color: $text-color;
+    font-size: var(--font-size-15);
+    font-family: $font-family;
+    background: $purple-light;
+    transition: left 0.2s linear, right 0.2s linear;
     margin: 0;
     padding: 0;
 }
@@ -14,7 +14,7 @@ body {
 /*Global*/
 @include min($lg) {
     .container {
-        max-width: calc(1156px + calc(2*var(--gutter)));
+        max-width: calc(1156px + calc(2 * var(--gutter)));
     }
 }
 
@@ -23,11 +23,12 @@ button,
     box-shadow: none;
     outline: none;
     cursor: pointer;
-	font-family: $font-family;
+    font-family: $font-family;
 }
 
 .language-selector {
     position: relative;
+
     .dropdown-toggle {
         display: flex;
         align-items: center;
@@ -39,6 +40,7 @@ button,
         padding: 0;
         cursor: pointer;
     }
+
     .dropdown-menu {
         left: 50% !important;
         transform: translateX(-50%) translateY(40px) !important;
@@ -48,10 +50,12 @@ button,
         border-radius: 8px;
         display: none;
         @include box-shadow;
+
         &.show {
             display: block;
         }
-        > a {
+
+        >a {
             display: flex;
             align-items: center;
             color: $text-color;
@@ -60,11 +64,13 @@ button,
             transition: $transition;
             gap: var(--spacer-2);
             margin: var(--spacer-1) 0;
+
             &:hover {
                 background: $gray-2;
             }
         }
     }
+
     @include max($xs) {
         .dropdown-menu {
             left: initial !important;
@@ -76,12 +82,13 @@ button,
 
 .phone-input-container .form-control,
 .p-form-control,
-.p-form-control.p-component > *{
+.p-form-control.p-component>* {
     display: flex;
     width: 100%;
 }
 
-.p-icon-field, .p-icon-field * {
+.p-icon-field,
+.p-icon-field * {
     outline: none;
 }
 
@@ -91,8 +98,8 @@ button,
 .form-control {
     font-family: $font-family;
     width: 100%;
-    background-color: #F5F8FB;
-    border: 1px solid #F5F8FB;
+    background-color: #f5f8fb;
+    border: 1px solid #f5f8fb;
     border-radius: 50px;
     padding: var(--spacer-4) var(--spacer-6);
     color: $black;
@@ -100,11 +107,13 @@ button,
     box-shadow: none;
     outline: none;
     transition: $transition;
+
     &::placeholder {
         opacity: 1;
         @include text-4-medium;
         color: $gray;
     }
+
     &.p-invalid,
     &.is-invalid {
         border-color: $refund-color;
@@ -116,16 +125,20 @@ button,
     align-items: center;
     flex-wrap: wrap;
     gap: var(--spacer-5);
+
     .react-tel-input {
         width: 124px;
+
         .country-list {
             transform: translateY(48px);
         }
+
         input {
             padding-left: 48px;
             @include text-4-medium;
             color: $black;
         }
+
         .flag-dropdown {
             position: absolute;
             top: 0;
@@ -134,6 +147,7 @@ button,
             border-radius: 0;
             width: 100%;
             height: 100%;
+
             .selected-flag {
                 cursor: pointer;
                 position: absolute;
@@ -147,6 +161,7 @@ button,
                 align-items: center;
                 justify-content: space-between;
                 padding: 0 20px;
+
                 .flag {
                     position: relative;
                     left: initial;
@@ -155,14 +170,17 @@ button,
                     width: 25px;
                     height: 24px;
                 }
+
                 .arrow {
                     display: none;
                 }
+
                 &:before {
                     display: none;
                 }
+
                 &:after {
-                    content: '';
+                    content: "";
                     width: 12px;
                     height: 12px;
                     display: block;
@@ -175,6 +193,7 @@ button,
                     background-position: center;
                     background-size: initial;
                 }
+
                 &.open {
                     &:after {
                         background-image: url('data:image/svg+xml,<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.898556 8.0513L5.42612 3.24076C5.73737 2.91005 6.26293 2.91005 6.57418 3.24076L11.1018 8.0513C11.4419 8.41276 11.1857 9.00586 10.6894 9.00586L1.31102 9.00586C0.814631 9.00586 0.558393 8.41276 0.898556 8.0513Z" fill="%239D9D9D"/></svg>');
@@ -182,7 +201,8 @@ button,
                 }
             }
         }
-        & + * {
+
+        &+* {
             flex: 1 0 0;
         }
     }
@@ -191,8 +211,10 @@ button,
 .p-inputswitch {
     width: 42px;
     height: 24px;
+
     .p-inputswitch-slider {
-        background: #B8B8F6;
+        background: #b8b8f6;
+
         &:before {
             width: 14px;
             height: 14px;
@@ -202,9 +224,11 @@ button,
             @include box-shadow;
         }
     }
+
     &.p-highlight {
         .p-inputswitch-slider {
             background: $fourth-color;
+
             &:before {
                 background: $white-color;
                 @include box-shadow;
@@ -212,14 +236,17 @@ button,
             }
         }
     }
-    & + .switch-link {
+
+    &+.switch-link {
         flex: 1 0 0;
         @include text-3-regular;
         color: $sub-text-color;
+
         .text-link {
             color: $sub-text-color;
             text-decoration: underline !important;
             transition: $transition;
+
             &:hover {
                 color: $primary-color;
             }
@@ -234,16 +261,20 @@ button,
     border-radius: 8px;
     @include text-8-medium;
     padding: var(--spacer-4) var(--spacer-4);
+
     b {
         @include text-10-bold;
     }
+
     &.p-inline-message-error {
         color: $text-color;
         background: $refund-secondary-color;
+
         b {
             color: $refund-color;
         }
     }
+
     .p-inline-message-text {
         @include text-8-medium;
     }
@@ -252,10 +283,12 @@ button,
 .p-dialog {
     @include box-shadow;
     border-radius: 20px;
+
     .p-dialog-content {
         color: $text-color;
         @include text-7-regular;
     }
+
     .p-dialog-header {
         .p-dialog-title {
             color: $primary-color;
@@ -264,25 +297,228 @@ button,
     }
 }
 
+
+main {
+    width: 100%;
+}
+
+.sidebar+main {
+    flex: 1 0 0;
+    width: auto;
+
+    .main-content {
+        padding: var(--spacer-6) var(--spacer-6) var(--spacer-8);
+    }
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 0;
+    width: 100%;
+    min-height: 1200px;
+}
+
+/*Sidebar Component*/
+
+.sidebar {
+    max-width: 264px;
+    min-height: 100%;
+    position: sticky;
+    left: 0;
+    top: 0;
+    //background-image: url("@/assets/images/sidebar-pattern.png");
+    @include gradient;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow: hidden;
+    transition: $transition;
+    > * {
+        width: 264px;
+    }
+    .sidebar-logo {
+        background: $purple-light;
+        @include box-shadow-2;
+
+        >a {
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacer-6);
+            width: 100%;
+            height: 80px;
+            outline: none;
+            box-shadow: none;
+        }
+
+        img {
+            height: 44px;
+        }
+    }
+    .sidebar-content {
+        flex: 1 0 0;
+        background-image: url('data:image/svg+xml,<svg width="166" height="200" viewBox="0 0 166 200" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(%23clip0_283_26105)"><path fill-rule="evenodd" clip-rule="evenodd" d="M98.1541 92.6717C117.473 92.6717 133.157 76.9772 133.157 57.6444C133.157 38.3117 117.479 22.621 98.1541 22.621C78.8291 22.621 63.1491 38.3172 63.1491 57.65H63.1086V167.024C63.1086 183.704 49.5682 197.247 32.8981 197.247C16.2279 197.247 2.6875 183.701 2.6875 167.015C2.6875 166.997 2.6875 166.978 2.6875 166.96L21.0481 166.976C21.0481 167.119 21.0481 167.261 21.0481 167.403C21.0291 168.878 21.3029 170.341 21.8535 171.709C22.4042 173.076 23.2207 174.321 24.2558 175.37C25.2909 176.419 26.5239 177.252 27.8832 177.821C29.2428 178.389 30.7013 178.682 32.1747 178.682C33.6481 178.682 35.1068 178.389 36.4662 177.821C37.8255 177.252 39.0585 176.419 40.0937 175.37C41.1288 174.321 41.9451 173.076 42.4959 171.709C43.0466 170.341 43.3203 168.878 43.3014 167.403C43.3014 167.269 43.3014 167.132 43.3014 166.997V56.1322H43.3217C44.1253 26.533 68.3888 2.75391 98.1596 2.75391C128.437 2.75391 153.018 27.3521 153.018 57.65C153.018 87.863 128.571 112.409 98.4108 112.544H73.2846V92.6717H98.1541Z" fill="url(%23paint0_linear_283_26105)" fill-opacity="0.12"/><path d="M79.3281 46.7986C79.3281 44.9978 79.8619 43.2375 80.8618 41.74C81.8617 40.2428 83.2826 39.0756 84.9454 38.3864C86.6078 37.6973 88.4374 37.517 90.2023 37.8684C91.9674 38.2198 93.5888 39.087 94.8613 40.3603C96.1337 41.6336 97.0003 43.2561 97.3515 45.0223C97.7026 46.7886 97.5222 48.6195 96.8335 50.2831C96.1448 51.947 94.9787 53.3689 93.4825 54.3695C91.986 55.37 90.227 55.9039 88.4274 55.9039C86.0143 55.9031 83.7007 54.9434 81.9943 53.2361C80.2883 51.5286 79.3292 49.2134 79.3281 46.7986Z" fill="url(%23paint1_linear_283_26105)" fill-opacity="0.12"/><path d="M13.5625 92.6719C13.5625 103.641 22.3197 112.546 33.1056 112.546V92.6719H13.5625Z" fill="url(%23paint2_linear_283_26105)" fill-opacity="0.12"/></g><defs><linearGradient id="paint0_linear_283_26105" x1="77.8526" y1="2.75391" x2="77.8526" y2="197.247" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="%23AF22FF"/></linearGradient><linearGradient id="paint1_linear_283_26105" x1="88.4272" y1="37.6934" x2="88.4272" y2="55.9039" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="%23AF22FF"/></linearGradient><linearGradient id="paint2_linear_283_26105" x1="23.334" y1="92.6719" x2="23.334" y2="112.546" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="%23AF22FF"/></linearGradient><clipPath id="clip0_283_26105"><rect width="166" height="200" fill="white"/></clipPath></defs></svg>');
+        background-repeat: no-repeat;
+        background-size: initial;
+        overflow-y: auto;
+        background-position: center;
+        background-size: initial;
+        padding: var(--spacer-2) 0;
+        .menu-item {
+            padding: var(--spacer-3) var(--spacer-4);
+            .menu-button {
+                display: flex;
+                align-items: center;
+                color: $white-color;
+                padding: var(--spacer-1) 0;
+                @include line-rule(14);
+                font-weight: 600;
+                > div {
+                    display: flex;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    gap: 6px;
+                    flex: 1 0 0;
+                    > span {
+                        flex: 1 0 0;
+                    }
+                }
+                > i {
+                    @include center;
+                    width: 24px;
+                    height: 24px;
+                    font-size: 12px;
+                }
+                .menu-icon {
+                    @include center;
+                    width: 24px;
+                    height: 24px;
+                    font-size: 21px;
+                }
+            }
+            .submenu {
+                padding: var(--spacer-2) var(--spacer-1) 0;
+                .menu-item {
+                    padding:0;
+                    .menu-button {
+                        color: $white-color;
+                        padding: var(--spacer-2) var(--spacer-6);
+                        border-radius: 100px;
+                        transition: $transition;
+                        @include line-rule(13);
+                        &:Hover {
+                            background: $fourth-color;
+                        }
+                        > div {
+                            display: flex;
+                            align-items: center;
+                            flex-wrap: wrap;
+                            gap: 6px;
+                            flex: 1 0 0;
+                            &:before {
+                                content: '';
+                                width: 4px;
+                                height: 4px;
+                                background: $white-color;
+                                border-radius: 50%;
+                            }
+                            > span {
+                                flex: 1 0 0;
+                            }
+                            &:after {
+                                content: "\f054";
+                                font-family: "Font Awesome 6 Free";
+                                font-weight: 900;
+                                @include center;
+                                width: 16px;
+                                height: 16px;
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .sidebar-bottom {
+        width: 100%;
+        height: 50px;
+        background: black;
+    }
+
+    &.testActive {
+        max-width: 80px;
+    }
+}
+
+
+/*Top Header Component*/
+.sidebar-toggle-menu {
+    @include center;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+.top-header {
+    padding: var(--spacer-4) var(--spacer-6);
+    background: $background;
+    border-bottom: 1px solid $border-2;
+    box-shadow: 0px 4px 24px rgba(131, 98, 234, 0.08);
+
+    .header-wrapper {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--spacer-8);
+
+        .search-content {
+            flex: 1 0 0;
+            max-width: 686px;
+            background: orange;
+        }
+    }
+
+    .header-right-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin: 0 calc(-1 * (var(--spacer-5)));
+
+        >* {
+            padding: 0 var(--spacer-5);
+            border-left: 1px solid $border-2;
+
+            &:first-child {
+                border-left: 0;
+            }
+        }
+    }
+}
+
 /*Login Page*/
 .auth-container {
     background: $purple-light;
-    background-image: url('@/assets/images/auth-body-bg.png');
+    background-image: url("@/assets/images/auth-body-bg.png");
     background-repeat: no-repeat;
     background-position: right 70px top 70px;
     min-height: 100vh;
 }
+
 /*Login Header*/
 .login-header {
     padding: var(--spacer-8) 0;
     background-color: $white-color;
     border-bottom: 1px solid $border-2;
+
     .logo {
         height: 28px;
+
         img {
             max-height: 33px;
         }
-        > a {
+
+        >a {
             display: flex;
             align-items: flex-end;
             gap: var(--spacer-5);
@@ -290,6 +526,7 @@ button,
             @include text-15-semibold;
         }
     }
+
     .header-info-text {
         display: flex;
         align-items: center;
@@ -298,11 +535,14 @@ button,
         color: $sub-text-color;
         min-width: fit-content;
     }
+
     @include max($xs) {
         padding: var(--spacer-5) 0;
+
         .logo {
             height: auto;
-            > a {
+
+            >a {
                 flex-direction: column;
                 align-items: flex-start;
                 justify-content: flex-start;
@@ -311,9 +551,11 @@ button,
         }
     }
 }
+
 /*Login Content*/
 .auth-content {
     padding: var(--spacer-8) 0;
+
     @include max($lg) {
         @include min($sm) {
             .container {
@@ -329,27 +571,30 @@ button,
     padding: var(--spacer-17) var(--spacer-17) var(--spacer-50);
     min-height: 100%;
     border-radius: 20px;
-    background-image: url('@/assets/images/auth-banner.jpg');
+    background-image: url("@/assets/images/auth-banner.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     overflow: hidden;
+
     &:before {
-        content: '';
+        content: "";
         position: absolute;
         left: 0;
         top: 0;
         width: 100%;
         height: 100%;
-        background-image: url('@/assets/images/auth-banner-after.png');
+        background-image: url("@/assets/images/auth-banner-after.png");
         background-repeat: no-repeat;
         background-position: right var(--spacer-8) bottom var(--spacer-8);
-        background-color: rgb(46, 24, 79,82%);
+        background-color: rgb(46, 24, 79, 82%);
     }
-    > * {
+
+    >* {
         position: relative;
         z-index: 1;
     }
+
     .logos {
         display: flex;
         align-items: flex-end;
@@ -357,26 +602,32 @@ button,
         @include text-19-semibold;
         color: $white-color;
         margin-bottom: var(--spacer-8);
+
         img {
             max-height: 41px;
             transform: translateY(2px);
         }
     }
+
     .content {
         margin-bottom: var(--spacer-17);
+
         .title {
             color: $white-color;
             @include text-48-bold;
             margin-bottom: var(--spacer-8);
         }
+
         .subtitle {
             color: $background;
             @include text-13-regular;
             margin-bottom: var(--spacer-10);
+
             b {
                 @include text-16-bold;
             }
         }
+
         ul {
             display: flex;
             flex-direction: column;
@@ -384,6 +635,7 @@ button,
             list-style-type: none;
             padding: 0;
             margin: 0;
+
             li {
                 display: flex;
                 align-items: center;
@@ -391,8 +643,9 @@ button,
                 @include text-18-medium;
                 color: $background;
                 gap: 12px;
+
                 &:before {
-                    content: '';
+                    content: "";
                     width: 30px;
                     height: 30px;
                     display: block;
@@ -401,15 +654,18 @@ button,
                     background-size: initial;
                     background-position: center;
                 }
-                > span {
+
+                >span {
                     flex: 1 0 0;
                 }
             }
         }
     }
+
     .button {
         @include center;
-        > * {
+
+        >* {
             min-width: 332px;
             max-width: 100%;
             display: inline-flex;
@@ -422,14 +678,18 @@ button,
             @include text-10-bold;
         }
     }
+
     @include max($md) {
         padding: var(--spacer-12) var(--spacer-12) var(--spacer-20);
     }
+
     @include max($sm) {
         padding: var(--spacer-15) var(--spacer-12) var(--spacer-20);
+
         .button {
             justify-content: flex-start;
-            > * {
+
+            >* {
                 min-width: 0;
                 width: 100%;
             }
@@ -455,40 +715,49 @@ button,
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    > * {
+
+    >* {
         width: 100%;
     }
+
     .form-subtitle {
         color: $sub-text-color;
         @include text-8-medium;
         margin-bottom: var(--spacer-2);
     }
+
     .form-title {
         color: $text-color;
         @include text-20-bold;
         margin-bottom: var(--spacer-6);
     }
+
     .form-item {
         display: flex;
         flex-direction: column;
         gap: var(--spacer-3);
         margin-bottom: var(--spacer-5);
+
         &:last-child {
             margin-bottom: 0;
         }
+
         .p-inline-message {
             padding: 0;
             background: transparent !important;
         }
     }
+
     .forgot-password {
         @include text-4-medium;
         color: $sub-text-color;
         transition: $transition;
-        &:Hover {
+
+        &:hover {
             color: $primary-color;
         }
     }
+
     .remember-me {
         display: flex;
         align-items: center;
@@ -496,6 +765,7 @@ button,
         @include text-3-regular;
         color: $sub-text-color;
     }
+
     .login-button {
         width: 280px;
         max-width: 100%;
@@ -509,6 +779,7 @@ button,
         border: 0;
         transition: $transition;
     }
+
     @include max($sm) {
         .login-button {
             width: 100%;
@@ -520,22 +791,25 @@ button,
     max-width: 820px;
     margin: 0 auto;
     text-align: center;
+
     .title {
         @include text-28-bold;
         color: $primary-color;
         margin-bottom: var(--spacer-9);
     }
+
     .subtitle {
         @include text-12-semibold;
         color: $text-color;
         margin-bottom: var(--spacer-4);
-
     }
+
     .text {
         @include text-11-medium;
         color: $sub-text-color;
         margin-bottom: var(--spacer-9);
     }
+
     .form-item {
         flex-wrap: wrap;
         flex-direction: row;
@@ -543,10 +817,12 @@ button,
         max-width: 635px;
         gap: var(--spacer-3);
         margin: 0 auto var(--spacer-9);
+
         .form-label {
             @include text-8-medium;
             color: $sub-text-color;
-            & + input {
+
+            &+input {
                 flex: 1 0 0;
             }
         }
@@ -558,21 +834,25 @@ button,
         @include center;
         margin: 0 0 var(--spacer-4);
     }
+
     .result-text {
         @include text-20-bold;
         color: $primary-color;
         margin-bottom: var(--spacer-11);
+
         &.success-color {
             color: $green-succes;
         }
     }
+
     .text-content {
-        background: #E9FFFC;
+        background: #e9fffc;
         border-radius: 10px;
         @include text-11-medium;
         color: $black;
         margin-bottom: var(--spacer-11);
         padding: var(--spacer-8) var(--spacer-8);
+
         p {
             margin: 0;
         }
@@ -586,6 +866,7 @@ button,
     display: block;
     text-align: center;
     padding: 0 0 var(--spacer-8);
+
     b {
         @include text-5-semibold;
     }
@@ -598,7 +879,8 @@ button,
     gap: var(--spacer-3);
     margin: 0 0 var(--spacer-5);
     padding: 0 var(--spacer-15);
-    > * {
+
+    >* {
         flex: 1;
         height: 52px;
         padding: 0;

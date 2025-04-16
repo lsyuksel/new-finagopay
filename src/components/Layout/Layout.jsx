@@ -1,7 +1,7 @@
 import Sidebar from './Sidebar';
-import './Layout.scss';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import TopHeader from './TopHeader';
 
 const Layout = ({ children }) => {
   const authData = useSelector((state) => state.auth);
@@ -13,8 +13,11 @@ const Layout = ({ children }) => {
   return (
     <div className="layout">
       <Sidebar />
-      <main className="main-content">
-        {children}
+      <main>
+        <TopHeader />
+        <div className="main-content">
+          {children}
+        </div>
       </main>
     </div>
   );

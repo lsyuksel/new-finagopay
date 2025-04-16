@@ -90,6 +90,10 @@
     "usermanagement": "Kullanıcı Yönetimi",
     "userdefinition": "Kullanıcı Tanımlama",
     "userrolerelation": "Kullanıcı Rol İlişkisi",
+    
+    "getpaid": "Ödeme Al",
+    "linkpaymentlist":"Link İle Ödeme Listesi",
+
     "loading": "Menü yükleniyor...",
     "error": "Menü yüklenirken bir hata oluştu",
     "empty": "Menü öğesi bulunamadı",

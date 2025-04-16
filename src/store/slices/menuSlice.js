@@ -31,6 +31,7 @@ export const fetchMenuItems = createAsyncThunk(
 );
 
 const initialState = {
+  toggleSidebarStatus: false,
   items: [],
   loading: false,
   error: null,
@@ -42,6 +43,9 @@ const menuSlice = createSlice({
   name: 'menu',
   initialState,
   reducers: {
+    toggleSidebar: (state, action) => {
+      state.toggleSidebarStatus = action.payload; 
+    },
     toggleMenuItem: (state, action) => {
       const itemId = action.payload;
       const isExpanded = state.expandedItems.includes(itemId);
@@ -49,6 +53,7 @@ const menuSlice = createSlice({
       if (isExpanded) {
         state.expandedItems = state.expandedItems.filter(id => id !== itemId);
       } else {
+        //state.expandedItems = [];
         state.expandedItems.push(itemId);
       }
     },
@@ -79,5 +84,5 @@ const menuSlice = createSlice({
   },
 });
 
-export const { toggleMenuItem, clearMenuState } = menuSlice.actions;
+export const { toggleSidebar, toggleMenuItem, clearMenuState } = menuSlice.actions;
 export default menuSlice.reducer; 
