@@ -164,6 +164,8 @@
     "registerSuccess": "Kayıt işlemi başarılı! Giriş yapabilirsiniz.",
     "registerError": "Kayıt işlemi başarısız oldu.",
     "passwordChangeSuccess": "Şifre Sıfırlama başarılı!",
-    "passwordChangeError": "Şifre Sıfırlama başarısız oldu."
+    "passwordChangeError": "Şifre Sıfırlama başarısız oldu.",
+    "confirmationEmailSent": "Onay E-Posta’sı Gönderildi!",
+    "confirmationEmailContent": "<p>Şifre yenileme süreci başlatıldı ve e-posta adresinize bundan sonraki aşamalarda ne yapmanız gerektiğine dair yönergeler içeren bir e-posta gönderildi. Lütfen e-posta adresinizi kontrol ediniz.<br /><br />Yönergeleri içeren e-postaya ulaşamadıysanız lütfen junk mail (gereksiz e-posta) klasörünü de kontrol etmeyi unutmayınız. E-posta adresimizi güvenli gönderenler listesine eklemenizi önemle rica ederiz.</p>"
   }
 }

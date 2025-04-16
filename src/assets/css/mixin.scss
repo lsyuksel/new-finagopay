@@ -75,6 +75,10 @@ a {
 .container-fluid {
     padding-right: var(--gutter);
     padding-left: var(--gutter);
+    @include max($xs) {
+        padding-right: calc(var(--gutter)*2);
+        padding-left: calc(var(--gutter)*2);
+    }
 }
 
 .row {
@@ -83,6 +87,14 @@ a {
     .col,[class*="col-"] {
         padding-right: var(--gutter);
         padding-left: var(--gutter);
+    }
+    @include max($xs) {
+        margin-right: calc(-2*var(--gutter));
+        margin-left: calc(-2*var(--gutter));
+        .col,[class*="col-"] {
+            padding-right: calc(var(--gutter)*2);
+            padding-left: calc(var(--gutter)*2);
+        }
     }
 }
 
@@ -146,7 +158,10 @@ a {
 @include max($sm) {
     :root {
         // Spacer değişkenleri için responsive değerler
-        @for $i from 1 through 20 {
+        @for $i from 1 through 10 {
+            --spacer-#{$i}: #{$i * 3}px;
+        }
+        @for $i from 11 through 20 {
             --spacer-#{$i}: #{$i * 2}px;
         }
         @for $i from 21 through 29 {

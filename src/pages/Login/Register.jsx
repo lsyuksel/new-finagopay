@@ -288,7 +288,7 @@ export default function Register() {
       </Form.Group>
 
       {userAgreement?.map((item, index) => (
-        <div className="field mb-3" key={index}>
+        <div className="form-item" key={index}>
           <div className="d-flex align-items-center gap-2">
             <InputSwitch
               inputId={`agreement_${item.guid}`}

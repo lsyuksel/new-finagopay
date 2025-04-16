@@ -23,7 +23,7 @@ export default function AuthLayout({page}) {
             <div className="auth-content">
                 <div className="container">
                 <div className="row align-items-strech">
-                    <div className="col-md-6">
+                    <div className="col-md-6 order-md-1 order-2">
                     <AuthBanner
                         title={t('login.bannerTitle')}
                         subtitle={t('login.bannerSubTitle')}
@@ -32,7 +32,7 @@ export default function AuthLayout({page}) {
                         buttonLink='/register'
                     />
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-6 order-md-2 order-1 mb-4 mb-md-0">
                         <div className="auth-form-area">
                             {AUTH_COMPONENTS[page] || <Login />}
                         </div>

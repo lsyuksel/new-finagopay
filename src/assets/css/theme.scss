@@ -11,6 +11,7 @@ body {
     padding: 0;
 }
 
+/*Global*/
 @include min($lg) {
     .container {
         max-width: calc(1156px + calc(2*var(--gutter)));
@@ -23,11 +24,6 @@ button,
     outline: none;
     cursor: pointer;
 	font-family: $font-family;
-}
-
-body {
-	/*padding: var(--spacer-8) 0;
-    @include text-19-semibold;*/
 }
 
 .language-selector {
@@ -67,6 +63,13 @@ body {
             &:hover {
                 background: $gray-2;
             }
+        }
+    }
+    @include max($xs) {
+        .dropdown-menu {
+            left: initial !important;
+            right: 0 !important;
+            transform: translateX(0) translateY(40px) !important;
         }
     }
 }
@@ -261,7 +264,7 @@ body {
     }
 }
 
-/*Login*/
+/*Login Page*/
 .auth-container {
     background: $purple-light;
     background-image: url('@/assets/images/auth-body-bg.png');
@@ -295,13 +298,27 @@ body {
         color: $sub-text-color;
         min-width: fit-content;
     }
+    @include max($xs) {
+        padding: var(--spacer-5) 0;
+        .logo {
+            height: auto;
+            > a {
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                gap: 0;
+            }
+        }
+    }
 }
 /*Login Content*/
 .auth-content {
     padding: var(--spacer-8) 0;
     @include max($lg) {
-        .container {
-            max-width: 100%;
+        @include min($sm) {
+            .container {
+                max-width: 100%;
+            }
         }
     }
 }
@@ -405,6 +422,29 @@ body {
             @include text-10-bold;
         }
     }
+    @include max($md) {
+        padding: var(--spacer-12) var(--spacer-12) var(--spacer-20);
+    }
+    @include max($sm) {
+        padding: var(--spacer-15) var(--spacer-12) var(--spacer-20);
+        .button {
+            justify-content: flex-start;
+            > * {
+                min-width: 0;
+                width: 100%;
+            }
+        }
+    }
+}
+
+@include min($md) {
+    .col-12 {
+        .auth-form-area {
+            min-height: 800px;
+            align-items: flex-start;
+            justify-content: center;
+        }
+    }
 }
 
 .auth-form-area {
@@ -413,6 +453,11 @@ body {
     background: $white-color;
     @include box-shadow;
     border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    > * {
+        width: 100%;
+    }
     .form-subtitle {
         color: $sub-text-color;
         @include text-8-medium;
@@ -464,12 +509,16 @@ body {
         border: 0;
         transition: $transition;
     }
+    @include max($sm) {
+        .login-button {
+            width: 100%;
+        }
+    }
 }
 
 .forgot-password-container {
     max-width: 820px;
     margin: 0 auto;
-    padding: var(--spacer-29) 0;
     text-align: center;
     .title {
         @include text-28-bold;
@@ -500,6 +549,32 @@ body {
             & + input {
                 flex: 1 0 0;
             }
+        }
+    }
+}
+
+.process-result-container {
+    .icon {
+        @include center;
+        margin: 0 0 var(--spacer-4);
+    }
+    .result-text {
+        @include text-20-bold;
+        color: $primary-color;
+        margin-bottom: var(--spacer-11);
+        &.success-color {
+            color: $green-succes;
+        }
+    }
+    .text-content {
+        background: #E9FFFC;
+        border-radius: 10px;
+        @include text-11-medium;
+        color: $black;
+        margin-bottom: var(--spacer-11);
+        padding: var(--spacer-8) var(--spacer-8);
+        p {
+            margin: 0;
         }
     }
 }

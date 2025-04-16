@@ -17,6 +17,7 @@ import {
 } from "../../store/slices/login/forgotPasswordSlice";
 
 import errorIcon from "@/assets/images/alerts/error.svg";
+import successIcon from "@/assets/images/alerts/success.svg";
 import { getErrorMessage } from "@/utils/formikHelpers";
 
 export default function ForgotPassword() {
@@ -70,9 +71,23 @@ export default function ForgotPassword() {
               <div className="auth-form-area">
                 <div className="forgot-password-container">
                   {showPasswordChanged ? (
-                    <div>
+                    <div className="process-result-container">
                       <div className="title">{t("login.passwordTitle")}</div>
-                      Şifre Değiştirildi blabla
+                      <div className="icon">
+                        <img src={successIcon} />
+                      </div>
+                      <div className="result-text success-color">
+                        {t("messages.confirmationEmailSent")}
+                      </div>
+                      <div className='text-content' dangerouslySetInnerHTML={{ __html: t("messages.confirmationEmailContent") }} />
+                      <Link to={"/login"} className="login-button mx-auto">
+                        <span
+                          className="spinner-border spinner-border-sm me-2"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        {t("login.authHeaderTitlelogin")}
+                      </Link>
                     </div>
                   ) : (
                     <Form onSubmit={formik.handleSubmit}>

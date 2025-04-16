@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Login from '../../pages/Login/Login';
 import Dashboard from '../../pages/Dashboard/Dashboard';
@@ -18,6 +18,11 @@ import PasswordChangeConfirm from '../../pages/Login/PasswordChangeConfirm';
 
 const AppRoutes = () => {
     const { isAuthenticated } = useSelector((state) => state.auth);
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
     return (
         <Routes>
