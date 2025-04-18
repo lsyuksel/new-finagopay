@@ -1,3 +1,8 @@
+export const MERCHANT_LINK_PAYMENT = {
+  GetAllMerchantLinkPaymentByUserName: '/MerchantLinkPayment/GetAllMerchantLinkPaymentByUserName',
+  GetLink: '/MerchantLinkPayment/GetLink',
+};
+
 export const AUTH_URL = {
   Login: '/Authentication/Login',
   Register: '/UserAcount/CreateUserAcount',
@@ -6,7 +11,6 @@ export const AUTH_URL = {
   ForgotPassword: '/User/UserChangePasswordSendEmail',
   UpdateUserNewPassword: '/User/UpdateUserNewPassword',
   GetUser: '/User/GetUser',
-  
   GetUserAgreementByCreateAcount: '/UserAgreement/GetUserAgreementByCreateAcount',
 };
 

@@ -13,6 +13,11 @@ import registerReducer from './slices/login/registerSlice';
 import forgotPasswordReducer from './slices/login/forgotPasswordSlice';
 import passwordChangeConfirmReducer from './slices/login/passwordChangeConfirmSlice';
 
+import linkPaymentListReducer from './slices/linkPayment/linkPaymentListSlice';
+import linkPaymentReducer from './slices/linkPayment/linkPaymentSlice';
+
+
+
 const persistConfig = {
   key: 'root',
   storage,
@@ -21,11 +26,15 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  menu: menuReducer,
-  users: userReducer,
   register: registerReducer,
   forgotPassword: forgotPasswordReducer,
   passwordChangeConfirm: passwordChangeConfirmReducer,
+  
+  linkPaymentList: linkPaymentListReducer,
+  linkPayment: linkPaymentReducer,
+  
+  menu: menuReducer,
+  users: userReducer,
   transaction: transactionReducer,
 });
 
