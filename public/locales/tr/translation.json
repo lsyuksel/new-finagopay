@@ -111,56 +111,6 @@
     "paymentListTitle": "Tüm MorLink’ler",
     "paymentListText": "Oluşturduğunuz MorLink’lerinizi dijital platformlarda paylaşarak kolayca ödeme almaya başlayabilirsiniz."
   },
-
-
-  "transaction": {
-    "provisions": "Tahsisler",
-    "provisionSettles": "Tahsil Çözümlemeleri",
-    "transactionDate": "İşlem Tarihi",
-    "orderId": "Sipariş No",
-    "paymentId": "Ödeme No",
-    "bankUniqueReferenceNumber": "Banka Referans No",
-    "transactionNetwork": "İşlem Ağı",
-    "responseCode": "Otarizasyon Cevap Kodu",
-    "transactionType": "İşlem Tipi",
-    "cardNo": "Kart No",
-    "cardType": "Kart Tipi",
-    "provisionStatus": "Tahsis Durumu",
-    "preAuthAmount": "Ön Yetkilendirme Tutarı",
-    "transactionAmount": "İşlem Tutarı",
-    "settlementAmount": "Mutabakat Tutarı",
-    "bankName": "Banka Adı",
-    "authorizationNumber": "Yetkilendirme Numarası",
-    "terminalId": "Terminal ID",
-    "paymentStatus": "Ödeme Durumu",
-    "currency": "Para Birimi",
-    "transactionStartDate": "İşlem Başlangıç Tarihi",
-    "transactionEndDate": "İşlem Bitiş Tarihi",
-    "transactionAmountLow": "En Düşük İşlem Tutarı",
-    "transactionAmountHigh": "En Yüksek İşlem Tutarı",
-    "paymentDate": "Ödeme Tarihi",
-    "eodDate": "Gün Sonu Tarihi",
-    "provisionDetails": "Tahsis Detayları",
-    "provisionSettleDetails": "Tahsil Çözümleme Detayları"
-  },
-  "user": {
-    "name": "Ad",
-    "surname": "Soyad",
-    "email": "E-posta",
-    "phone": "Telefon",
-    "status": "Durum",
-    "role": "Rol",
-    "noData": "Kullanıcı bulunamadı",
-    "addUser": "Kullanıcı Ekle",
-    "editUser": "Kullanıcı Düzenle",
-    "deleteUser": "Kullanıcı Sil",
-    "deleteConfirm": "Bu kullanıcıyı silmek istediğinizden emin misiniz?",
-    "userAdded": "Kullanıcı başarıyla eklendi",
-    "userUpdated": "Kullanıcı başarıyla güncellendi",
-    "userDeleted": "Kullanıcı başarıyla silindi"
-  },
-
-
   "errors": {
     "incorrectPassword": "Girmiş olduğunuz şifre hatalı. Lütfen tekrar deneyiniz.",
     "required": "Lütfen tüm alanları doldurunuz.",
