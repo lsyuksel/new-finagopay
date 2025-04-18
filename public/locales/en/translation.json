@@ -90,14 +90,14 @@
     "usermanagement": "User Management",
     "userdefinition": "User Definition",
     "userrolerelation": "User Role Relation",
-    
-    "getPaid": "Ödeme Al",
-    "linkPaymentList":"Link İle Ödeme Listesi",
-    
+    "getpaid": "Receive Payment",
+    "linkpaymentlist": "Payment List by Link",
     "loading": "Loading menu...",
     "error": "An error occurred while loading the menu",
     "empty": "Menu item not found",
-    "retry": "Try Again"
+    "retry": "Try Again",
+    "logout": "Secure Logout",
+    "support": "Help & Support"
   },
   "transaction": {
     "provisions": "Provisions",

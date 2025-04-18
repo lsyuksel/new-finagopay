@@ -90,14 +90,14 @@
     "usermanagement": "Gestion des utilisateurs",
     "userdefinition": "Définition des utilisateurs",
     "userrolerelation": "Relation des rôles des utilisateurs",
-    
-    "getPaid": "Ödeme Al",
-    "linkPaymentList":"Link İle Ödeme Listesi",
-    
+    "getpaid": "Recevoir le Paiement",
+    "linkpaymentlist": "Liste des Paiements par Lien",
     "loading": "Chargement du menu...",
     "error": "Une erreur s'est produite lors du chargement du menu",
     "empty": "Aucun élément de menu trouvé",
-    "retry": "Réessayer"
+    "retry": "Réessayer",
+    "logout": "Déconnexion Sécurisée",
+    "support": "Aide & Support"
   },
   "transaction": {
     "provisions": "Dispositions",

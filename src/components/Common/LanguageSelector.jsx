@@ -7,7 +7,6 @@ import flagEn from '@assets/images/flags/en.svg';
 import flagFr from '@assets/images/flags/fr.svg';
 import flagAr from '@assets/images/flags/ar.svg';
 
-
 const LanguageSelector = () => {
 const { t, i18n } = useTranslation();
 const [isOpen, setIsOpen] = useState(false);

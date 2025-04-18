@@ -69,7 +69,9 @@
     "lastName":"Soyisim",
     "passwordAgain":"Şifreyi Tekrar Girin",
     "register":"Hesap Oluştur",
-    "safeShopping":"%100 Güvenli Alışveriş"
+    "safeShopping":"%100 Güvenli Alışveriş",
+    "searchInput":"İşlem Arama...",
+    "footerCopyright":"Copyright 2025 © <b>MorPos</b> Her hakkı saklıdır. <b>MorPos,</b> bir <b>A Ödeme ve Elektronik Para Hizmetleri A.Ş.</b> markasıdır.<br />Kredi kartı bilgileriniz 256bit SSL sertifikası ile korunmaktadır."
   },
   "menu": {
     "dashboards": "Ana Sayfa",
@@ -90,15 +92,27 @@
     "usermanagement": "Kullanıcı Yönetimi",
     "userdefinition": "Kullanıcı Tanımlama",
     "userrolerelation": "Kullanıcı Rol İlişkisi",
-    
     "getpaid": "Ödeme Al",
     "linkpaymentlist":"Link İle Ödeme Listesi",
-
     "loading": "Menü yükleniyor...",
     "error": "Menü yüklenirken bir hata oluştu",
     "empty": "Menü öğesi bulunamadı",
-    "retry": "Tekrar Dene"
+    "retry": "Tekrar Dene",
+    "logout": "Güvenli Çıkış",
+    "support": "Yardım & Destek",
+    "account": "Hesabım",
+    "profileSettings": "Profil Ayarlarım",
+    "companySettings": "Firma Ayarları",
+    "supportBoxTitle": "<b>Yardıma mı</b><br />ihtiyacınız var?",
+    "supportBoxText": "Destek ihtiyacı duyduğunuz konularda buradayız.",
+    "supportBoxButton": "Yardım Sayfası"
   },
+  "linkPayment": {
+    "paymentListTitle": "Tüm MorLink’ler",
+    "paymentListText": "Oluşturduğunuz MorLink’lerinizi dijital platformlarda paylaşarak kolayca ödeme almaya başlayabilirsiniz."
+  },
+
+
   "transaction": {
     "provisions": "Tahsisler",
     "provisionSettles": "Tahsil Çözümlemeleri",
@@ -145,6 +159,8 @@
     "userUpdated": "Kullanıcı başarıyla güncellendi",
     "userDeleted": "Kullanıcı başarıyla silindi"
   },
+
+
   "errors": {
     "incorrectPassword": "Girmiş olduğunuz şifre hatalı. Lütfen tekrar deneyiniz.",
     "required": "Lütfen tüm alanları doldurunuz.",

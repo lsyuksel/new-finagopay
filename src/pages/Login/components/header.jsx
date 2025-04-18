@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import logo from '@assets/images/MorPosLogo.png'
-import LanguageSelector from '../../../components/LanguageSelector/LanguageSelector'
+import LanguageSelector from '../../../components/Common/LanguageSelector'
 import { t } from 'i18next'
 
 export default function LoginHeader({pageTitle}) {

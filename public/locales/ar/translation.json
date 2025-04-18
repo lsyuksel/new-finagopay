@@ -90,14 +90,14 @@
     "usermanagement": "إدارة المستخدمين",
     "userdefinition": "تعريف المستخدم",
     "userrolerelation": "علاقة دور المستخدم",
-    
-    "getPaid": "Ödeme Al",
-    "linkPaymentList":"Link İle Ödeme Listesi",
-    
+    "getpaid": "استلام الدفع",
+    "linkpaymentlist": "قائمة المدفوعات عبر الرابط",
     "loading": "جار تحميل القائمة...",
     "error": "حدث خطأ أثناء تحميل القائمة",
     "empty": "لم يتم العثور على عنصر القائمة",
-    "retry": "حاول مرة أخرى"
+    "retry": "حاول مرة أخرى",
+    "logout": "تسجيل خروج آمن",
+    "support": "المساعدة والدعم"
   },
   "transaction": {
     "provisions": "تخصيصات",

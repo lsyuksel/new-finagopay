@@ -53,7 +53,7 @@ const menuSlice = createSlice({
       if (isExpanded) {
         state.expandedItems = state.expandedItems.filter(id => id !== itemId);
       } else {
-        //state.expandedItems = [];
+        state.expandedItems = [];
         state.expandedItems.push(itemId);
       }
     },

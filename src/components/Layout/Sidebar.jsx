@@ -7,6 +7,8 @@ import { fetchMenuItems, toggleMenuItem } from '../../store/slices/menuSlice';
 import { startTransition, useCallback, useEffect } from 'react';
 import 'boxicons/css/boxicons.min.css';
 import logo from '@assets/images/logo.png'
+import smallLogo from '@assets/images/small-logo.png'
+import supportIcon from '@assets/images/icons/support.svg'
 
 const Sidebar = () => {
   const { toggleSidebarStatus } = useSelector((state) => state.menu);
@@ -38,6 +40,7 @@ const Sidebar = () => {
   const handleMenuClick = (item) => {
     if (item.children?.length > 0) {
       dispatch(toggleMenuItem(item.id));
+      navigate(toKebabCase(item.children[0].pageUrl));
     } else if (item.pageUrl) {
       navigate(toKebabCase(item.pageUrl));
     }
@@ -79,9 +82,12 @@ const Sidebar = () => {
   }
 
   return (
-    <div className={`sidebar${toggleSidebarStatus ? ' testActive' : ''}`}>
+    <div className={`sidebar${toggleSidebarStatus ? ' sidebar-small' : ''}`}>
       <div className="sidebar-logo">
-          <Link to={'/'}><img src={logo} alt="" /></Link>
+          <Link to={'/'}>
+            <img src={logo} alt="" />
+            <div className="small-logo"><img src={smallLogo} alt="" /></div>
+          </Link>
       </div>
       <div className="sidebar-content">
         <Nav className="flex-column">
@@ -97,22 +103,38 @@ const Sidebar = () => {
             </div>
           ) : Array.isArray(items) && items.length > 0 ? (
             items.map((item) => renderMenuItem(item))
-          ) : (
+          )
+          : (
             <div className="empty-message">
               {t('menu.empty')}
             </div>
           )}
+          <div className='menu-item'>
+            <Link onClick={handleLogout} className={`menu-button`}>
+              <div>
+                <i className='pi pi-power-off menu-icon'></i>
+                <span>{t('menu.logout')}</span>
+              </div>
+            </Link>
+          </div>
+          <div className='menu-item'>
+            <Link to={"/support"} className={`menu-button`}>
+              <div>
+                <i className='pi pi-headphones menu-icon'></i>
+                <span>{t('menu.support')}</span>
+              </div>
+            </Link>
+          </div>
         </Nav>
       </div>
       <div className="sidebar-bottom">
-        <div className="px-3">
-          <Button
-            variant="primary"
-            onClick={handleLogout}
-            className="w-100"
-          >
-            {t('common.logout')}
-          </Button>
+        <div className="sidebar-support-box">
+          <div className="support-icon">
+            <img src={supportIcon} alt="" />
+          </div>
+          <div className='support-title' dangerouslySetInnerHTML={{ __html: t("menu.supportBoxTitle") }} />
+          <div className="support-text">{t('menu.supportBoxText')}</div>
+          <Link to={'/'} className="support-button">{t('menu.supportBoxButton')}</Link>
         </div>
       </div>
     </div>

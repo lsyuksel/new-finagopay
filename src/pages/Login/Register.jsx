@@ -139,7 +139,6 @@ export default function Register() {
         <Dialog
           header={item.name}
           visible={visibleDialogs[item.guid]}
-          modal={false}
           style={{ width: "70vw" }}
           onHide={() => {
             if (!visibleDialogs[item.guid]) return;

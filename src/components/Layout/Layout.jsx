@@ -2,6 +2,7 @@ import Sidebar from './Sidebar';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import TopHeader from './TopHeader';
+import BottomFooter from './BottomFooter';
 
 const Layout = ({ children }) => {
   const authData = useSelector((state) => state.auth);
@@ -18,6 +19,7 @@ const Layout = ({ children }) => {
         <div className="main-content">
           {children}
         </div>
+        <BottomFooter />
       </main>
     </div>
   );
