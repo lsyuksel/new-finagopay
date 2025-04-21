@@ -27,7 +27,7 @@ import { classNames } from "primereact/utils";
 import { Dialog } from "primereact/dialog";
 
 import errorIcon from "@/assets/images/alerts/error.svg";
-import { getErrorMessage } from "@/utils/formikHelpers";
+import { getErrorMessage } from "@/utils/helpers.jsx";
 
 export default function Register() {
   const { t } = useTranslation();

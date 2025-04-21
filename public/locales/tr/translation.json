@@ -71,7 +71,26 @@
     "register":"Hesap Oluştur",
     "safeShopping":"%100 Güvenli Alışveriş",
     "searchInput":"İşlem Arama...",
-    "footerCopyright":"Copyright 2025 © <b>MorPos</b> Her hakkı saklıdır. <b>MorPos,</b> bir <b>A Ödeme ve Elektronik Para Hizmetleri A.Ş.</b> markasıdır.<br />Kredi kartı bilgileriniz 256bit SSL sertifikası ile korunmaktadır."
+    "footerCopyright":"Copyright 2025 © <b>MorPos</b> Her hakkı saklıdır. <b>MorPos,</b> bir <b>A Ödeme ve Elektronik Para Hizmetleri A.Ş.</b> markasıdır.<br />Kredi kartı bilgileriniz 256bit SSL sertifikası ile korunmaktadır.",
+    "share": "Paylaş",
+
+    "Digital": "Dijital",
+    "Physical": "Fiziksel",
+    "Collection": "Tahsilat",
+
+    "ForSaletrue": "Satışa Açık",
+    "ForSalefalse": "Satışa Kapalı",
+    "MorLinkAddress": "MorLink Adresiniz",
+    "paginateText": "Görüntülenen {first}-{last} Toplam {totalRecords}",
+    "emptyMessage": "Lütfen satırlarınız yüklenirken bekleyin veya bunun yerine arama panelini deneyin",
+
+    "ButtonComplete": "Tamam",
+    "ButtonApprove": "Onaylıyorum",
+    "ButtonCancel": "Vazgeç"
+
+
+
+
   },
   "menu": {
     "dashboards": "Ana Sayfa",
@@ -105,7 +124,7 @@
     "companySettings": "Firma Ayarları",
     "supportBoxTitle": "<b>Yardıma mı</b><br />ihtiyacınız var?",
     "supportBoxText": "Destek ihtiyacı duyduğunuz konularda buradayız.",
-    "supportBoxButton": "Yardım Sayfası"
+    "supportBoxButton": "Yardım Sayfası"    
   },
   "linkPayment": {
     "paymentListTitle": "Tüm MorLink’ler",
@@ -136,6 +155,11 @@
     "passwordChangeSuccess": "Şifre Sıfırlama başarılı!",
     "passwordChangeError": "Şifre Sıfırlama başarısız oldu.",
     "confirmationEmailSent": "Onay E-Posta’sı Gönderildi!",
-    "confirmationEmailContent": "<p>Şifre yenileme süreci başlatıldı ve e-posta adresinize bundan sonraki aşamalarda ne yapmanız gerektiğine dair yönergeler içeren bir e-posta gönderildi. Lütfen e-posta adresinizi kontrol ediniz.<br /><br />Yönergeleri içeren e-postaya ulaşamadıysanız lütfen junk mail (gereksiz e-posta) klasörünü de kontrol etmeyi unutmayınız. E-posta adresimizi güvenli gönderenler listesine eklemenizi önemle rica ederiz.</p>"
+    "confirmationEmailContent": "<p>Şifre yenileme süreci başlatıldı ve e-posta adresinize bundan sonraki aşamalarda ne yapmanız gerektiğine dair yönergeler içeren bir e-posta gönderildi. Lütfen e-posta adresinizi kontrol ediniz.<br /><br />Yönergeleri içeren e-postaya ulaşamadıysanız lütfen junk mail (gereksiz e-posta) klasörünü de kontrol etmeyi unutmayınız. E-posta adresimizi güvenli gönderenler listesine eklemenizi önemle rica ederiz.</p>",
+
+    "DeletionDialogTitle": "MorLink’i Sil?",
+    "DeletionDialogText": "Oluşturduğunuz <b>MorLink</b>’in silme işlemini<br />onaylıyor musunuz?",
+    "DeletionDialogSuccessTitle": "Silme İşlemi Başarılı!",
+    "DeletionDialogSuccessText": "MorLink silme işleminiz <b>başarılı</b> bir şekilde<br />gerçekleşti!"
   }
 }

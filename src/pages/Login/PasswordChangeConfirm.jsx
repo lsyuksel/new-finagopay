@@ -18,7 +18,7 @@ import {
 import { Password } from "primereact/password";
 
 import errorIcon from "@/assets/images/alerts/error.svg";
-import { getErrorMessage } from "@/utils/formikHelpers";
+import { getErrorMessage } from "@/utils/helpers.jsx";
 
 export default function PasswordChangeConfirm() {
   const location = useLocation();

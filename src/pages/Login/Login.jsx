@@ -15,7 +15,7 @@ import { Password } from "primereact/password";
 import { InputSwitch } from "primereact/inputswitch";
 
 import errorIcon from "@/assets/images/alerts/error.svg";
-import { getErrorMessage } from "@/utils/formikHelpers";
+import { getErrorMessage } from "@/utils/helpers.jsx";
 
 const Login = () => {
   const { t } = useTranslation();

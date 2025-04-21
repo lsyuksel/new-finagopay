@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../../services/api';
+import { toast } from 'react-toastify';
 
 // Async thunk for fetching menu data
 export const fetchMenuItems = createAsyncThunk(
@@ -44,7 +45,13 @@ const menuSlice = createSlice({
   initialState,
   reducers: {
     toggleSidebar: (state, action) => {
-      state.toggleSidebarStatus = action.payload; 
+      state.toggleSidebarStatus = action.payload;
+      /* Test notification */
+      toast.success("MoorLink oluşturma işleminiz başarıyla gerçekleşti.");
+      toast.info("MoorLink oluşturma işleminiz başarıyla gerçekleşti.");
+      toast.warn("MoorLink oluşturma işleminiz başarıyla gerçekleşti.");
+      toast.error("MoorLink oluşturma işleminiz başarıyla gerçekleşti.");
+      /* Test notification */
     },
     toggleMenuItem: (state, action) => {
       const itemId = action.payload;

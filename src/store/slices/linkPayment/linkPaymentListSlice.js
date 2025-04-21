@@ -26,7 +26,7 @@ const linkPaymentListSlice = createSlice({
     loading: false,
     error: null,
     success: false,
-    paymentList: null,
+    paymentList: [],
   },
   reducers: {
     clearLinkPaymentListState: (state) => {

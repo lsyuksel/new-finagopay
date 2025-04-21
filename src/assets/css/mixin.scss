@@ -71,6 +71,14 @@ a {
     }
 }
 
+.text-success {
+    color: $green-succes !important;
+}
+
+.text-warn {
+    color: $orange-color !important;
+}
+
 .container,
 .container-fluid {
     padding-right: var(--gutter);

@@ -18,7 +18,7 @@ import {
 
 import errorIcon from "@/assets/images/alerts/error.svg";
 import successIcon from "@/assets/images/alerts/success.svg";
-import { getErrorMessage } from "@/utils/formikHelpers";
+import { getErrorMessage } from "@/utils/helpers.jsx";
 
 export default function ForgotPassword() {
   const { t } = useTranslation();
