@@ -4,21 +4,35 @@ import { api, parseErrorResponse } from "@/services/api";
 import { t } from "i18next";
 import { MERCHANT_LINK_PAYMENT } from "../../../constants/apiUrls";
 
-export const getLinkPaymentList = createAsyncThunk(
-    "MerchantLinkPayment/GetAllMerchantLinkPaymentByUserName",
-    async (userData, { rejectWithValue }) => {
-      try {
-        const response = await api.post(MERCHANT_LINK_PAYMENT.GetAllMerchantLinkPaymentByUserName, {
-            userName: userData,
-        });
-        return response;
-      } catch (error) {
-        return rejectWithValue(
-          parseErrorResponse(error.response.data).message || t("messages.linkPaymentError")
-        );
-      }
+export const deletePaymentRecord = createAsyncThunk(
+  "MerchantLinkPayment/UpdateMerchantLinkPaymentByStatus",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await api.delete(`${MERCHANT_LINK_PAYMENT.UpdateMerchantLinkPaymentByStatus}?guid=${userData}`);
+      return response;
+    } catch (error) {
+      return rejectWithValue(
+        parseErrorResponse(error.response.data).errorCode || parseErrorResponse(error.response.data).message || t("messages.linkPaymentError")
+      );
     }
-  );
+  }
+);
+
+export const getLinkPaymentList = createAsyncThunk(
+  "MerchantLinkPayment/GetAllMerchantLinkPaymentByUserName",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await api.post(MERCHANT_LINK_PAYMENT.GetAllMerchantLinkPaymentByUserName, {
+          userName: userData,
+      });
+      return response;
+    } catch (error) {
+      return rejectWithValue(
+        parseErrorResponse(error.response.data).message || t("messages.linkPaymentError")
+      );
+    }
+  }
+);
 
 const linkPaymentListSlice = createSlice({
   name: "linkPaymentList",
@@ -27,10 +41,12 @@ const linkPaymentListSlice = createSlice({
     error: null,
     success: false,
     paymentList: [],
+    deleteSuccess: false,
   },
   reducers: {
     clearLinkPaymentListState: (state) => {
       state.loading = false;
+      state.deleteSuccess = false,
       state.error = null;
       state.success = false;
       state.paymentList = null;
@@ -41,6 +57,24 @@ const linkPaymentListSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      
+      .addCase(deletePaymentRecord.pending, (state) => {
+        state.loading = true;
+        state.deleteSuccess = false,
+        state.error = null;
+      })
+      .addCase(deletePaymentRecord.fulfilled, (state, action) => {
+        state.loading = false;
+        state.deleteSuccess = true,
+        state.success = true;
+        state.error = null;
+      })
+      .addCase(deletePaymentRecord.rejected, (state, action) => {
+        state.loading = false;
+        state.deleteSuccess = true,
+        state.error = action.payload;
+      })
+      
       .addCase(getLinkPaymentList.pending, (state) => {
         state.loading = true;
         state.error = null;

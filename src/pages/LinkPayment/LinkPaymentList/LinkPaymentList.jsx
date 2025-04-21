@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { getLinkPaymentList, setLinkPaymentListError } from "../../../store/slices/linkPayment/linkPaymentListSlice";
+import { deletePaymentRecord, getLinkPaymentList, setLinkPaymentListError } from "../../../store/slices/linkPayment/linkPaymentListSlice";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
@@ -18,6 +18,7 @@ import dangerDialogIcon from '@assets/images/icons/dangerDialogIcon.svg'
 import warningDialogIcon from '@assets/images/icons/warningDialogIcon.svg'
 
 import { showDialog } from "@/utils/helpers.jsx";
+import { toast } from "react-toastify";
 
 export default function LinkPaymentList() {
   const [selectedProducts, setSelectedProducts] = useState(null);
@@ -29,12 +30,13 @@ export default function LinkPaymentList() {
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.auth);
-  const { loading, error, success, paymentList } = useSelector((state) => state.linkPaymentList);
+  const { loading, error, success, paymentList, deleteSuccess } = useSelector((state) => state.linkPaymentList);
 
   useEffect(() => {
+    setSelectedProducts(null);
     dispatch(setLinkPaymentListError(null));
     dispatch(getLinkPaymentList(user.userName));
-  }, []);
+  }, [deleteSuccess]);
 
   const handleTableType = (type) => {
     setTableType(type);
@@ -49,12 +51,38 @@ export default function LinkPaymentList() {
       </div>
     );
   };
-  
+
+  // DELETE API
   const handleDeleteRecord = (guid) => {
-    setTimeout(() => {
-      confirmSuccessDialog();
-    }, 500);
+    dispatch(deletePaymentRecord(guid))
+      .unwrap()
+      .then((result) => {
+        setTimeout(() => {
+          confirmSuccessDialog();
+        }, 250);
+      })
+      .catch((error) => {
+        console.log("error!!!!!!!!!!",error)
+        dispatch(setLinkPaymentListError(error));
+        setTimeout(() => {
+          confirmWarningDialog(error);
+        }, 250);
+      });
   }
+
+  // DELETE FUNCTİON
+  const confirmWarningDialog = (errorCode) => {
+    showDialog(
+      'warning',
+      {
+          title: t('messages.DeletionDialogWarningTitle'),
+          content: t('messages.DeletionDialogWarningText'),
+      },
+      warningDialogIcon,
+      errorCode,
+      () => {}
+    );
+  };
 
   const confirmSuccessDialog = () => {
     showDialog(
@@ -64,6 +92,7 @@ export default function LinkPaymentList() {
           content: t('messages.DeletionDialogSuccessText'),
       },
       successDialogIcon,
+      null,
       () => {}
     );
   };
@@ -76,6 +105,7 @@ export default function LinkPaymentList() {
           content: t('messages.DeletionDialogText'),
       },
       dangerDialogIcon,
+      null,
       () => handleDeleteRecord(guid)
     );
   };

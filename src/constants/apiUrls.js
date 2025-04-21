@@ -1,5 +1,6 @@
 export const MERCHANT_LINK_PAYMENT = {
   GetAllMerchantLinkPaymentByUserName: '/MerchantLinkPayment/GetAllMerchantLinkPaymentByUserName',
+  UpdateMerchantLinkPaymentByStatus: '/MerchantLinkPayment/UpdateMerchantLinkPaymentByStatus',
   GetLink: '/MerchantLinkPayment/GetLink',
 };
 

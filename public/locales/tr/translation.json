@@ -160,6 +160,9 @@
     "DeletionDialogTitle": "MorLink’i Sil?",
     "DeletionDialogText": "Oluşturduğunuz <b>MorLink</b>’in silme işlemini<br />onaylıyor musunuz?",
     "DeletionDialogSuccessTitle": "Silme İşlemi Başarılı!",
-    "DeletionDialogSuccessText": "MorLink silme işleminiz <b>başarılı</b> bir şekilde<br />gerçekleşti!"
+    "DeletionDialogSuccessText": "MorLink silme işleminiz <b>başarılı</b> bir şekilde<br />gerçekleşti!",
+    "DeletionDialogWarningTitle": "Başarısız İşlem!",
+    "DeletionDialogWarningText": "Silme işleminiz başarısız oldu!",
+    "ErrorCode": "Hata Kodu:"
   }
 }
