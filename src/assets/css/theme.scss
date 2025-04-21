@@ -1075,6 +1075,9 @@ button,
                 border: 0;
                 @include box-shadow;
                 transition: $transition;
+                .p-button-label {
+                    transition: initial;
+                }
                 &:hover {
                     background: $fourth-color;
                 }
@@ -1095,8 +1098,8 @@ button,
                     border: 1px solid $border-2;
                     &:Hover {
                         background: transparent;
-                        border-color: $primary-color;
-                        color: $primary-color;
+                        border-color: $red;
+                        color: $red;
                     }
                 }
             }
