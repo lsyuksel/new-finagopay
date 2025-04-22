@@ -32,7 +32,7 @@ export default function TopHeader() {
 
   if (!isAuthenticated) {
     return null;
-  }  
+  }
 
   const sidebarToggle = () => {
     dispatch(toggleSidebar(!toggleSidebarStatus));

@@ -17,6 +17,8 @@ import ForgotPassword from '../../pages/Login/ForgotPassword';
 import PasswordChangeConfirm from '../../pages/Login/PasswordChangeConfirm';
 import LinkPaymentList from '../../pages/LinkPayment/LinkPaymentList/LinkPaymentList';
 import LinkPayment from '../../pages/LinkPayment/LinkPaymentList/LinkPayment';
+import DetailLinkPayment from '../../pages/LinkPayment/LinkPaymentList/DetailLinkPayment';
+import CreateLinkPayment from '../../pages/LinkPayment/LinkPaymentList/CreateLinkPayment';
 
 const AppRoutes = () => {
     const { isAuthenticated } = useSelector((state) => state.auth);
@@ -129,6 +131,24 @@ const AppRoutes = () => {
                     <ProtectedRoute>
                         <LinkPaymentList />
                     </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/detail-payment/:param"
+                element={
+                    <DetailLinkPayment />
+                }
+            />
+            <Route
+                path="/create-payment"
+                element={
+                    <CreateLinkPayment />
+                }
+            />
+            <Route
+                path="/create-payment/new"
+                element={
+                    <DetailLinkPayment />
                 }
             />
             <Route

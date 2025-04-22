@@ -87,9 +87,7 @@
     "ButtonComplete": "Tamam",
     "ButtonApprove": "Onaylıyorum",
     "ButtonCancel": "Vazgeç"
-
-
-
+    
 
   },
   "menu": {
@@ -128,7 +126,29 @@
   },
   "linkPayment": {
     "paymentListTitle": "Tüm MorLink’ler",
-    "paymentListText": "Oluşturduğunuz MorLink’lerinizi dijital platformlarda paylaşarak kolayca ödeme almaya başlayabilirsiniz."
+    "paymentListText": "Oluşturduğunuz MorLink’lerinizi dijital platformlarda paylaşarak kolayca ödeme almaya başlayabilirsiniz.",
+    "paymentCreateTitle": "MorLink’e Hoşgeldiniz!",
+    "paymentCreateText": "Kolayca MorLink’lerinizi oluşturun ve güvenle ödeme almaya başlayın!",
+
+    "paymentDetailTitle": "MorLink Oluştur",
+    "paymentDetailText": "İlgi çekici bir resim ve etkileyici açıklamalar ekleyerek ürün satışlarınızı arttırabilirsiniz.",
+    "linkCreateButton": "MorLink Oluştur",
+
+    "paymentLinkCreateTitle": "Henüz Bir <b>MorLink</b>’e Sahip Değilsiniz.",
+    "paymentLinkItem1": "Bir web sitesine ihtiyacınız yok",
+    "paymentLinkItem2": "Bir entegrasyonada ihtiyacınız yok!",
+    "paymentLinkItem3": "İhtiyacınız olan tek şey bir MorLink!",
+
+    "paymentLinkInfoItem1Title": "MorLink Oluşturun",
+    "paymentLinkInfoItem1Text": "Hemen kolay ve hızlı bir şekilde morlink oluşturmaya başlayın",
+    "paymentLinkInfoItem2Title": "Sınırsız MorLink",
+    "paymentLinkInfoItem2Text": "Sınırsız morlink ile daha fazla mutlu müşteri, daha fazla kazanç!",
+    "paymentLinkInfoItem3Title": "Her Platformda Paylaşın",
+    "paymentLinkInfoItem3Text": "Kolayca oluşturduğunuz morlink’i her platformda paylaşın!",
+    "paymentLinkInfoItem4Title": "Güvenle Ödeme Alın!",
+    "paymentLinkInfoItem4Text": "Tüm ülkelerden morlink ile kolayca ve güvenle ödeme alın!",
+    "paymentLinkBottomText": "<b>MorLink, MorPara</b> güvencesi ile kolay, hızlı ve güvenle ödeme alabileceğiniz bir link ödeme sistemidir.<br />İnternetten yapmış olduğunuz satışlar için pratik bir şekilde link ödemeler alabilirsiniz."
+
   },
   "errors": {
     "incorrectPassword": "Girmiş olduğunuz şifre hatalı. Lütfen tekrar deneyiniz.",
