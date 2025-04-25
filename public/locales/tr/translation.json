@@ -86,8 +86,8 @@
 
     "ButtonComplete": "Tamam",
     "ButtonApprove": "Onaylıyorum",
-    "ButtonCancel": "Vazgeç"
-    
+    "ButtonCancel": "Vazgeç",
+    "installmentTable": "Taksit Tablosu"
 
   },
   "menu": {
@@ -147,7 +147,32 @@
     "paymentLinkInfoItem3Text": "Kolayca oluşturduğunuz morlink’i her platformda paylaşın!",
     "paymentLinkInfoItem4Title": "Güvenle Ödeme Alın!",
     "paymentLinkInfoItem4Text": "Tüm ülkelerden morlink ile kolayca ve güvenle ödeme alın!",
-    "paymentLinkBottomText": "<b>MorLink, MorPara</b> güvencesi ile kolay, hızlı ve güvenle ödeme alabileceğiniz bir link ödeme sistemidir.<br />İnternetten yapmış olduğunuz satışlar için pratik bir şekilde link ödemeler alabilirsiniz."
+    "paymentLinkBottomText": "<b>MorLink, MorPara</b> güvencesi ile kolay, hızlı ve güvenle ödeme alabileceğiniz bir link ödeme sistemidir.<br />İnternetten yapmış olduğunuz satışlar için pratik bir şekilde link ödemeler alabilirsiniz.",
+
+
+    "productImageTitle": "Ürün Fotoğrafı",
+    "productImageSubTitle": "Ürün fotoğrafı, jpeg veya png formatında ve en fazla 4 MB olmalıdır",
+    "productImageUploadButton": "Fotoğraf Yükle",
+    "productName": "Ürün Adı",
+    "productNamePlaceholder": "Ürün adını yazınız",
+    "productDescription": "Ürün Açıklaması",
+    "productDescriptionPlaceholder": "Ürün ile ilgili açıklamayı buraya yazınız.",
+    "productPrice": "Ürün Fiyat",
+    "productPricePlaceholder": "Ürün fiyatını giriniz",
+    "currencyGuid": "Para Birimi",
+    
+    "productInfoTitle": "Ürün Bilgileri",
+    "stockEnabled": "Adet/Stok Belirle",
+    "installmentInfoEnabled": "Taksitli Satış",
+    "merchantAddressEnabled": "Adres Bilgisi Talep Et",
+    "merchantNameEnabled": "İletişim Bilgisi Talep Et",
+    "productTypeTitle": "Ürün Tipi Seçiniz",
+
+    "createProductButton": "Ürünü Oluştur",
+    "updateProductButton": "Kaydet",
+    "previewProductButton": "Önizleme Yap",
+    "updateMerchantLinkPayment": "MoorLink güncelleme işleminiz başarıyla gerçekleşti.",
+    "insertMerchantLinkPayment": "MoorLink oluşturma işleminiz başarıyla gerçekleşti."
 
   },
   "errors": {

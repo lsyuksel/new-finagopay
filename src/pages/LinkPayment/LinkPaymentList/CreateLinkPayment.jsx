@@ -12,8 +12,17 @@ import PaymentLinkTitleBanner from "@/assets/images/link-payment/payment-link-ti
 
 
 import iconCheck from "@/assets/images/icons/icon-check.svg";
+import { getCurrencyDef } from '../../../store/slices/selectOptionSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function CreateLinkPayment() {
+  const dispatch = useDispatch();
+  const { currencyDef } = useSelector((state) => state.selectOptions);
+
+  useEffect(() => {
+    if(currencyDef.length === 0) dispatch(getCurrencyDef());
+    console.log("currencyDef",currencyDef);
+  }, [currencyDef])
 
   const paymentLinkInfos = [
     {

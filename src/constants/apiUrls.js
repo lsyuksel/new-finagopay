@@ -2,6 +2,9 @@ export const MERCHANT_LINK_PAYMENT = {
   GetAllMerchantLinkPaymentByUserName: '/MerchantLinkPayment/GetAllMerchantLinkPaymentByUserName',
   UpdateMerchantLinkPaymentByStatus: '/MerchantLinkPayment/UpdateMerchantLinkPaymentByStatus',
   GetLink: '/MerchantLinkPayment/GetLink',
+  InsertMerchantLinkPayment: '/MerchantLinkPayment/InsertMerchantLinkPayment',
+  UpdateMerchantLinkPayment: '/MerchantLinkPayment/UpdateMerchantLinkPayment',
+  GetMerchantLinkPayment: '/MerchantLinkPayment/GetMerchantLinkPayment',
 };
 
 export const AUTH_URL = {
@@ -9,6 +12,7 @@ export const AUTH_URL = {
   Register: '/UserAcount/CreateUserAcount',
   VerifyTwoFactorSecret: '/Authentication/VerifyTwoFactorSecret',
   SendVerificationCode: '/Authentication/SendVerificationCode',
+  GetSubMerchantIdByUserName: '/MerchantPermission/GetSubMerchantIdByUserName',
   ForgotPassword: '/User/UserChangePasswordSendEmail',
   UpdateUserNewPassword: '/User/UpdateUserNewPassword',
   GetUser: '/User/GetUser',
@@ -29,8 +33,9 @@ export const BANK_URL = {
   GetUsersPayFacIntegrationEnabledBankList: '/DomesticBankDef/GetUsersPayFacIntegrationEnabledBankList'
 };
 
-export const CURRENCY_URL = {
-  GetCurrencyDef: '/Currency/GetCurrencyDef'
+export const SELECT_OPTIONS_URL = {
+  GetCurrencyDef: '/Currency/GetCurrencyDef',
+  GetAllProductType: '/ProductType/GetAllProductType',
 };
 
 export const TRANSACTION_TYPE_URL = {

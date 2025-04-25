@@ -5,13 +5,14 @@ import { toast } from "react-toastify";
 import AuthCode from "react-auth-code-input";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { authService } from "../../services/api";
+import api, { authService } from "../../services/api";
 import {
   setCredentials,
   setLoading,
   setError,
 } from "../../store/slices/login/authSlice";
 import { Message } from "primereact/message";
+import { AUTH_URL } from "../../constants/apiUrls";
 
 const OtpVerification = ({ loginData }) => {
   const { t } = useTranslation();
@@ -40,16 +41,19 @@ const OtpVerification = ({ loginData }) => {
         ...loginData,
         verificationCode: otp,
       };
-
       const response = await authService.verifyOtp(verificationData);
-
       if (response && (response.data || response.accessToken)) {
         const responseData = response.data || response;
 
+        const merchantId = await api.post(AUTH_URL.GetSubMerchantIdByUserName, {
+          userName: verificationData.userName,
+        });
+        
         dispatch(
           setCredentials({
             user: responseData.user || responseData,
             token: responseData.accessToken,
+            merchantId: merchantId,
           })
         );
 

@@ -4,7 +4,7 @@ import {
   TRANSACTION_URL,
   CARD_URL,
   BANK_URL,
-  CURRENCY_URL,
+  SELECT_OPTIONS_URL,
   TRANSACTION_TYPE_URL,
   PAYMENT_URL
 } from '../../constants/apiUrls';
@@ -76,7 +76,7 @@ export const getCurrencies = createAsyncThunk(
   'transaction/getCurrencies',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get(CURRENCY_URL.GetCurrencyDef);
+      const response = await api.get(SELECT_OPTIONS_URL.GetCurrencyDef);
       return response;
     } catch (error) {
       return rejectWithValue(error.response?.data || { message: 'Bir hata oluştu' });

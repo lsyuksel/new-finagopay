@@ -15,8 +15,9 @@ import passwordChangeConfirmReducer from './slices/login/passwordChangeConfirmSl
 
 import linkPaymentListReducer from './slices/linkPayment/linkPaymentListSlice';
 import linkPaymentReducer from './slices/linkPayment/linkPaymentSlice';
+import linkPaymentDetailReducer from './slices/linkPayment/linkPaymentDetailSlice';
 
-
+import selectOptionsReducer from './slices/selectOptionSlice';
 
 const persistConfig = {
   key: 'root',
@@ -30,8 +31,11 @@ const rootReducer = combineReducers({
   forgotPassword: forgotPasswordReducer,
   passwordChangeConfirm: passwordChangeConfirmReducer,
   
+  selectOptions: selectOptionsReducer,
+
   linkPaymentList: linkPaymentListReducer,
   linkPayment: linkPaymentReducer,
+  linkPaymentDetail: linkPaymentDetailReducer,
   
   menu: menuReducer,
   users: userReducer,

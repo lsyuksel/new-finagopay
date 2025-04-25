@@ -136,19 +136,25 @@ const AppRoutes = () => {
             <Route
                 path="/detail-payment/:param"
                 element={
-                    <DetailLinkPayment />
+                    <ProtectedRoute>
+                        <DetailLinkPayment />
+                    </ProtectedRoute>
                 }
             />
             <Route
                 path="/create-payment"
                 element={
-                    <CreateLinkPayment />
+                    <ProtectedRoute>
+                        <CreateLinkPayment />
+                    </ProtectedRoute>
                 }
             />
             <Route
                 path="/create-payment/new"
                 element={
-                    <DetailLinkPayment />
+                    <ProtectedRoute>
+                        <DetailLinkPayment />
+                    </ProtectedRoute>
                 }
             />
             <Route

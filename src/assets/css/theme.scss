@@ -143,9 +143,49 @@ button,
     color: $white-color;
     @include gradient-2;
     @include box-shadow-2;
+    border: 0;
     &:hover {
         color: $white-color;
     }
+}
+
+.secondary-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: var(--spacer-4) var(--spacer-13);
+    border-radius: 50px;
+    @include text-9-semibold;
+    color: $text-color;
+    background: $white-color;
+    @include light-shadow-2;
+    transition: $transition;
+    border: 1px solid $border-2;
+    &:hover {
+        border-color: $primary-color;
+        color: $primary-color;
+    }
+}
+
+.third-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: var(--spacer-4) var(--spacer-13);
+    border-radius: 50px;
+    @include text-9-semibold;
+    color: $white-color;
+    background: $blue-color;
+    @include box-shadow-2;
+    transition: $transition;
+    border: 0;
+    &:hover {
+        background-color: $primary-color;
+        color: $white-color;
+    }
+
 }
 
 /*Toast Notification*/
@@ -291,6 +331,8 @@ button,
             outline: none;
             box-shadow: none;
             color: $sub-text-color;
+            padding: 0;
+            gap: 0;
             .p-inputtext {
                 @include text-9-semibold;
             }
@@ -793,28 +835,74 @@ button,
     outline: none;
 }
 
+.p-dropdown-panel {
+    .p-dropdown-header .p-dropdown-filter {
+        box-shadow: none !important;
+        outline: none !important;
+        &:hover,
+        &:focus {
+            border-color: $fourth-color;
+        }
+    }
+    .p-dropdown-items {
+        padding: 0;
+    }
+}
+
+.p-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: var(--spacer-3) var(--spacer-6);
+    background-color: $white-color;
+    border: 1px solid $border-2;
+    border-radius: 8px;
+    .p-inputtext,
+    .p-dropdown-label.p-placeholder {
+        font-family: $font-family;
+        color: $sub-text-color;
+        @include text-9-semibold;
+        transition: $transition;
+        padding: 0;
+    }
+    &:hover,
+    &:focus {
+        border-color: $fourth-color;
+    }
+    &.p-invalid,
+    &.is-invalid {
+        border-color: $refund-color;
+    }
+    .p-dropdown-trigger {
+        width: 20px;
+        height: 20px;
+    }
+}
+
 .phone-input-container .form-control,
 .p-form-control.p-inputtext,
 .p-form-control .p-component,
 .form-control {
     font-family: $font-family;
     width: 100%;
-    background-color: #f5f8fb;
-    border: 1px solid #f5f8fb;
-    border-radius: 50px;
-    padding: var(--spacer-4) var(--spacer-6);
-    color: $black;
-    @include text-3-regular;
+    background-color: $white-color;
+    border: 1px solid $border-2;
+    border-radius: 8px;
+    padding: var(--spacer-3) var(--spacer-6);
+    color: $text-color;
+    @include text-7-regular;
     box-shadow: none;
     outline: none;
     transition: $transition;
-
     &::placeholder {
         opacity: 1;
-        @include text-4-medium;
+        @include text-7-regular;
         color: $gray;
     }
-
+    &:hover,
+    &:focus {
+        border-color: $fourth-color;
+    }
     &.p-invalid,
     &.is-invalid {
         border-color: $refund-color;
@@ -909,6 +997,14 @@ button,
     }
 }
 
+.input-switch {
+    display: flex;
+    align-items: center;
+    color: $text-color;
+    @include text-5-semibold;
+    gap: 8px;
+}
+
 .p-inputswitch {
     width: 42px;
     height: 24px;
@@ -955,6 +1051,58 @@ button,
     }
 }
 
+.p-radio-button-item {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacer-2) var(--spacer-4);
+    color: $text-color;
+    gap: 6px;
+    cursor: pointer;
+    transition: $transition;
+    .p-radiobutton {
+        position: initial;
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            background: $light-gray;
+            border-radius: 50px;
+            transition: $transition;
+        }
+        .p-radiobutton-box {
+            position: relative;
+            z-index: 2;
+            border: 2px solid #B2C2D7;
+            background: transparent;
+        }
+        &.p-highlight {
+            &:before {
+                background: $background;
+            }
+            .p-radiobutton-box {
+                background: transparent;
+                border-color: $fourth-color;
+                .p-radiobutton-icon {
+                    width: 14px;
+                    height: 14px;
+                    background: $fourth-color;
+                }
+            }
+        }
+    }
+    > label {
+        position: relative;
+        z-index: 2;
+        cursor: pointer;
+        @include text-5-semibold;
+    }
+}
+
 .p-inline-message {
     display: flex;
     align-items: center;
@@ -984,7 +1132,7 @@ button,
 .p-dialog {
     @include box-shadow;
     border-radius: 20px;
-
+    max-width: 94%;
     .p-dialog-content {
         color: $text-color;
         @include text-7-regular;
@@ -1732,6 +1880,153 @@ footer {
     }
 }
 
+/*Link Payment Detail Page*/
+.link-payment-detail-content {
+    padding: var(--spacer-6) var(--spacer-6) var(--spacer-8);
+    background-color: $white-color;
+    @include box-shadow;
+    border-radius: 8px;
+    .form-item {
+        margin: 0 0 var(--spacer-6);
+        &:last-child {
+            margin-bottom: 0;
+        }
+        > label {
+            display: block;
+            color: $text-color;
+            @include text-5-semibold;
+            margin: 0 0 var(--spacer-3);
+        }
+    }
+    .column-title {
+        color: $primary-color;
+        @include text-9-semibold;
+        padding: 0 0 var(--spacer-3);
+        margin: 0 0 var(--spacer-4);
+        border-bottom: 1px solid $border-2;
+    }
+    .file-upload-container {
+        padding: var(--spacer-13);
+        border-radius: 8px;
+        background: $light-gray;
+        border: 1px dashed $border-2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        .icon {
+            margin: 0 auto var(--spacer-3);
+        }
+        > span {
+            color: $text-color;
+            @include text-12-semibold;
+            margin: 0 0 var(--spacer-3);
+        }
+        > div {
+            color: $sub-text-color;
+            @include text-3-regular;
+        }
+        .p-fileupload {
+            padding: var(--spacer-8) 0 0;
+            .p-button {
+                padding: var(--spacer-3) var(--spacer-8);
+                background: $white-color;
+                border-radius: 8px;
+                @include light-shadow-2;
+                color: $text-color;
+                @include text-5-semibold;
+                border: 0;
+                gap: 10px;
+                &:before {
+                    content: '';
+                    background-image: url('data:image/svg+xml,<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5783 6.97319L19.4783 14.8382C19.4509 15.2537 19.3336 15.6584 19.1347 16.0243C18.9358 16.3902 18.6599 16.7086 18.326 16.9575C18.284 16.9867 18.2349 17.004 18.1839 17.0076C18.1329 17.0113 18.0818 17.0011 18.0361 16.9782C17.9903 16.9554 17.9516 16.9206 17.9239 16.8776C17.8962 16.8346 17.8806 16.785 17.8787 16.7339V8.85877C17.9262 8.3453 17.8599 7.82767 17.6847 7.34271C17.5094 6.85774 17.2294 6.41735 16.8647 6.05285C16.4999 5.68836 16.0593 5.40871 15.5742 5.2338C15.0891 5.05889 14.5715 4.99301 14.058 5.04086H5.43035C5.15535 5.04086 5.14894 4.79336 5.16819 4.68336C5.24557 3.93768 5.61138 3.25178 6.18752 2.77211C6.51281 2.55407 6.87846 2.40338 7.26292 2.32891C7.64737 2.25445 8.04285 2.25771 8.42602 2.33852L18.1069 3.69519C18.4988 3.72369 18.881 3.83035 19.2309 4.00888C19.5809 4.18741 19.8916 4.43419 20.1447 4.73469C20.3631 5.05978 20.5141 5.42543 20.5886 5.80995C20.6631 6.19448 20.6595 6.59004 20.5783 6.97319ZM16.5009 8.85877V16.8044C16.5482 17.1363 16.5176 17.4747 16.4115 17.7927C16.3055 18.1107 16.127 18.3997 15.89 18.6369C15.653 18.874 15.3642 19.0528 15.0462 19.159C14.7283 19.2653 14.3899 19.2962 14.058 19.2492H4.27902C3.94691 19.2967 3.60831 19.2662 3.29003 19.1601C2.97175 19.0541 2.68254 18.8754 2.44532 18.6381C2.2081 18.4009 2.02937 18.1117 1.92331 17.7934C1.81725 17.4751 1.78677 17.1365 1.83427 16.8044V8.85877C1.78708 8.52681 1.8178 8.18841 1.92401 7.87037C2.03021 7.55233 2.20898 7.26338 2.44616 7.02637C2.68334 6.78937 2.97244 6.61082 3.29055 6.50485C3.60867 6.39889 3.94709 6.36842 4.27902 6.41586H14.058C14.3898 6.36893 14.7279 6.39977 15.0457 6.50595C15.3635 6.61212 15.6522 6.79072 15.8892 7.02764C16.1261 7.26456 16.3047 7.55332 16.4108 7.87111C16.517 8.1889 16.5479 8.52702 16.5009 8.85877ZM12.1468 12.8325C12.1468 12.6502 12.0743 12.4753 11.9454 12.3464C11.8165 12.2175 11.6416 12.145 11.4593 12.145H9.8551V10.5409C9.8551 10.3585 9.78267 10.1837 9.65374 10.0547C9.52481 9.92579 9.34994 9.85336 9.1676 9.85336C8.98527 9.85336 8.8104 9.92579 8.68147 10.0547C8.55254 10.1837 8.4801 10.3585 8.4801 10.5409V12.145H6.87594C6.6936 12.145 6.51873 12.2175 6.3898 12.3464C6.26087 12.4753 6.18844 12.6502 6.18844 12.8325C6.18844 13.0149 6.26087 13.1897 6.3898 13.3187C6.51873 13.4476 6.6936 13.52 6.87594 13.52H8.4801V15.1242C8.4801 15.3065 8.55254 15.4814 8.68147 15.6103C8.8104 15.7393 8.98527 15.8117 9.1676 15.8117C9.34994 15.8117 9.52481 15.7393 9.65374 15.6103C9.78267 15.4814 9.8551 15.3065 9.8551 15.1242V13.52H11.4593C11.6416 13.52 11.8165 13.4476 11.9454 13.3187C12.0743 13.1897 12.1468 13.0149 12.1468 12.8325Z" fill="%23BF1EE1"/></svg>');
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: initial;
+                    width: 22px;
+                    height: 22px;
+                    display: block;
+                }
+                > svg {
+                    display: none;
+                }
+            }
+        }
+    }
+    .left-column {
+        .p-dropdown {
+            min-width: 168px;
+        }
+    }
+    .right-column {
+        .form-item {
+            display: flex;
+            align-items: center;
+            padding: 0 0 var(--spacer-4);
+            margin: 0 0 var(--spacer-4);
+            border-bottom: 1px solid $border-2;
+            .input-switch {
+                flex: 1 0 0;
+            }
+        }
+        .payment-dialog-button {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            gap: 8px;
+            color: $sub-text-color;
+            @include text-4-medium;
+            transition: $transition;
+            &:hover {
+                color: $fourth-color;
+            }
+        }
+        .product-types {
+            padding: var(--spacer-6) 0 0;
+            margin: 0 0 var(--spacer-10);
+            .product-types-title {
+                @include center;
+                margin: 0 0 var(--spacer-4);
+                @include text-6-bold;
+                color: $primary-color;
+                &:before,
+                &:after {
+                    content: '';
+                    flex: 1;
+                    height: 1px;
+                    background: $border-2;
+                }
+                > span {
+                    padding: 0 var(--spacer-6);
+                }
+            }
+            .product-types-checkbox {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+            }
+        }
+        .form-button-item {
+            padding: var(--spacer-16) var(--spacer-8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacer-6);
+            border: 1px solid $border-2;
+            border-radius: 8px;
+            .primary-button,
+            .secondary-button,
+            .third-button {
+                @include text-15-semibold;
+                width: 260px;
+                max-width: 100%;
+                justify-content: center;
+            }
+        }
+    }
+}
+
 /*Login Page*/
 .auth-container {
     background: $purple-light;
@@ -2016,6 +2311,33 @@ footer {
         transition: $transition;
     }
 
+    .p-form-control.p-inputtext,
+    .p-form-control .p-component,
+    .form-control {
+        font-family: $font-family;
+        width: 100%;
+        background-color: #f5f8fb;
+        border: 1px solid #f5f8fb;
+        border-radius: 50px;
+        padding: var(--spacer-4) var(--spacer-6);
+        color: $black;
+        @include text-3-regular;
+        box-shadow: none;
+        outline: none;
+        transition: $transition;
+    
+        &::placeholder {
+            opacity: 1;
+            @include text-4-medium;
+            color: $gray;
+        }
+    
+        &.p-invalid,
+        &.is-invalid {
+            border-color: $refund-color;
+        }
+    }
+    
     @include max($sm) {
         .login-button {
             width: 100%;
@@ -2119,8 +2441,8 @@ footer {
     >* {
         flex: 1;
         height: 52px;
-        padding: 0;
+        padding: 0 !important;
         text-align: center;
-        border-radius: 50%;
+        border-radius: 50% !important;
     }
 }

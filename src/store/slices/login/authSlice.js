@@ -4,6 +4,7 @@ const initialState = {
   isAuthenticated: false,
   user: null,
   token: null,
+  merchantId: null,
   loading: false,
   error: null,
 };
@@ -13,9 +14,10 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
-      const { user, token } = action.payload;
+      const { user, token, merchantId } = action.payload;
       state.user = user;
       state.token = token;
+      state.merchantId = merchantId;
       state.isAuthenticated = true;
     },
     logout: (state) => {
