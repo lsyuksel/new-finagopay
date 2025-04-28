@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import TopHeader from './TopHeader';
 import BottomFooter from './BottomFooter';
-import { useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
-const Layout = ({ children }) => {
+const Layout = () => {
   const authData = useSelector((state) => state.auth);
   const { pathname } = useLocation();
   
@@ -20,7 +20,7 @@ const Layout = ({ children }) => {
       <main>
         <TopHeader />
         <div className="main-content">
-          {children}
+          <Outlet />
         </div>
         <BottomFooter />
       </main>

@@ -11,9 +11,7 @@ function App() {
                 position="top-right"
                 autoClose={3000}
             />
-            <Layout>
-                <AppRoutes />
-            </Layout>
+            <AppRoutes />
         </Router>
     );
 }
