@@ -143,8 +143,8 @@ button,
     @include text-10-bold;
     color: $white-color;
     background: $green-succes;
+    border: 2px solid $green-succes;
     @include light-shadow;
-    border: 0;
     transition: $transition;
     .price {
         @include text-16-bold;
@@ -1048,7 +1048,7 @@ button,
     &.p-highlight {
         .p-inputswitch-slider {
             background: $fourth-color;
-
+            border-color: $fourth-color !important;
             &:before {
                 background: $white-color;
                 @include box-shadow;
@@ -1471,9 +1471,133 @@ button,
         }
     }
 }
-
 /*PayLink ProductCard*/
 
+/*Paylink LinkPayment Page*/
+.paylink-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: $white-color;
+    > div {
+        width: 100%;
+    }
+    .paylink-content {
+        flex: 1;
+        display: flex;
+        align-items: stretch;
+        padding: 0 0 var(--spacer-6);
+        .left-column {
+            position: relative;
+            &:before {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 50vw;
+                height: 100%;
+                background-image: url('data:image/svg+xml,<svg width="166" height="200" viewBox="0 0 166 200" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(%23clip0_716_29975)"><path fill-rule="evenodd" clip-rule="evenodd" d="M98.1541 92.6717C117.473 92.6717 133.157 76.9772 133.157 57.6444C133.157 38.3117 117.479 22.621 98.1541 22.621C78.8291 22.621 63.1491 38.3172 63.1491 57.65H63.1086V167.024C63.1086 183.704 49.5682 197.247 32.8981 197.247C16.2279 197.247 2.6875 183.701 2.6875 167.015C2.6875 166.997 2.6875 166.978 2.6875 166.96L21.0481 166.976C21.0481 167.119 21.0481 167.261 21.0481 167.403C21.0291 168.878 21.3029 170.341 21.8535 171.709C22.4042 173.076 23.2207 174.321 24.2558 175.37C25.2909 176.419 26.5239 177.252 27.8832 177.821C29.2428 178.389 30.7013 178.682 32.1747 178.682C33.6481 178.682 35.1068 178.389 36.4662 177.821C37.8255 177.252 39.0585 176.419 40.0937 175.37C41.1288 174.321 41.9451 173.076 42.4959 171.709C43.0466 170.341 43.3203 168.878 43.3014 167.403C43.3014 167.269 43.3014 167.132 43.3014 166.997V56.1322H43.3217C44.1253 26.533 68.3888 2.75391 98.1596 2.75391C128.437 2.75391 153.018 27.3521 153.018 57.65C153.018 87.863 128.571 112.409 98.4108 112.544H73.2846V92.6717H98.1541Z" fill="%23F5EDFB"/><path d="M79.3281 46.8006C79.3281 44.9998 79.8619 43.2395 80.8618 41.742C81.8616 40.2448 83.2826 39.0775 84.9454 38.3884C86.6078 37.6992 88.4374 37.5189 90.2023 37.8703C91.9674 38.2217 93.5888 39.0889 94.8613 40.3623C96.1337 41.6356 97.0003 43.2581 97.3515 45.0242C97.7026 46.7906 97.5222 48.6214 96.8335 50.285C96.1448 51.9489 94.9787 53.3709 93.4825 54.3714C91.986 55.372 90.227 55.9059 88.4274 55.9059C86.0143 55.905 83.7007 54.9453 81.9943 53.2381C80.2883 51.5306 79.3292 49.2153 79.3281 46.8006Z" fill="%23F5EDFB"/><path d="M13.5625 92.6719C13.5625 103.641 22.3197 112.546 33.1056 112.546V92.6719H13.5625Z" fill="%23F5EDFB"/></g><defs><clipPath id="clip0_716_29975"><rect width="166" height="200" fill="white"/></clipPath></defs></svg>');
+                background-repeat: no-repeat;
+                background-position: left 150px bottom 50px;
+                background-size: initial;
+                background-color: $purple-light;
+                z-index: 0;
+                border-radius: 0 0 50px 0;
+            }
+            > div {
+                position: sticky;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1;
+                padding-top: var(--spacer-12);
+                padding-right: var(--spacer-20);
+            }
+        }
+        .right-column {
+            > div {
+                padding: 0;
+                box-shadow: none;
+                background: transparent;
+                padding-top: var(--spacer-8);
+                padding-left: var(--spacer-10);
+            }
+        }
+        .p-accordion {
+            font-family: $font-family;
+            .p-accordion-tab {
+                border: 1px solid $border-2;
+                border-radius: 16px;
+                transition: $transition;
+                margin: 0 0 var(--spacer-6);
+                &:last-child {
+                    margin-bottom: var(--spacer-8);
+                }
+                .p-accordion-header {
+                    .p-accordion-header-link {
+                        padding: var(--spacer-8) var(--spacer-8);
+                        border: 0;
+                        background: transparent;
+                        @include text-9-semibold;
+                        color: $text-color;
+                        transition: $transition;
+                        border-radius: 16px;
+                        > svg {
+                            display: none;
+                        }
+                        .p-accordion-header-text {
+                            line-height: initial;
+                        }
+                        &:after {
+                            content: '';
+                            width: 16px;
+                            height: 16px;
+                            background-image: url('data:image/svg+xml,<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.45372 10.8883L0.223657 4.6581C0.0794465 4.51401 0 4.32165 0 4.11655C0 3.91144 0.0794465 3.71909 0.223657 3.57499L0.682352 3.11618C0.981244 2.81763 1.46703 2.81763 1.76547 3.11618L6.9971 8.34781L12.2345 3.11038C12.3787 2.96628 12.571 2.88672 12.776 2.88672C12.9812 2.88672 13.1734 2.96628 13.3178 3.11038L13.7763 3.56918C13.9206 3.71339 14 3.90564 14 4.11074C14 4.31585 13.9206 4.5082 13.7763 4.6523L7.54059 10.8883C7.39592 11.0327 7.20277 11.1121 6.99744 11.1116C6.79131 11.1121 6.59827 11.0327 6.45372 10.8883Z" fill="%239D9D9D"/></svg>');
+                            background-repeat: no-repeat;
+                            background-position: center;
+                            background-size: initial;
+                            display: block;
+                        }
+                    }
+                }
+                .p-accordion-content {
+                    color: $sub-text-color;
+                    @include text-3-regular;
+                    padding: 0 var(--spacer-6) var(--spacer-8);
+                    border: 0;
+                    border-radius: 16px;
+                }
+                &.p-accordion-tab-active {
+                    border-color: $green-succes;
+                    .p-accordion-header {
+                        .p-accordion-header-link {
+                            padding-bottom: var(--spacer-6);
+                            &:after {
+                                transform: rotate(180deg);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .link-preview-modal-bottom {
+            display: flex;
+            align-items: center;
+            padding: var(--spacer-12) 0 0;
+            .logo {
+                flex: 1 0 0;
+                display: flex;
+                align-items: flex-end;
+                gap: 6px;
+                @include text-4-medium;
+                color: $gray;
+            }
+        }
+    }
+}
+/*Paylink LinkPayment Page*/
 main {
     width: 100%;
 }
@@ -2241,6 +2365,8 @@ footer {
 
 /*Login Header*/
 .login-header {
+    position: relative;
+    z-index: 10;
     padding: var(--spacer-8) 0;
     background-color: $white-color;
     border-bottom: 1px solid $border-2;

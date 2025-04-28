@@ -67,6 +67,7 @@
     "rememberMe": "Beni Hatırla",
     "firstName":"İsim",
     "lastName":"Soyisim",
+    "firstLastName":"Adınız ve Soyadınız",
     "passwordAgain":"Şifreyi Tekrar Girin",
     "register":"Hesap Oluştur",
     "safeShopping":"%100 Güvenli Alışveriş",
@@ -194,7 +195,12 @@
     "bankSecurityText1": "Tek Tıkla Anında Kolay Ödeme",
     "bankSecurityText2": "MorPos %100 Korumalı Alışveriş",
     "logoText": "ile %100 güvenli öde",
-    "completePayment": "Ödemeyi Tamamla"
+    "completePayment": "Ödemeyi Tamamla",
+
+    "payLinkTitle1": "Kişisel Bilgiler",
+    "payLinkTitle2": "Adres Bilgileri",
+    "payLinkTitle3": "Kart Bilgileri"
+
     
   },
   "errors": {
