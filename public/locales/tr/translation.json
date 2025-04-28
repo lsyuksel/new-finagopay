@@ -88,7 +88,22 @@
     "ButtonApprove": "Onaylıyorum",
     "ButtonCancel": "Vazgeç",
     "installmentTable": "Taksit Tablosu"
+    
 
+  },
+  "faq": {
+    "item1Title": "MorLink Nedir?",
+    "item1Text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+    "item2Title": "Ürünü Nasıl Yükleyeceğimi Bilmiyorum?",
+    "item2Text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+    "item3Title": "Ürünü Eklerken Hata Alıyorum",
+    "item3Text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+    "item4Title": "MorLink ile Alınan Ödemelerde İade Yapılabilir Mi?",
+    "item4Text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+    "item5Title": "Morlink ile Alınan Ödemeler Hemen Hesabıma Geçer Mi?",
+    "item5Text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+    "goAllTopics": "Tüm Konulara Git",
+    "allTopicsTitle": "Yardıma mı İhtiyacınız Var?"
   },
   "menu": {
     "dashboards": "Ana Sayfa",
@@ -172,8 +187,15 @@
     "updateProductButton": "Kaydet",
     "previewProductButton": "Önizleme Yap",
     "updateMerchantLinkPayment": "MoorLink güncelleme işleminiz başarıyla gerçekleşti.",
-    "insertMerchantLinkPayment": "MoorLink oluşturma işleminiz başarıyla gerçekleşti."
+    "insertMerchantLinkPayment": "MoorLink oluşturma işleminiz başarıyla gerçekleşti.",
 
+    "linkPreviewModalTitle": "MorLink Önizlemesi",
+    "linkPreviewModalTitle2": "MorLink ile ödeme",
+    "bankSecurityText1": "Tek Tıkla Anında Kolay Ödeme",
+    "bankSecurityText2": "MorPos %100 Korumalı Alışveriş",
+    "logoText": "ile %100 güvenli öde",
+    "completePayment": "Ödemeyi Tamamla"
+    
   },
   "errors": {
     "incorrectPassword": "Girmiş olduğunuz şifre hatalı. Lütfen tekrar deneyiniz.",

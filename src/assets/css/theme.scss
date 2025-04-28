@@ -132,6 +132,29 @@ button,
     }
 }
 
+.complete-payment-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 260px;
+    gap: var(--spacer-5);
+    padding: var(--spacer-4) var(--spacer-8);
+    border-radius: 50px;
+    @include text-10-bold;
+    color: $white-color;
+    background: $green-succes;
+    @include light-shadow;
+    border: 0;
+    transition: $transition;
+    .price {
+        @include text-16-bold;
+    }
+    &:hover {
+        background: $succes-secondary-color;
+        color: $green-succes;
+    }
+}
+
 .primary-button {
     display: flex;
     align-items: center;
@@ -1074,6 +1097,9 @@ button,
             border-radius: 50px;
             transition: $transition;
         }
+        .p-radiobutton-input {
+            z-index: 2;
+        }
         .p-radiobutton-box {
             position: relative;
             z-index: 2;
@@ -1133,15 +1159,33 @@ button,
     @include box-shadow;
     border-radius: 20px;
     max-width: 94%;
+    max-height: 94%;
     .p-dialog-content {
         color: $text-color;
         @include text-7-regular;
     }
 
     .p-dialog-header {
+        padding: var(--spacer-8) var(--spacer-3);
+        text-align: center;
         .p-dialog-title {
-            color: $primary-color;
-            @include text-20-bold;
+            color: $black;
+            @include text-18-medium;
+        }
+        .p-dialog-header-icon {
+            position: absolute;
+            right: 24px;
+            top: 24px;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.5837 14.416C15.917 14.7493 15.917 15.2493 15.5837 15.5827C15.417 15.7493 15.2503 15.8327 15.0003 15.8327C14.7503 15.8327 14.5837 15.7493 14.417 15.5827L10.0003 11.166L5.58366 15.5827C5.41699 15.7493 5.25033 15.8327 5.00033 15.8327C4.75033 15.8327 4.58366 15.7493 4.41699 15.5827C4.08366 15.2493 4.08366 14.7493 4.41699 14.416L8.83366 9.99935L4.41699 5.58268C4.08366 5.24935 4.08366 4.74935 4.41699 4.41602C4.75033 4.08268 5.25033 4.08268 5.58366 4.41602L10.0003 8.83268L14.417 4.41602C14.7503 4.08268 15.2503 4.08268 15.5837 4.41602C15.917 4.74935 15.917 5.24935 15.5837 5.58268L11.167 9.99935L15.5837 14.416Z" fill="%23F04438"/><mask id="mask0_722_32042" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="4" y="4" width="12" height="12"><path d="M15.5837 14.416C15.917 14.7493 15.917 15.2493 15.5837 15.5827C15.417 15.7493 15.2503 15.8327 15.0003 15.8327C14.7503 15.8327 14.5837 15.7493 14.417 15.5827L10.0003 11.166L5.58366 15.5827C5.41699 15.7493 5.25033 15.8327 5.00033 15.8327C4.75033 15.8327 4.58366 15.7493 4.41699 15.5827C4.08366 15.2493 4.08366 14.7493 4.41699 14.416L8.83366 9.99935L4.41699 5.58268C4.08366 5.24935 4.08366 4.74935 4.41699 4.41602C4.75033 4.08268 5.25033 4.08268 5.58366 4.41602L10.0003 8.83268L14.417 4.41602C14.7503 4.08268 15.2503 4.08268 15.5837 4.41602C15.917 4.74935 15.917 5.24935 15.5837 5.58268L11.167 9.99935L15.5837 14.416Z" fill="white"/></mask><g mask="url(%23mask0_722_32042)"></g></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: initial;
+            > svg {
+                display: none;
+            }
         }
     }
     &.p-confirm-dialog {
@@ -1270,6 +1314,165 @@ button,
         }
     }
 }
+
+/*AccordionList*/
+.accordion-container {
+    padding: var(--spacer-20) 0 0;
+    .accordion-title {
+        display: flex;
+        align-items: center;
+        padding: var(--spacer-5) var(--spacer-4);
+        > span {
+            flex: 1 0 0;
+            @include text-19-semibold;
+            color: $text-color;
+        }
+        > a {
+            color: $primary-color;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: underline !important;
+        }
+    }
+    .p-accordion {
+        font-family: $font-family;
+        .p-accordion-tab {
+            margin: 0 0 var(--spacer-4);
+            &:last-child {
+                margin-bottom: 0;
+            }
+            .p-accordion-header {
+                .p-accordion-header-link {
+                    padding: var(--spacer-3) var(--spacer-4);
+                    border: 1px solid $border-2;
+                    background: transparent;
+                    @include text-9-semibold;
+                    color: $text-color;
+                    > svg {
+                        display: none;
+                    }
+                    .p-accordion-header-text {
+                        line-height: initial;
+                    }
+                    &:after {
+                        content: '';
+                        width: 24px;
+                        height: 24px;
+                        background-image: url('data:image/svg+xml,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.7169 9.62474C18.0944 10.0021 18.0944 10.6141 17.7169 10.9915L13.5372 15.1712C12.688 16.0204 11.3111 16.0204 10.4619 15.1711L6.283 10.9914C5.90562 10.614 5.90567 10.0021 6.28312 9.62472L6.62483 9.28307C7.00227 8.90569 7.61417 8.90575 7.99155 9.28319L11.9996 13.292L16.0085 9.28306C16.3859 8.90565 16.9979 8.90565 17.3753 9.28306L17.7169 9.62474Z" fill="%23BF1EE1"/></svg>');
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        background-size: initial;
+                        display: block;
+                    }
+                }
+            }
+            .p-accordion-content {
+                color: $sub-text-color;
+                @include text-3-regular;
+                padding: var(--spacer-6);
+            }
+            &.p-accordion-tab-active {
+                .p-accordion-header {
+                    background: $title-bg-color;
+                    .p-accordion-header-link {
+                        color: $fourth-color;
+                        &:after {
+                            transform: rotate(180deg);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+/*AccordionList*/
+
+
+/*PayLink ProductCard*/
+.link-product-card {
+    .sub-text {
+        display: flex;
+        align-items: center;
+        gap: var(--spacer-2);
+        color: $sub-text-color;
+        @include text-9-semibold;
+        margin: 0 0 var(--spacer-8);
+    }
+    .product-infos {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--spacer-5);
+        margin: 0 0 var(--spacer-10);
+        padding: 0 0 var(--spacer-10);
+        border-bottom: 2px dashed #D7D7FB;
+        .product-img {
+            position: relative;
+            @include fit;
+            overflow: hidden;
+            border-radius: 8px;
+            width: 150px;
+            height: 150px;
+            border: 1px solid $secondary-color-2;
+        }
+        .product-content {
+            flex: 1 0 0;
+            .title {
+                color: $text-color;
+                @include text-9-semibold;
+                margin-bottom: var(--spacer-2);
+            }
+            .description {
+                color: $sub-text-color;
+                @include text-1-regular;
+                margin-bottom: var(--spacer-2);
+
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                text-overflow: ellipsis;
+            }
+            .price {
+                color: $text-color;
+                @include text-20-bold;
+            }
+        }
+    }
+    .product-footer-bank {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacer-4);
+        > div {
+            display: flex;
+            align-items: center;
+            gap: var(--spacer-2);
+            @include text-3-regular;
+            color: $sub-text-color;
+        }
+    }
+}
+
+.pay-link-dialog {
+    .p-dialog-content {
+        padding: 0 var(--spacer-20) var(--spacer-10);
+    }
+    .link-preview-modal-bottom {
+        display: flex;
+        align-items: center;
+        padding: var(--spacer-12) 0 0;
+        .logo {
+            flex: 1 0 0;
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            @include text-4-medium;
+            color: $gray;
+        }
+    }
+}
+
+/*PayLink ProductCard*/
 
 main {
     width: 100%;

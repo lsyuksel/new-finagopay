@@ -1,5 +1,6 @@
 import { t } from "i18next";
 import { confirmDialog } from "primereact/confirmdialog";
+import { useSelector } from "react-redux";
 
 export const getErrorMessage = (formik) => {
     const fields = Object.keys(formik.errors);
@@ -31,4 +32,10 @@ export const showDialog = (type, message, icon, errorCode, acceptCallback) => {
     };
 
     confirmDialog(dialogConfig);
+};
+
+export const getCurrencyName = (guid) => {
+    const { currencyDef } = useSelector((state) => state.selectOptions);
+    const found = currencyDef.find((item) => item.guid == guid);
+    return found ? found.alphabeticCode : null;
 };

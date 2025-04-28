@@ -28,6 +28,7 @@ export const getAllProductType = createAsyncThunk(
     }
   }
 );
+
 const initialState = {
   currencyDef: [],
   allProductType: [],

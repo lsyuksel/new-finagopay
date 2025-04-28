@@ -16,7 +16,7 @@ import AuthLayout from '../../pages/Login/AuthLayout';
 import ForgotPassword from '../../pages/Login/ForgotPassword';
 import PasswordChangeConfirm from '../../pages/Login/PasswordChangeConfirm';
 import LinkPaymentList from '../../pages/LinkPayment/LinkPaymentList/LinkPaymentList';
-import LinkPayment from '../../pages/LinkPayment/LinkPaymentList/LinkPayment';
+import LinkPayment from '../../pages/LinkPayment/Paylink/LinkPayment';
 import DetailLinkPayment from '../../pages/LinkPayment/LinkPaymentList/DetailLinkPayment';
 import CreateLinkPayment from '../../pages/LinkPayment/LinkPaymentList/CreateLinkPayment';
 

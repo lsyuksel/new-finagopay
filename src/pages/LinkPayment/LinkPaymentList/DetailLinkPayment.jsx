@@ -11,7 +11,8 @@ import fileUploadIcon from "@/assets/images/icons/fileUploadIcon.svg";
 import previewButtonIcon from "@/assets/images/icons/previewButtonIcon.svg";
 import installmentTableIcon from "@/assets/images/icons/installmentTableIcon.svg";
 import createProductButton from "@/assets/images/icons/createProductButton.svg";
-
+import { Link } from 'react-router-dom'
+import logo from '@assets/images/MorPosLogo.png'
 import installmentTableImg1 from "@/assets/images/link-payment/installmentTableImg1.png";
 import installmentTableImg2 from "@/assets/images/link-payment/installmentTableImg2.png";
 
@@ -29,6 +30,9 @@ import { getAllProductType, getCurrencyDef } from "../../../store/slices/selectO
 import { InputSwitch } from "primereact/inputswitch";
 import { RadioButton } from "primereact/radiobutton";
 import { Dialog } from 'primereact/dialog';
+import AccordionList from "../../../components/Common/AccordionList";
+import ProductCard from "../Paylink/ProductCard";
+import { getCurrencyName } from "../../../utils/helpers";
 
 export default function DetailLinkPayment() {
   const [installmentTable, setInstallmentTable] = useState(false);
@@ -48,6 +52,7 @@ export default function DetailLinkPayment() {
     if (param) {
       formik.setValues({
         guid: data?.guid,
+        linkUrlKey: data?.linkUrlKey,
         merchantId: `${authData.merchantId}`,
         productImageBase64: data?.productImageBase64 || "",
         productName: data?.productName || "",
@@ -136,7 +141,30 @@ export default function DetailLinkPayment() {
       formik.setFieldValue('productImageBase64', reader.result.split(',')[1]);
     };
   };
-  
+
+  const accordionData = [
+    {
+      title: t('faq.item1Title'),
+      content: t('faq.item1Text'),
+    },
+    {
+      title: t('faq.item2Title'),
+      content: t('faq.item2Text'),
+    },
+    {
+      title: t('faq.item3Title'),
+      content: t('faq.item3Text'),
+    },
+    {
+      title: t('faq.item4Title'),
+      content: t('faq.item4Text'),
+    },
+    {
+      title: t('faq.item5Title'),
+      content: t('faq.item5Text'),
+    },
+  ]
+
   return (
     <div>
       <div className="payment-page-info-box">
@@ -346,10 +374,16 @@ export default function DetailLinkPayment() {
               <div className="form-button-item">
                 {
                   param ? (
-                    <Button type="submit" className="third-button" disabled={loading}>
-                      <img src={createProductButton} alt="" />
-                      <span>{t("linkPayment.updateProductButton")}</span>
-                    </Button>
+                    <>
+                      <Button type="submit" className="third-button" disabled={loading}>
+                        <img src={createProductButton} alt="" />
+                        <span>{t("linkPayment.updateProductButton")}</span>
+                      </Button>
+                      <Button className="secondary-button" onClick={() => setLinkPaymentPreview(true)}>
+                        <img src={previewButtonIcon} alt="" />
+                        <span>{t("linkPayment.previewProductButton")}</span>
+                      </Button>
+                    </>
                   ) : (
                     <Button type="submit" className="primary-button" disabled={loading}>
                       <img src={createProductButton} alt="" />
@@ -357,19 +391,37 @@ export default function DetailLinkPayment() {
                     </Button>
                   )
                 }
-                <Button className="secondary-button" onClick={() => setLinkPaymentPreview(true)}>
-                  <img src={previewButtonIcon} alt="" />
-                  <span>{t("linkPayment.previewProductButton")}</span>
-                </Button>
-                <Dialog header={t('common.MorLink Önizlemesi')} visible={linkPaymentPreview} style={{ width: '745px' }} onHide={() => {if (!linkPaymentPreview) return; setLinkPaymentPreview(false); }}>
-                  <div className="d-flex align-items-center flex-column">
-                    <h5>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio veniam debitis tempore a asperiores esse commodi itaque laborum eum autem! Voluptatum sed ex dolores libero fugit neque perferendis. Illo, modi.</h5>
+                <Dialog className="pay-link-dialog" header={t('linkPayment.linkPreviewModalTitle')} visible={linkPaymentPreview} style={{ width: '745px' }} onHide={() => {if (!linkPaymentPreview) return; setLinkPaymentPreview(false); }}>
+                  <ProductCard
+                    productImage={formik.values.productImageBase64}
+                    title={formik.values.productName}
+                    description={formik.values.productDescription}
+                    price={formik.values.productPrice}
+                    priceCurrency={getCurrencyName(formik.values.currencyGuid)}
+                    linkUrlKey={formik.values.linkUrlKey}
+                  />
+                  <div className="link-preview-modal-bottom">
+                    <div className="logo">
+                      <img src={logo} alt="" height={'30px'} />
+                      <span>{t('linkPayment.logoText')}</span>
+                    </div>
+                    <div className="payment-button">
+                      <a href={`/linkpayment/${formik.values.linkUrlKey}`} target="_blank" className="complete-payment-button">
+                        <span>{t("linkPayment.completePayment")}</span>
+                        <div className="price">{formik.values.productPrice} {getCurrencyName(formik.values.currencyGuid)}</div>
+                      </a>
+                    </div>
                   </div>
                 </Dialog>
               </div>
             </div>
           </div>
         </Form>
+        <AccordionList
+          title={t('faq.allTopicsTitle')}
+          link={'#'}
+          data={accordionData}
+        />
       </div>
     </div>
   );
