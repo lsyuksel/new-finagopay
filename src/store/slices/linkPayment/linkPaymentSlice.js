@@ -3,38 +3,47 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api, parseErrorResponse } from "@/services/api";
 import { t } from "i18next";
 import { MERCHANT_LINK_PAYMENT } from "../../../constants/apiUrls";
-/*
-export const getLinkPayment = createAsyncThunk(
-  "MerchantLinkPayment/GetLink",
+
+export const payLink = createAsyncThunk(
+  "/MerchantLinkPayment/PayLink",
   async (userData, { rejectWithValue }) => {
-    
     try {
-
-        const paramsArray = [
-            String.fromCharCode(userData.charCodeAt(4) + 3),
-            String.fromCharCode(userData.charCodeAt(5) + 3),
-            String.fromCharCode(userData.charCodeAt(2) + 3),
-            String.fromCharCode(userData.charCodeAt(0) + 3),
-            String.fromCharCode(userData.charCodeAt(1) + 3),
-            String.fromCharCode(userData.charCodeAt(3) + 3),
-            String.fromCharCode(userData.charCodeAt(1) + 1),
-            String.fromCharCode(userData.charCodeAt(1) + 1),
-            userData
-        ];
-        console.log("paramsArray",paramsArray);
-        
-        const response = await api.get(`${MERCHANT_LINK_PAYMENT.GetLink}?t=${paramsArray[0]}&k=${paramsArray[1]}&a=${paramsArray[2]}&l=${paramsArray[3]}&f=${paramsArray[4]}&c=${paramsArray[5]}&y=${paramsArray[6]}&q=${paramsArray[7]}&m=${paramsArray[8]}`);
-        console.log("response",response)
-
-        return response;
+      const response = await api.post(MERCHANT_LINK_PAYMENT.PayLink, {
+        merchantInfo: {
+            nameSurname: userData.nameSurname,
+            phoneNumber: userData.phoneCode + userData.phoneNumber,
+            email: userData.email,
+            address: userData.address
+        },
+        cardHolder: userData.cardHolder,
+        cardNumber: userData.cardNumber,
+        expireDate: userData.expireDate,
+        cvv: userData.cvv,
+        linkKey: userData.linkKey,
+      });
+      return response;
     } catch (error) {
       return rejectWithValue(
-        parseErrorResponse(error.response.data).message || t("messages.linkPaymentError")
+        parseErrorResponse(error.response.data).message || t("messages.error")
       );
     }
   }
 );
-*/
+
+export const getInstallments = createAsyncThunk(
+  "/Installment/GetInstallments",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await api.post(MERCHANT_LINK_PAYMENT.GetInstallments, userData);
+      return response;
+    } catch (error) {
+      return rejectWithValue(
+        parseErrorResponse(error.response.data).message || t("messages.registerError")
+      );
+    }
+  }
+);
+
 export const getLinkPayment = createAsyncThunk(
     "MerchantLinkPayment/GetLink",
     async (userData, { rejectWithValue }) => {
@@ -51,7 +60,7 @@ export const getLinkPayment = createAsyncThunk(
         );
       }
     }
-  );
+);
 
 const linkPaymentSlice = createSlice({
   name: "linkPayment",
@@ -60,8 +69,16 @@ const linkPaymentSlice = createSlice({
     error: null,
     success: false,
     payment: null,
+    installmentList: null,
+    payLinkResult: null,
   },
   reducers: {
+    clearPayLinkResult: (state) => {
+      state.payLinkResult = null;
+    },
+    clearInstallmentList: (state) => {
+      state.installmentList = null;
+    },
     clearLinkPaymentState: (state) => {
       state.loading = false;
       state.error = null;
@@ -74,6 +91,25 @@ const linkPaymentSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(payLink.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(payLink.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.payLinkResult = action.payload;
+        state.error = null;
+      })
+      .addCase(payLink.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(getInstallments.fulfilled, (state, action) => {
+        state.installmentList = action.payload;
+        state.error = null;
+      })
       .addCase(getLinkPayment.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -91,5 +127,5 @@ const linkPaymentSlice = createSlice({
   },
 });
 
-export const { clearLinkPaymentState, setLinkPaymentError } = linkPaymentSlice.actions;
+export const { clearPayLinkResult, clearInstallmentList, clearLinkPaymentState, setLinkPaymentError } = linkPaymentSlice.actions;
 export default linkPaymentSlice.reducer;

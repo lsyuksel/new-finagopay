@@ -33,6 +33,7 @@ import { Dialog } from 'primereact/dialog';
 import AccordionList from "../../../components/Common/AccordionList";
 import ProductCard from "../Paylink/ProductCard";
 import { getCurrencyName } from "../../../utils/helpers";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 export default function DetailLinkPayment() {
   const [installmentTable, setInstallmentTable] = useState(false);
@@ -132,14 +133,15 @@ export default function DetailLinkPayment() {
   });
 
   const customBase64Uploader = async (event) => {
-    const file = event.target.value;
-    console.log(file)
+    const file = event.files[0];
     const reader = new FileReader();
-    let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
-    reader.readAsDataURL(blob);
-    reader.onloadend = function () {
-      formik.setFieldValue('productImageBase64', reader.result.split(',')[1]);
+    
+    reader.onload = function(e) {
+      const base64String = e.target.result.split(',')[1];
+      formik.setFieldValue('productImageBase64', base64String);
     };
+    
+    reader.readAsDataURL(file);
   };
 
   const accordionData = [
@@ -217,7 +219,12 @@ export default function DetailLinkPayment() {
               <div className="form-item">
                 <div className="file-upload-container">
                   {/* <input type="file" onChange={customBase64Uploader} /> */}
-                  <div className="icon"><img src={fileUploadIcon} alt="" /></div>
+                  
+                  {
+                    formik.values.productImageBase64
+                    ? (<img src={`data:image/png;base64,${formik.values.productImageBase64}`} alt={formik.values.productName} />)
+                    : (<div className="icon"><img src={fileUploadIcon} alt="" /></div>)
+                  }
                   <span>{t("linkPayment.productImageTitle")}</span>
                   <div>{t("linkPayment.productImageSubTitle")}</div>
                   <FileUpload 
@@ -227,7 +234,7 @@ export default function DetailLinkPayment() {
                     accept="image/*"
                     chooseLabel={t("linkPayment.productImageUploadButton")}
                     maxFileSize={1000000}
-                    onChange={customBase64Uploader}
+                    onSelect={customBase64Uploader}
                   />
                 </div>
               </div>

@@ -36,6 +36,6 @@ export const showDialog = (type, message, icon, errorCode, acceptCallback) => {
 
 export const getCurrencyName = (guid) => {
     const { currencyDef } = useSelector((state) => state.selectOptions);
-    const found = currencyDef.find((item) => item.guid == guid);
+    const found = currencyDef.find((item) => item.guid == Number(guid));
     return found ? found.alphabeticCode : null;
 };

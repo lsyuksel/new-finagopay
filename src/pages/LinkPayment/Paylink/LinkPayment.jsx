@@ -23,32 +23,39 @@ import { classNames } from "primereact/utils";
 import { getErrorMessage } from "../../../utils/helpers";
 import { Message } from "primereact/message";
 import errorIcon from "@/assets/images/alerts/error.svg";
+import { Dropdown } from 'primereact/dropdown';
+import { RadioButton } from "primereact/radiobutton";
+import { clearInstallmentList, clearPayLinkResult, getInstallments, payLink } from "../../../store/slices/linkPayment/linkPaymentSlice";
+import { toast } from "react-toastify";
+import PayLinkResult from "./PayLinkResult";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 export default function LinkPayment() {
+  const authData = useSelector((state) => state.auth);
+  const { testOptions } = useSelector((state) => state.selectOptions);
   const { param } = useParams();
-
   const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { userAgreement } = useSelector(
     (state) => state.register);
 
-  const { loading, error, success, payment } = useSelector(
+  const { loading, error, success, payment, installmentList, payLinkResult } = useSelector(
     (state) => state.linkPayment
   );
+
   const [selectedAgreements, setSelectedAgreements] = useState([]);
   const [visibleDialogs, setVisibleDialogs] = useState({});
 
   useEffect(() => {
+    console.log("authData",authData);
+    dispatch(clearPayLinkResult(null))
     dispatch(setLinkPaymentError(null));
     dispatch(getLinkPayment(param));
     dispatch(getUserAgreementByCreateAcount());
   }, []);
-
-  useEffect(() => {
-    console.log("payment", payment);
-  }, [payment]);
 
   const validationSchema = Yup.object().shape({
     nameSurname: Yup.string().required(t("errors.required")),
@@ -60,6 +67,52 @@ export default function LinkPayment() {
     email: Yup.string()
       .email(t("errors.invalidEmail"))
       .required(t("errors.required")),
+
+    country: Yup.string().required(t("errors.required")),
+    city: Yup.string().required(t("errors.required")),
+    province: Yup.string().required(t("errors.required")),
+    district: Yup.string().required(t("errors.required")),
+    neighborhood: Yup.string().required(t("errors.required")),
+    postalCode: Yup.string().required(t("errors.required")),
+    address: Yup.string().required(t("errors.required")),
+
+    cardHolder: Yup.string()
+      .required(t("errors.required"))
+      .matches(/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/, t("errors.onlyLetters"))
+      .min(3, t("errors.minLength", { length: 3 }))
+      .max(50, t("errors.maxLength", { length: 50 })),
+    cardNumber: Yup.string()
+      .required(t("errors.required"))
+      .matches(/^[0-9]+$/, t("errors.onlyNumbers"))
+      .min(16, t("errors.minLength", { length: 16 }))
+      .max(19, t("errors.maxLength", { length: 19 }))
+      .test('luhn', t("errors.invalidCardNumber"), value => {
+        if (!value) return false;
+        let sum = 0;
+        let isEven = false;
+        for (let i = value.length - 1; i >= 0; i--) {
+          let digit = parseInt(value.charAt(i));
+          if (isEven) {
+            digit *= 2;
+            if (digit > 9) {
+              digit -= 9;
+            }
+          }
+          sum += digit;
+          isEven = !isEven;
+        }
+        return sum % 10 === 0;
+      }),
+    expireDate: Yup.string()
+      .required(t("errors.required"))
+      .matches(/^(0[1-9]|1[0-2])\/([0-9]{2})$/, t("errors.invalidExpireDate")),
+
+    cvv: Yup.string()
+      .required(t("errors.required"))
+      .matches(/^[0-9]+$/, t("errors.onlyNumbers"))
+      .min(3, t("errors.minLength", { length: 3 }))
+      .max(4, t("errors.maxLength", { length: 4 })),
+
     agreements: Yup.array().test(
       "all-agreements",
       t("errors.required"),
@@ -71,30 +124,43 @@ export default function LinkPayment() {
 
   const formik = useFormik({
     initialValues: {
-      merchantInfo: {
-      },
       nameSurname: "",
       email: "",
-      phoneNumber: null,
+      phoneNumber: "",
       phoneCode: "90",
+      
+      country: "",
+      city: "",
+      province: "",
+      district: "",
+      neighborhood: "",
+      postalCode: "",
       address: "",
+      
+      cardHolder: "",
+      cardNumber: "",
+      expireDate: "",
+      cvv: "",
+
+      linkKey: param,
       agreements: [],
     },
     validationSchema,
     onSubmit: async (values) => {
-      console.log("values",values)
-      /*
-      values.agreements = selectedAgreements;
-      dispatch(registerUser(values))
+      const formattedValues = {
+        ...values,
+        agreements: selectedAgreements,
+        expireDate: values.expireDate.replace(/\//g, '')
+      };
+      dispatch(payLink(formattedValues))
         .unwrap()
         .then(() => {
-          toast.success(t("messages.registerSuccess"));
+          toast.success(t("messages.success"));
         })
         .catch((error) => {
-          dispatch(setRegisterError(error));
+          dispatch(setLinkPaymentError(error));
           toast.error(error);
         });
-        */
     },
   });
 
@@ -148,6 +214,32 @@ export default function LinkPayment() {
       </>
     );
   };
+
+  const handleCardNumberChange = async (e) => {
+    const value = e.target.value.replace(/\s/g, '');
+    formik.setFieldValue('cardNumber', e.target.value);
+
+    if (value.length > 5) {
+      if(installmentList === null) {
+        try {
+          dispatch(getInstallments({
+            bin: String(parseInt(value)),
+            language: "tr",
+            merchantId: String(authData.merchantId),
+            merchantGuid: authData.merchantGuid.merchantGuid,
+            amount: payment?.u,
+          })).unwrap();
+        } catch (error) {
+          console.error('Taksit seçenekleri alınamadı:', error);
+        }
+      }
+    } else {
+      dispatch(clearInstallmentList());
+    }
+  };
+
+  if(!payLinkResult) return <PayLinkResult />
+  if(loading) return <ProgressSpinner className="custom-page-proggress" />
 
   return (
     <div className="paylink-container">
@@ -204,72 +296,253 @@ export default function LinkPayment() {
                         ) : null;
                       })()
                     : null}
-                      <Accordion activeIndex={0}>
-                        <AccordionTab header={t('linkPayment.payLinkTitle1')}>
-                          <Form.Group className="form-item">
-                            <Form.Control
-                              placeholder={t("common.firstLastName")}
-                              type="text"
-                              id="nameSurname"
-                              name="nameSurname"
-                              value={formik.values.nameSurname}
-                              onChange={formik.handleChange}
-                              isInvalid={formik.touched.nameSurname && formik.errors.nameSurname}
-                              disabled={loading}
+                    <Accordion activeIndex={0}>
+                      <AccordionTab header={t('linkPayment.payLinkTitle1')}
+                        className={ (formik.errors.nameSurname || formik.errors.email || formik.errors.phoneNumber ) ? "error-accordion" : "success-accordion" }>
+                        <Form.Group className="form-item">
+                          <Form.Control
+                            placeholder={t("common.firstLastName")}
+                            type="text"
+                            id="nameSurname"
+                            name="nameSurname"
+                            value={formik.values.nameSurname}
+                            onChange={formik.handleChange}
+                            isInvalid={formik.touched.nameSurname && formik.errors.nameSurname}
+                            disabled={loading}
+                          />
+                        </Form.Group>
+                        <Form.Group className="form-item">
+                          <Form.Control
+                            placeholder={t("common.email")}
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                            isInvalid={formik.touched.email && formik.errors.email}
+                            disabled={loading}
+                          />
+                        </Form.Group>
+                        <Form.Group className="form-item">
+                          <div className="phone-input-container">
+                            <PhoneInput
+                              inputProps={{
+                                disabled: true,
+                              }}
+                              country={"tr"}
+                              id="phoneCode"
+                              value={formik.values.phoneCode}
+                              onChange={(phone) => (formik.values.phoneCode = phone)}
                             />
-                          </Form.Group>
-                          <Form.Group className="form-item">
-                            <Form.Control
-                              placeholder={t("common.email")}
-                              type="email"
-                              id="email"
-                              name="email"
-                              value={formik.values.email}
+                            <InputMask
+                              className="p-form-control"
+                              mask="999 999 99 99"
+                              placeholder="999 999 99 99"
+                              id="phoneNumber"
+                              invalid={formik.touched.phoneNumber && formik.errors.phoneNumber}
+                              value={formik.values.phoneNumber}
                               onChange={formik.handleChange}
-                              isInvalid={formik.touched.email && formik.errors.email}
                               disabled={loading}
+                            ></InputMask>
+                          </div>
+                        </Form.Group>
+                      </AccordionTab>
+                      <AccordionTab header={t('linkPayment.payLinkTitle2')}
+                        className={ 
+                          (formik.errors.country || formik.errors.city || formik.errors.province ||
+                            formik.errors.district || formik.errors.neighborhood || formik.errors.postalCode ||
+                            formik.errors.address
+                           ) ? "error-accordion" : "success-accordion"
+                          }>
+                        <Form.Group className="form-item flex-row gap-4">
+                          {testOptions?.length > 0 && (
+                            <Dropdown
+                              id="country"
+                              name="country"
+                              value={formik.values.country}
+                              onChange={formik.handleChange}
+                              invalid={formik.touched.country && formik.errors.country}
+                              disabled={loading}
+                              options={testOptions}
+                              optionLabel="label"
+                              optionValue="guid"
+                              className="p-form-control"
+                              placeholder={t("common.Country")}
+                              filter
                             />
-                          </Form.Group>
-                          <Form.Group className="form-item">
-                            <div className="phone-input-container">
-                              <PhoneInput
-                                inputProps={{
-                                  disabled: true,
-                                }}
-                                country={"tr"}
-                                id="phoneCode"
-                                value={formik.values.phoneCode}
-                                onChange={(phone) => (formik.values.phoneCode = phone)}
-                              />
-                              <InputMask
-                                className="p-form-control"
-                                mask="999 999 99 99"
-                                placeholder="999 999 99 99"
-                                id="phoneNumber"
-                                invalid={formik.touched.phoneNumber && formik.errors.phoneNumber}
-                                value={formik.values.phoneNumber}
-                                onChange={formik.handleChange}
-                                disabled={loading}
-                              ></InputMask>
-                            </div>
-                          </Form.Group>
-                        </AccordionTab>
-                        <AccordionTab header={t('linkPayment.payLinkTitle2')}>
-                            <p className="m-0">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
-                        </AccordionTab>
-                        <AccordionTab header={t('linkPayment.payLinkTitle3')}>
-                            <p className="m-0">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
-                        </AccordionTab>
+                          )}
+                          {testOptions?.length > 0 && (
+                            <Dropdown
+                              id="city"
+                              name="city"
+                              value={formik.values.city}
+                              onChange={formik.handleChange}
+                              invalid={formik.touched.city && formik.errors.city}
+                              disabled={loading}
+                              options={testOptions}
+                              optionLabel="label"
+                              optionValue="guid"
+                              className="p-form-control"
+                              placeholder={t("common.City")}
+                              filter
+                            />
+                          )}
+                        </Form.Group><Form.Group className="form-item flex-row gap-4">
+                          {testOptions?.length > 0 && (
+                            <Dropdown
+                              id="province"
+                              name="province"
+                              value={formik.values.province}
+                              onChange={formik.handleChange}
+                              invalid={formik.touched.province && formik.errors.province}
+                              disabled={loading}
+                              options={testOptions}
+                              optionLabel="label"
+                              optionValue="guid"
+                              className="p-form-control"
+                              placeholder={t("common.Province")}
+                              filter
+                            />
+                          )}
+                          {testOptions?.length > 0 && (
+                            <Dropdown
+                              id="district"
+                              name="district"
+                              value={formik.values.district}
+                              onChange={formik.handleChange}
+                              invalid={formik.touched.district && formik.errors.district}
+                              disabled={loading}
+                              options={testOptions}
+                              optionLabel="label"
+                              optionValue="guid"
+                              className="p-form-control"
+                              placeholder={t("common.District")}
+                              filter
+                            />
+                          )}
+                        </Form.Group><Form.Group className="form-item flex-row gap-4">
+                          {testOptions?.length > 0 && (
+                            <Dropdown
+                              id="neighborhood"
+                              name="neighborhood"
+                              value={formik.values.neighborhood}
+                              onChange={formik.handleChange}
+                              invalid={formik.touched.neighborhood && formik.errors.neighborhood}
+                              disabled={loading}
+                              options={testOptions}
+                              optionLabel="label"
+                              optionValue="guid"
+                              className="p-form-control"
+                              placeholder={t("common.Neighborhood")}
+                              filter
+                            />
+                          )}
+                          {testOptions?.length > 0 && (
+                            <Dropdown
+                              id="postalCode"
+                              name="postalCode"
+                              value={formik.values.postalCode}
+                              onChange={formik.handleChange}
+                              invalid={formik.touched.postalCode && formik.errors.postalCode}
+                              disabled={loading}
+                              options={testOptions}
+                              optionLabel="label"
+                              optionValue="guid"
+                              className="p-form-control"
+                              placeholder={t("common.PostalCode")}
+                              filter
+                            />
+                          )}
+                        </Form.Group>
+                        <Form.Group className="form-item flex-row gap-4">
+                          <Form.Control
+                            placeholder={t("common.ContinueAddress")}
+                            type="text"
+                            id="address"
+                            name="address"
+                            value={formik.values.address}
+                            onChange={formik.handleChange}
+                            isInvalid={formik.touched.address && formik.errors.address}
+                            disabled={loading}
+                          />
+                        </Form.Group>
+                      </AccordionTab>
+                      <AccordionTab header={t('linkPayment.payLinkTitle3')}
+                        className={ (formik.errors.nameSurname || formik.errors.email || formik.errors.phoneNumber ) ? "error-accordion" : "success-accordion" }>
+
+                        <Form.Group className="form-item flex-row gap-4">
+                          <Form.Control
+                            placeholder={t("common.cardHolder")}
+                            type="text"
+                            id="cardHolder"
+                            name="cardHolder"
+                            value={formik.values.cardHolder}
+                            onChange={formik.handleChange}
+                            isInvalid={formik.touched.cardHolder && formik.errors.cardHolder}
+                            disabled={loading}
+                          />
+                        </Form.Group>
+                        <Form.Group className="form-item flex-row gap-4">
+                          <InputMask
+                            placeholder={t("common.cardNumber")}
+                            mask="9999 9999 9999 9999"
+                            id="cardNumber"
+                            name="cardNumber"
+                            value={formik.values.cardNumber}
+                            onChange={handleCardNumberChange}
+                            invalid={formik.touched.cardNumber && formik.errors.cardNumber}
+                            disabled={loading}
+                            className="p-form-control"
+                            autoClear={false}
+                            unmask={true}
+                          />
+                        </Form.Group>
+                        <Form.Group className="form-item flex-row gap-4">
+                          <InputMask
+                            placeholder={t("common.expireDate")}
+                            mask="99/99"
+                            id="expireDate"
+                            name="expireDate"
+                            className="p-form-control"
+                            value={formik.values.expireDate}
+                            onChange={formik.handleChange}
+                            invalid={formik.touched.expireDate && formik.errors.expireDate}
+                            disabled={loading}
+                            unmask={false}
+                          />
+                          <Form.Control
+                            placeholder={t("common.cvv")}
+                            type="text"
+                            id="cvv"
+                            name="cvv"
+                            value={formik.values.cvv}
+                            onChange={formik.handleChange}
+                            isInvalid={formik.touched.cvv && formik.errors.cvv}
+                            disabled={loading}
+                          />
+                        </Form.Group>
+                        {
+                          installmentList && (
+                            <>
+                              <div className="installment-title">Taksit Seçenekleri</div>
+                              <div className="installment-list">
+                                {installmentList?.installmentList?.length > 0 && installmentList.installmentList?.map((item,index)=>(
+                                    <div className="item" key={index}>
+                                        <RadioButton 
+                                          inputId={item.installmentId}
+                                          name="installmentId"
+                                          value={item.installmentId}
+                                          checked={true}
+                                        />
+                                        <label htmlFor={item.guid} className="ml-2">{t('Tek Çekim (Peşin)')}</label>
+                                        <div className="price">{ item.installmentTotalAmount } { payment?.y }</div>
+                                    </div>
+                                ))}
+                              </div>
+                            </>
+                          )
+                        }
+                      </AccordionTab>
                     </Accordion>
                     {userAgreement?.map((item, index) => (
                       <div className="d-flex align-items-center gap-2 mb-3" key={index}>

@@ -48,12 +48,16 @@ const OtpVerification = ({ loginData }) => {
         const merchantId = await api.post(AUTH_URL.GetSubMerchantIdByUserName, {
           userName: verificationData.userName,
         });
+        const merchantGuid = await api.post(AUTH_URL.GetMerchantPermissionByUserName, {
+          userName: verificationData.userName,
+        });
         
         dispatch(
           setCredentials({
             user: responseData.user || responseData,
             token: responseData.accessToken,
             merchantId: merchantId,
+            merchantGuid: merchantGuid,
           })
         );
 

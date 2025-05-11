@@ -1074,6 +1074,29 @@ button,
     }
 }
 
+.p-radiobutton {
+    .p-radiobutton-input {
+        z-index: 2;
+    }
+    .p-radiobutton-box {
+        position: relative;
+        z-index: 2;
+        border: 2px solid #B2C2D7;
+        background: transparent;
+    }
+    &.p-highlight {
+        .p-radiobutton-box {
+            background: transparent;
+            border-color: $fourth-color;
+            .p-radiobutton-icon {
+                width: 14px;
+                height: 14px;
+                background: $fourth-color;
+            }
+        }
+    }
+}
+
 .p-radio-button-item {
     position: relative;
     display: inline-flex;
@@ -1097,27 +1120,9 @@ button,
             border-radius: 50px;
             transition: $transition;
         }
-        .p-radiobutton-input {
-            z-index: 2;
-        }
-        .p-radiobutton-box {
-            position: relative;
-            z-index: 2;
-            border: 2px solid #B2C2D7;
-            background: transparent;
-        }
         &.p-highlight {
             &:before {
                 background: $background;
-            }
-            .p-radiobutton-box {
-                background: transparent;
-                border-color: $fourth-color;
-                .p-radiobutton-icon {
-                    width: 14px;
-                    height: 14px;
-                    background: $fourth-color;
-                }
             }
         }
     }
@@ -1528,14 +1533,15 @@ button,
         .p-accordion {
             font-family: $font-family;
             .p-accordion-tab {
-                border: 1px solid $border-2;
-                border-radius: 16px;
                 transition: $transition;
                 margin: 0 0 var(--spacer-6);
                 &:last-child {
                     margin-bottom: var(--spacer-8);
                 }
                 .p-accordion-header {
+                    border: 1px solid $border-2;
+                    border-radius: 16px;
+                    transition: none;
                     .p-accordion-header-link {
                         padding: var(--spacer-8) var(--spacer-8);
                         border: 0;
@@ -1566,12 +1572,15 @@ button,
                     color: $sub-text-color;
                     @include text-3-regular;
                     padding: 0 var(--spacer-6) var(--spacer-8);
-                    border: 0;
-                    border-radius: 16px;
+                    border: 1px solid $border-2;
+                    border-radius: 0 0 16px 16px;
+                    border-top: 0;
                 }
                 &.p-accordion-tab-active {
-                    border-color: $green-succes;
                     .p-accordion-header {
+                        border-radius: 16px 16px 0 0;
+                        border-bottom: 0;
+                        border-color: $green-succes;
                         .p-accordion-header-link {
                             padding-bottom: var(--spacer-6);
                             &:after {
@@ -1579,6 +1588,17 @@ button,
                             }
                         }
                     }
+                    .p-accordion-content {
+                        border-color: $green-succes;
+                    }
+                }
+                .error-accordion {
+                    border-color: $refund-color !important;
+                    .p-accordion-content {
+                        border-color: $refund-color !important;
+                    }
+                }
+                .success-accordion {
                 }
             }
         }
@@ -1597,7 +1617,59 @@ button,
         }
     }
 }
+
+.installment-title {
+    @include text-9-semibold;
+    color: $text-color;
+    margin: 0 0 var(--spacer-4);
+}
+
+.installment-list {
+    border: 1px solid $border-2;
+    background: $white-color;
+    border-radius: 8px;
+    overflow: hidden;
+    .item {
+        display: flex;
+        align-items: center;
+        padding: var(--spacer-3) var(--spacer-4);
+        color: $sub-text-color;
+        border-bottom: 1px solid $border-2;
+        > label {
+            margin: 0;
+            flex: 1 0 0;
+            @include text-3-regular;
+            padding: 0 var(--spacer-2); 
+        }
+        .price {
+            @include text-5-semibold;
+        }
+        &:nth-child(even) {
+            background: $light-gray;
+        }
+        &:last-child {
+            border-bottom: 0;
+        }
+    }
+}
+
 /*Paylink LinkPayment Page*/
+
+.custom-page-proggress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    .p-progress-spinner-svg {
+        width: 150px;
+        height: 150px;
+        .p-progress-spinner-circle {
+            stroke: $fourth-color !important;
+        }
+    }
+}
+
 main {
     width: 100%;
 }
@@ -2640,6 +2712,43 @@ footer {
         transition: $transition;
     }
 
+    .p-dropdown {
+        font-family: $font-family;
+        width: 100%;
+        background-color: #f5f8fb;
+        border: 1px solid #f5f8fb;
+        border-radius: 50px;
+        padding: var(--spacer-4) var(--spacer-6);
+        color: $gray;
+        @include text-4-medium;
+        box-shadow: none;
+        outline: none;
+        transition: $transition;
+        .p-inputtext {
+            @include text-4-medium;
+            color: $black;
+            &.p-placeholder {
+                color: $gray;
+            }
+        }
+        .p-dropdown-trigger {
+            width: 12px;
+            height: 12px;
+            display: block;
+            background-image: url('data:image/svg+xml,<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.1014 3.94675L6.57388 8.75729C6.26263 9.088 5.73707 9.088 5.42582 8.75729L0.89822 3.94675C0.558058 3.58529 0.814295 2.99219 1.31065 2.99219H10.689C11.1854 2.99219 11.4416 3.58529 11.1014 3.94675Z" fill="%239D9D9D"/></svg>');
+            background-size: initial;
+            background-repeat: no-repeat;
+            background-position: center;
+            > svg {
+                display: none;
+            }
+        }
+        &.p-invalid,
+        &.is-invalid {
+            border-color: $refund-color;
+        }
+    }
+    
     .p-form-control.p-inputtext,
     .p-form-control .p-component,
     .form-control {
@@ -2729,6 +2838,9 @@ footer {
 
         &.success-color {
             color: $green-succes;
+        }
+        &.error-color {
+            color: $refund-color;
         }
     }
 

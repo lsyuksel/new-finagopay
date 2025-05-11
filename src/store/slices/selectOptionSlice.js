@@ -30,6 +30,28 @@ export const getAllProductType = createAsyncThunk(
 );
 
 const initialState = {
+  testOptions: [
+    {
+      "guid": 1,
+      "label": "Test #1",
+    },
+    {
+      "guid": 2,
+      "label": "Test #2",
+    },
+    {
+      "guid": 3,
+      "label": "Test #3",
+    },
+    {
+      "guid": 4,
+      "label": "Test #4",
+    },
+    {
+      "guid": 5,
+      "label": "Test #5",
+    }
+  ],
   currencyDef: [],
   allProductType: [],
   loading: false,

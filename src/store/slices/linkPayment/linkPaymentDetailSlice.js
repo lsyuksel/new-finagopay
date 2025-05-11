@@ -56,6 +56,12 @@ const linkPaymentDetailSlice = createSlice({
     data: null,
   },
   reducers: {
+    saveDetailData: (state,action) => {
+      state.loading = false;
+      state.error = null;
+      state.success = false;
+      state.data = action.payload;
+    },
     clearLinkPaymentDetailState: (state) => {
       state.loading = false;
       state.error = null;
@@ -118,5 +124,5 @@ const linkPaymentDetailSlice = createSlice({
   },
 });
 
-export const { clearLinkPaymentDetailState, setLinkPaymentDetailError } = linkPaymentDetailSlice.actions;
+export const { clearLinkPaymentDetailState, setLinkPaymentDetailError, saveDetailData } = linkPaymentDetailSlice.actions;
 export default linkPaymentDetailSlice.reducer;

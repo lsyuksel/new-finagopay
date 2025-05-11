@@ -74,23 +74,30 @@
     "searchInput":"İşlem Arama...",
     "footerCopyright":"Copyright 2025 © <b>MorPos</b> Her hakkı saklıdır. <b>MorPos,</b> bir <b>A Ödeme ve Elektronik Para Hizmetleri A.Ş.</b> markasıdır.<br />Kredi kartı bilgileriniz 256bit SSL sertifikası ile korunmaktadır.",
     "share": "Paylaş",
-
     "Digital": "Dijital",
     "Physical": "Fiziksel",
     "Collection": "Tahsilat",
-
     "ForSaletrue": "Satışa Açık",
     "ForSalefalse": "Satışa Kapalı",
     "MorLinkAddress": "MorLink Adresiniz",
     "paginateText": "Görüntülenen {first}-{last} Toplam {totalRecords}",
     "emptyMessage": "Lütfen satırlarınız yüklenirken bekleyin veya bunun yerine arama panelini deneyin",
-
     "ButtonComplete": "Tamam",
     "ButtonApprove": "Onaylıyorum",
     "ButtonCancel": "Vazgeç",
-    "installmentTable": "Taksit Tablosu"
+    "installmentTable": "Taksit Tablosu",
     
-
+    "Country": "Ülke",
+    "City": "Şehir",
+    "Province": "İl",
+    "District": "İlçe",
+    "Neighborhood": "Mahalle/Köy",
+    "PostalCode": "Posta Kodu",
+    "ContinueAddress": "Adresin Devamı",
+    "cardHolder": "İsim ve Soyisim",
+    "cardNumber": "Kart Numarası (16 Haneli)",
+    "expireDate": "Ay/Yıl",
+    "cvv": "CVC/CVV"
   },
   "faq": {
     "item1Title": "MorLink Nedir?",
@@ -215,7 +222,15 @@
     "menuError": "Menü verileri alınamadı",
     "userError": "Kullanıcı verileri alınamadı",
     "maxLengthError": "Bu alan en fazla {{length}} karakter olabilir",
-    "mustBeNumber": "Bu alan sayısal olmalıdır"
+    "mustBeNumber": "Bu alan sayısal olmalıdır",
+    
+    "onlyLetters": "Sadece harf karakterleri kullanılabilir",
+    "onlyNumbers": "Sadece rakam karakterleri kullanılabilir",
+    "minLength": "En az {{length}} karakter olmalıdır",
+    "maxLength": "En fazla {{length}} karakter olmalıdır",
+    "invalidCardNumber": "Geçersiz kart numarası",
+    "invalidExpireDate": "Geçersiz son kullanma tarihi (MM/YY)",
+    "expiredCard": "Kartın son kullanma tarihi geçmiş"
   },
   "messages": {
     "success": "İşlem başarılı",

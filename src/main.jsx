@@ -6,9 +6,10 @@ import { store, persistor } from './store'
 import App from './App.jsx'
 import './App.scss'
 import './i18n'
+import { ProgressSpinner } from 'primereact/progressspinner'
 
 const LoadingFallback = () => (
-  <div>Loading...</div>
+  <ProgressSpinner className="custom-page-proggress" />
 )
 
 createRoot(document.getElementById('root')).render(
