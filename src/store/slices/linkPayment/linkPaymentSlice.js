@@ -71,6 +71,19 @@ const linkPaymentSlice = createSlice({
     payment: null,
     installmentList: null,
     payLinkResult: null,
+    /*
+    payLinkResult: {
+      code: null,
+      message: null,
+      resultCode: "B0000",
+      resultDescription: "Approved",
+      responseDate: "12/05/2025 13:41:23",
+      orderId: "5000000045202502030148",
+      htmlFormSuccess: null,
+      okUrl: null,
+      failUrl: null
+    },
+    */
   },
   reducers: {
     clearPayLinkResult: (state) => {

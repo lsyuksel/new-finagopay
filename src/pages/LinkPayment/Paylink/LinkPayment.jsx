@@ -34,7 +34,7 @@ export default function LinkPayment() {
   const authData = useSelector((state) => state.auth);
   const { testOptions } = useSelector((state) => state.selectOptions);
   const { param } = useParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ export default function LinkPayment() {
   const [visibleDialogs, setVisibleDialogs] = useState({});
 
   useEffect(() => {
-    console.log("authData",authData);
+    console.log("param",param);
     dispatch(clearPayLinkResult(null))
     dispatch(setLinkPaymentError(null));
     dispatch(getLinkPayment(param));
@@ -155,7 +155,7 @@ export default function LinkPayment() {
       dispatch(payLink(formattedValues))
         .unwrap()
         .then(() => {
-          toast.success(t("messages.success"));
+          //toast.success(t("messages.success"));
         })
         .catch((error) => {
           dispatch(setLinkPaymentError(error));
@@ -224,7 +224,7 @@ export default function LinkPayment() {
         try {
           dispatch(getInstallments({
             bin: String(parseInt(value)),
-            language: "tr",
+            language: i18n.language,
             merchantId: String(authData.merchantId),
             merchantGuid: authData.merchantGuid.merchantGuid,
             amount: payment?.u,
@@ -238,7 +238,7 @@ export default function LinkPayment() {
     }
   };
 
-  if(!payLinkResult) return <PayLinkResult />
+  if(payLinkResult) return <PayLinkResult />
   if(loading) return <ProgressSpinner className="custom-page-proggress" />
 
   return (

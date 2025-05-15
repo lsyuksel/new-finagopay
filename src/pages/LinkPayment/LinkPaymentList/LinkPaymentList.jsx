@@ -181,10 +181,16 @@ export default function LinkPaymentList() {
                   <span>https://mymoor.link/{rowData.linkUrlKey}</span>
                 </a>
               </div>
+
               <div>
-                <InputSwitch checked={rowData.linkPaymentStatus?.merchantEnabled}/>
-                <span className="d-none">{t(`common.ForSale${rowData.linkPaymentStatus?.merchantEnabled}`)}</span>
+                <InputSwitch checked={rowData.linkPaymentStatus?.name !== 'WaitingForApproval'}/>
+                {rowData.linkPaymentStatus?.name !== 'WaitingForApproval' ? (
+                  <span className="d-none">{t(`common.ForSaletrue`)}</span>
+                ) : (
+                  <span className="d-none">{t(`common.ForSalefalse`)}</span>
+                )}
               </div>
+
             </>
           )}/>
           <Column

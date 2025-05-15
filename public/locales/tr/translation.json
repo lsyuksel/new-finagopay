@@ -183,6 +183,7 @@
     "productPrice": "Ürün Fiyat",
     "productPricePlaceholder": "Ürün fiyatını giriniz",
     "currencyGuid": "Para Birimi",
+    "stock": "Adet",
     
     "productInfoTitle": "Ürün Bilgileri",
     "stockEnabled": "Adet/Stok Belirle",
@@ -206,8 +207,18 @@
 
     "payLinkTitle1": "Kişisel Bilgiler",
     "payLinkTitle2": "Adres Bilgileri",
-    "payLinkTitle3": "Kart Bilgileri"
+    "payLinkTitle3": "Kart Bilgileri",
 
+    "successTitle": "Ödemeniz Başarıyla Gerçekleşti!",
+    "orderNumber": "Sipariş Numaranız",
+    "quantity": "Adet/Miktar",
+    "storeName": "Mağaza Adı",
+    "installmentCount": "Taksit Sayısı",
+    "returnHome": "Anasayfaya Dön",
+    "errorTitle": "Ödeme işlemi Başarısız Oldu!",
+    "errorCode": "Hata Kodu",
+    "retryText": "Ödeme işlemini tekrar baştan deneyebilirsiniz.",
+    "retryButton": "İşlemi Tekrarla"
     
   },
   "errors": {

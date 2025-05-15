@@ -46,12 +46,12 @@ const menuSlice = createSlice({
   reducers: {
     toggleSidebar: (state, action) => {
       state.toggleSidebarStatus = action.payload;
-      /* Test notification */
-      toast.success("MoorLink oluşturma işleminiz başarıyla gerçekleşti.");
-      toast.info("MoorLink oluşturma işleminiz başarıyla gerçekleşti.");
-      toast.warn("MoorLink oluşturma işleminiz başarıyla gerçekleşti.");
-      toast.error("MoorLink oluşturma işleminiz başarıyla gerçekleşti.");
-      /* Test notification */
+      /* Test notification
+        toast.success("MoorLink oluşturma işleminiz başarıyla gerçekleşti.");
+        toast.info("MoorLink oluşturma işleminiz başarıyla gerçekleşti.");
+        toast.warn("MoorLink oluşturma işleminiz başarıyla gerçekleşti.");
+        toast.error("MoorLink oluşturma işleminiz başarıyla gerçekleşti.");
+      */
     },
     toggleMenuItem: (state, action) => {
       const itemId = action.payload;

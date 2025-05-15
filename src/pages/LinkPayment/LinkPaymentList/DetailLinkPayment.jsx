@@ -86,6 +86,7 @@ export default function DetailLinkPayment() {
     productName: Yup.string().required(t("errors.required")),
     productDescription: Yup.string().required(t("errors.required")),
     productPrice: Yup.string().required(t("errors.required")),
+    stock: Yup.string().required(t("errors.required")),
   });
 
   const formik = useFormik({
@@ -96,7 +97,7 @@ export default function DetailLinkPayment() {
       productDescription: "",
       productPrice: "",
       currencyGuid: "240127211946100997",
-      stock: 10,
+      stock: null,
       stockEnabled: false,
       installmentInfoEnabled: false,
       merchantAddressEnabled: false,
@@ -311,6 +312,21 @@ export default function DetailLinkPayment() {
                   />
                   <span>{t("linkPayment.stockEnabled")}</span>
                 </div>
+                {formik.values.stockEnabled && (
+                  <div className="d-flex align-items-center gap-3" style={{width: '120px'}}>
+                    <label htmlFor="stock">{t("linkPayment.stock")}</label>
+                    <InputText 
+                      className="p-form-control"
+                      id="stock"
+                      name="stock"
+                      value={formik.values.stock}
+                      onChange={formik.handleChange}
+                      invalid={formik.touched.stock && formik.errors.stock}
+                      disabled={loading}
+                    />
+                  </div>
+                )}
+
               </div>
               <div className="form-item">
                 <div className="input-switch">
