@@ -1,477 +1,405 @@
-import { useEffect, useState } from 'react';
-import React from 'react';
-import PropTypes from 'prop-types';
+import { t } from 'i18next';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable'
+import { ProgressSpinner } from 'primereact/progressspinner';
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { getTransactionList, setTransactionListError } from '../../store/slices/transaction-managment/transactionListSlice';
 import { useTranslation } from 'react-i18next';
-import { Container, Nav, Tab, Alert, Spinner, Table, Card, Pagination, Dropdown, Form } from 'react-bootstrap';
-import SearchProvision from './SearchProvision';
-import SearchProvisionSettle from './SearchProvisionSettle';
-import TransactionDetailModal from './TransactionDetailModal';
-import {
-  getBanks,
-  getCardTypes,
-  getCurrencies,
-  getPaymentStatuses,
-  getTransactionProvisions,
-  getTransactionProvisionSettles,
-  getTransactionTypes
-} from '../../store/slices/transactionSlice';
+import { Button } from 'primereact/button';
+import FilterDialog from '../../components/Common/Table/FilterDialog';
+import DateFilter from '../../components/Common/Table/DateFilter';
 
-const TransactionMonitoring = () => {
+import ButtonIcon1 from "@/assets/images/icons/advanced-search.svg";
+import ButtonIcon2 from "@/assets/images/icons/by-date.svg";
+
+import successDialogIcon from '@assets/images/icons/successDialogIcon.svg'
+import dangerDialogIcon from '@assets/images/icons/dangerDialogIcon.svg'
+import warningDialogIcon from '@assets/images/icons/warningDialogIcon.svg'
+
+import { 
+  getAuthorizationResponseCode,
+  getTransactionType,
+  getCardTypeName,
+  getProvisionStatus,
+  getTransactionNetwork,
+  getInstallmentType,
+  getPosEntryMode,
+  getBankName,
+  getCardAcceptorCountry,
+  getSecurityLevelIndicator,
+  getCurrencyName,
+  getTransactionCurrency,
+  formatDate,
+  getDateRange,
+  showDialog
+ } from '../../utils/helpers';
+
+import { getAllAuthorizationResponseCode, getAllCardType, getAllCountry, getAllPosEntryModeDef, getAllProvisionStatusDef, getAllTransactionInstallmentTypeDef, getAllTransactionNetworkDef, getAllTransactionType, getCurrencyDef, getUsersPayFacIntegrationEnabledBankList } from '../../store/slices/selectOptionSlice';
+import { InputSwitch } from 'primereact/inputswitch';
+import { Calendar } from 'primereact/calendar';
+import DateRangeDialog from '../../components/Common/Table/DateRangeDialog';
+import { ConfirmDialog } from 'primereact/confirmdialog';
+
+export default function TransactionMonitoring() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState('provisions');
-  
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [sortField, setSortField] = useState('insertDateTime');
-  const [sortDirection, setSortDirection] = useState('desc');
-  
-  const [showDetailModal, setShowDetailModal] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null);
-  
-  const [selectedRows, setSelectedRows] = useState({
-    provisions: {},
-    provisionSettles: {}
-  });
-  
-  const { 
-    loading, 
-    error, 
-    transactionProvisions, 
-    transactionProvisionSettles,
-    banks,
-    cardTypes,
-    transactionTypes,
-  } = useSelector(state => state.transaction);
+  const navigate = useNavigate();
 
-  const handleOpenModal = (rowData) => {
-    setSelectedRow(rowData);
-    setShowDetailModal(true);
-  };
-  
-  const handleCloseModal = () => {
-    setShowDetailModal(false);
-  };
+  const [selectedProducts, setSelectedProducts] = useState(null);
 
-  const getBankName = (bankGuid) => {
-    if (!bankGuid) return '-';
-    const bank = banks.find(b => b.guid === bankGuid);
-    return bank ? (bank.bankName || bank.name) : bankGuid;
-  };
+  const [filterDialogVisible, setFilterDialogVisible] = useState(false);
+  const [filteredList, setFilteredList] = useState(null);
 
-  const getCardTypeName = (cardTypeGuid) => {
-    if (!cardTypeGuid) return '-';
-    const cardType = cardTypes.find(ct => ct.guid === cardTypeGuid);
-    return cardType ? (cardType.description || cardType.name) : cardTypeGuid;
-  };
+  const [selectedDateFilter, setSelectedDateFilter] = useState('all');
+  const [selectedRange, setSelectedRange] = useState(null);
 
-  const getTransactionTypeName = (transactionTypeGuid) => {
-    if (!transactionTypeGuid) return '-';
-    const transactionType = transactionTypes.find(tt => tt.guid === transactionTypeGuid);
-    return transactionType ? (transactionType.description || transactionType.name) : transactionTypeGuid;
-  };
+  const [dialogVisible, setDialogVisible] = useState(false);
 
-  const formatters = {
-    getBankName,
-    getCardTypeName,
-    getTransactionTypeName
-  };
+  const { user } = useSelector((state) => state.auth);
+  const { loading, error, success, transactionList, deleteSuccess } = useSelector((state) => state.transactionList);
 
   useEffect(() => {
-    const userName = localStorage.getItem('userName');
-    
-    dispatch(getBanks({ userName }));
-    dispatch(getCardTypes());
-    dispatch(getTransactionTypes());
-    dispatch(getCurrencies());
-    dispatch(getPaymentStatuses());
-    
-    const searchParams = {
-      transactionStartDate: (() => {
-        const date = new Date();
-        date.setMonth(date.getMonth() - 12);
-        return date.toISOString().split('T')[0];
-      })(),
-      transactionEndDate: new Date().toISOString().split('T')[0],
-      userName,
-    }
-    
-    dispatch(getTransactionProvisions( searchParams ));
-    dispatch(getTransactionProvisionSettles( searchParams ));
-  }, [dispatch]);
+    setSelectedProducts(null);
+    dispatch(setTransactionListError(null));
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [activeTab]);
+    dispatch(getCurrencyDef());
+    dispatch(getAllTransactionNetworkDef());
+    dispatch(getAllAuthorizationResponseCode());
+    dispatch(getAllTransactionType());
+    dispatch(getAllCardType());
+    dispatch(getAllProvisionStatusDef());
+    dispatch(getAllTransactionInstallmentTypeDef());
+    dispatch(getAllPosEntryModeDef());
+    dispatch(getUsersPayFacIntegrationEnabledBankList(user.userName));
+    dispatch(getAllCountry());
 
-  const handleSort = (field) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortDirection('asc');
-    }
-    setCurrentPage(1);
-  };
+  }, [])
+  
+  useEffect(()=> {
+    console.log("transactionList99",transactionList)
+  }, [transactionList])
 
-  const sortData = (data) => {
-    if (!sortField) return data;
-
-    return [...data].sort((a, b) => {
-      const aValue = a[sortField] || '';
-      const bValue = b[sortField] || '';
-      if (typeof aValue === 'string' && typeof bValue === 'string') {
-        return sortDirection === 'asc' 
-          ? aValue.localeCompare(bValue) 
-          : bValue.localeCompare(aValue);
-      }
-      const numA = Number(aValue) || 0;
-      const numB = Number(bValue) || 0;
-      
-      return sortDirection === 'asc' ? numA - numB : numB - numA;
-    });
-  };
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const handleItemsPerPageChange = (e) => {
-    setItemsPerPage(Number(e.target.value));
-    setCurrentPage(1); 
-  };
-
-  const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
-    <button
-      ref={ref}
-      onClick={(e) => {
-        e.stopPropagation();
-        onClick(e);
-      }}
-      className="btn btn-sm btn-link text-dark p-0"
-    >
-      {children}
-    </button>
-  ));
-
-  const ActionMenu = ({ item }) => (
-    <Dropdown>
-      <Dropdown.Toggle as={CustomToggle} id={`dropdown-${item.orderId || item.guid}`}>
-        <i class="fa-solid fa-ellipsis-vertical"></i>
-      </Dropdown.Toggle>
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={() => handleOpenModal(item)}>
-          {t('common.details')}
-        </Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-  );
-
-  const handleCheckboxChange = (id, type) => {
-    setSelectedRows(prev => ({
-      ...prev,
-      [type]: {
-        ...prev[type],
-        [id]: !prev[type][id]
-      }
-    }));
-  };
-
-  const handleSelectAll = (checked, data, type) => {
-    const newSelected = { ...selectedRows };
-    
-    if (checked) {
-      data.forEach(item => {
-        const id = item.guid || item.orderId;
-        newSelected[type][id] = true;
-      });
-    } else {
-      newSelected[type] = {};
-    }
-    
-    setSelectedRows(newSelected);
-  };
-
-  const isAllSelected = (data, type) => {
-    if (data.length === 0) return false;
-    
-    return data.every(item => {
-      const id = item.guid || item.orderId;
-      return selectedRows[type][id];
-    });
-  };
-
-  const renderTable = (data, type) => {
-    if (loading) {
-      return (
-        <div className="text-center my-5">
-          <Spinner animation="border" variant="primary" />
-        </div>
-      );
-    }
-
-    if (data.length === 0) {
-      return (
-        <Alert variant="info">
-          {t('common.noDataFound')}
-        </Alert>
-      );
-    }
-
-    const checkboxColumn = { 
-      key: 'checkbox', 
-      label: (
-        <Form.Check
-          type="checkbox"
-          checked={isAllSelected(data, type)}
-          onChange={(e) => handleSelectAll(e.target.checked, data, type)}
-          label=""
-        />
-      )
-    };
-    
-    const actionColumn = { key: 'actions', label: t('common.actions') };
-    
-    const columns = type === 'provisions' ? [
-      checkboxColumn, 
-      actionColumn,   
-      { key: 'insertDateTime', label: t('transaction.transactionDate') },
-      { key: 'orderId', label: t('transaction.orderId') },
-      { key: 'paymentId', label: t('transaction.paymentId') },
-      { key: 'bankUniqueReferenceNumber', label: t('transaction.bankUniqueReferenceNumber') },
-      { key: 'transactionNetworkGuid', label: t('transaction.transactionNetwork') },
-      { key: 'ravenAuthorizationResponseCodeGuid', label: t('transaction.responseCode') },
-      { key: 'ravenTransactionTypeGuid', label: t('transaction.transactionType'), formatter: getTransactionTypeName },
-      { key: 'cardNo', label: t('transaction.cardNo') },
-      { key: 'cardTypeGuid', label: t('transaction.cardType'), formatter: getCardTypeName },
-      { key: 'provisionStatusGuid', label: t('transaction.provisionStatus') },
-      { key: 'preAuthAmount', label: t('transaction.preAuthAmount') },
-      { key: 'f004', label: t('transaction.transactionAmount') },
-      { key: 'f005', label: t('transaction.settlementAmount') },
-      { key: 'f013', label: t('transaction.transactionDate') },
-      { key: 'bankGuid', label: t('transaction.bankName'), formatter: getBankName },
-      { key: 'f038', label: t('transaction.authorizationNumber') },
-      { key: 'f041', label: t('transaction.terminalId') },
-    ] : [
-      checkboxColumn, 
-      actionColumn,   
-      { key: 'insertDateTime', label: t('transaction.transactionDate') },
-      { key: 'orderId', label: t('transaction.orderId') },
-      { key: 'paymentId', label: t('transaction.paymentId') },
-      { key: 'bankUniqueReferenceNumber', label: t('transaction.bankUniqueReferenceNumber') },
-      { key: 'payOutStatusName', label: t('transaction.paymentStatus') },
-      { key: 'ravenAuthorizationResponseCodeGuid', label: t('transaction.responseCode') },
-      { key: 'transactionNetworkGuid', label: t('transaction.transactionNetwork') },
-      { key: 'ravenTransactionTypeGuid', label: t('transaction.transactionType'), formatter: getTransactionTypeName },
-      { key: 'cardNo', label: t('transaction.cardNo') },
-      { key: 'cardTypeGuid', label: t('transaction.cardType'), formatter: getCardTypeName },
-      { key: 'provisionStatusGuid', label: t('transaction.provisionStatus') },
-      { key: 'preAuthAmount', label: t('transaction.preAuthAmount') },
-      { key: 'f004', label: t('transaction.transactionAmount') },
-      { key: 'f005', label: t('transaction.settlementAmount') },
-      { key: 'f013', label: t('transaction.transactionDate') },
-      { key: 'bankGuid', label: t('transaction.bankName'), formatter: getBankName },
-      { key: 'f038', label: t('transaction.authorizationNumber') },
-      { key: 'f041', label: t('transaction.terminalId') },
-    ];
-
-    const sortedData = sortData(data);
-    
-    const lastIndex = currentPage * itemsPerPage;
-    const firstIndex = lastIndex - itemsPerPage;
-    const currentItems = sortedData.slice(firstIndex, lastIndex);
-    const totalPages = Math.ceil(data.length / itemsPerPage);
-
-    const paginationItems = [];
-
-    for (let number = 1; number <= totalPages; number++) {
-      if (
-        number === 1 || 
-        number === totalPages || 
-        (number >= currentPage - 2 && number <= currentPage + 2)
-      ) {
-        paginationItems.push(
-          <Pagination.Item 
-            key={number} 
-            active={number === currentPage}
-            onClick={() => handlePageChange(number)}
-          >
-            {number}
-          </Pagination.Item>
-        );
-      } else if (
-        (number === currentPage - 3 && currentPage > 3) || 
-        (number === currentPage + 3 && currentPage < totalPages - 2)
-      ) {
-        paginationItems.push(<Pagination.Ellipsis key={`ellipsis-${number}`} />);
-      }
-    }
-
-    return (
-      <div>
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <div>
-            <span className="me-2">{t('common.itemsPerPage')}:</span>
-            <select 
-              className="form-select form-select-sm d-inline-block w-auto"
-              value={itemsPerPage}
-              onChange={handleItemsPerPageChange}
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={25}>25</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-            </select>
-          </div>
-          <div>
-            <span className="me-2">
-              {t('common.showing')} {firstIndex + 1} - {Math.min(lastIndex, data.length)} {t('common.of')} {data.length} {t('common.entries')}
-            </span>
-          </div>
-        </div>
-        
-        <div className="table-responsive">
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                {columns.map((col) => (
-                  <th 
-                    key={col.key}
-                    onClick={col.key !== 'actions' && col.key !== 'checkbox' ? () => handleSort(col.key) : undefined}
-                    style={{ 
-                      cursor: col.key !== 'actions' && col.key !== 'checkbox' ? 'pointer' : 'default', 
-                      minWidth: col.key === 'actions' ? '80px' : col.key === 'checkbox' ? '50px' : '200px',
-                      width: col.key === 'actions' ? '80px' : col.key === 'checkbox' ? '50px' : 'auto'
-                    }}
-                    className="position-relative"
-                  >
-                    {col.label}
-                    {sortField === col.key && col.key !== 'actions' && col.key !== 'checkbox' && (
-                      <span className="ms-2">
-                        {sortDirection === 'asc' ? '▲' : '▼'}
-                      </span>
-                    )}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((item, index) => (
-                <tr key={index}>
-                  {columns.map((col) => {
-                    if (col.key === 'checkbox') {
-                      const id = item.guid || item.orderId;
-                      return (
-                        <td key={`${index}-${col.key}`} className="text-center">
-                          <Form.Check
-                            type="checkbox"
-                            checked={!!selectedRows[type][id]}
-                            onChange={() => handleCheckboxChange(id, type)}
-                            label=""
-                          />
-                        </td>
-                      );
-                    } else if (col.key === 'actions') {
-                      return (
-                        <td key={`${index}-${col.key}`} className="text-center">
-                          <ActionMenu item={item} />
-                        </td>
-                      );
-                    }
-                    return (
-                      <td key={`${index}-${col.key}`}>
-                        {col.formatter ? col.formatter(item[col.key]) : item[col.key]}
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
-        
-        <div className="d-flex justify-content-center mt-3">
-          <Pagination>
-            <Pagination.First 
-              onClick={() => handlePageChange(1)} 
-              disabled={currentPage === 1} 
-            />
-            <Pagination.Prev 
-              onClick={() => handlePageChange(currentPage - 1)} 
-              disabled={currentPage === 1} 
-            />
-            
-            {paginationItems}
-            
-            <Pagination.Next 
-              onClick={() => handlePageChange(currentPage + 1)} 
-              disabled={currentPage === totalPages} 
-            />
-            <Pagination.Last 
-              onClick={() => handlePageChange(totalPages)} 
-              disabled={currentPage === totalPages} 
-            />
-          </Pagination>
-        </div>
+  const emptyMessage = () => {
+    return !loading ? (
+        <b>{t('common.emptyMessage')}</b>
+    ) : (
+      <div className="table-progress-spinner">
+          <ProgressSpinner />
       </div>
     );
   };
 
-  return (
-    <Container className="py-3">
-      <h4 className="mb-4">
-        {t('menu.transactionmonitoring')}
-      </h4>
+  const columns = [
+    { field: 'insertDateTime', header: t('transaction.transactionDate'), sortable: true,
+      body: (rowData) => formatDate(rowData.insertDateTime) },
       
-      {error && (
-        <Alert variant="danger" className="mb-4">
-          {error}
-        </Alert>
-      )}
-      
-      <Tab.Container activeKey={activeTab} onSelect={setActiveTab}>
-        <Nav variant="tabs" className="mb-4">
-          <Nav.Item>
-            <Nav.Link eventKey="provisions">{t('transaction.provisions')}</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="provisionSettles">{t('transaction.provisionSettles')}</Nav.Link>
-          </Nav.Item>
-        </Nav>
-        
-        <Tab.Content>
-          <Tab.Pane eventKey="provisions">
-            <SearchProvision />
-            <Card>
-              <Card.Body>
-                {renderTable(transactionProvisions, 'provisions')}
-              </Card.Body>
-            </Card>
-          </Tab.Pane>
-          
-          <Tab.Pane eventKey="provisionSettles">
-            <SearchProvisionSettle />
-            <Card>
-              <Card.Body>
-                {renderTable(transactionProvisionSettles, 'provisionSettles')}
-              </Card.Body>
-            </Card>
-          </Tab.Pane>
-        </Tab.Content>
-      </Tab.Container>
-      
-      <TransactionDetailModal
-        show={showDetailModal}
-        onHide={handleCloseModal}
-        selectedRow={selectedRow}
-        isProvision={activeTab === 'provisions'}
-        t={t}
-        formatters={formatters}
-      />
-    </Container>
-  );
-};
+    { field: 'orderId', header: t('transaction.orderId'), sortable: true },
+    { field: 'paymentId', header: t('transaction.paymentId'), sortable: true },
+    { field: 'bankUniqueReferenceNumber', header: t('transaction.bankUniqueReferenceNumber'), sortable: true },
 
-export default TransactionMonitoring; 
+    { field: 'transactionNetworkGuid', header: t('transaction.transactionNetwork'), sortable: true,
+        body: (rowData) => getTransactionNetwork(rowData.transactionNetworkGuid) },
+
+    { 
+        field: 'ravenAuthorizationResponseCodeGuid', 
+        header: t('transaction.responseCode'), 
+        sortable: true,
+        body: (rowData) => getAuthorizationResponseCode(rowData.ravenAuthorizationResponseCodeGuid)
+    },
+    { 
+        field: 'ravenTransactionTypeGuid', 
+        header: t('transaction.transactionType'), 
+        sortable: true,
+        body: (rowData) => getTransactionType(rowData.ravenTransactionTypeGuid)
+    },
+    { field: 'cardNo', header: t('transaction.cardNo'), sortable: true },
+    { 
+        field: 'cardTypeGuid', 
+        header: t('transaction.cardType'), 
+        sortable: true,
+        body: (rowData) => getCardTypeName(rowData.cardTypeGuid)
+    },
+    
+    { field: 'provisionStatusGuid', header: t('transaction.provisionStatus'), sortable: true,
+      body: (rowData) => getProvisionStatus(rowData.provisionStatusGuid) },
+
+    { field: 'preAuthAmount', header: t('transaction.preAuthAmount'), sortable: true },
+
+    { field: 'installmentTypeGuid', header: t('transaction.installmentTypeGuid'), sortable: true,
+      body: (rowData) => getInstallmentType(rowData.installmentTypeGuid) },
+    
+    { field: 'installmentCount', header: t('transaction.installmentCount'), sortable: true },
+    { field: 'f004', header: t('transaction.transactionAmount'), sortable: true },
+    { field: 'f005', header: t('transaction.settlementAmount'), sortable: true },
+    { field: 'f013', header: t('transaction.transactionDate'), sortable: true },
+
+    { field: 'posEntryModeGuid', header: t('transaction.posEntryModeGuid'), sortable: true,
+        body: (rowData) => getPosEntryMode(rowData.posEntryModeGuid) },
+    { 
+        field: 'bankGuid', 
+        header: t('transaction.bankName'), 
+        sortable: true,
+        body: (rowData) => getBankName(rowData.bankGuid)
+    },
+
+    { field: 'f038', header: t('transaction.authorizationNumber'), sortable: true },
+    { field: 'f041', header: t('transaction.terminalId'), sortable: true },
+    { field: 'f043cardAcceptorName', header: t('transaction.cardAcceptorName'), sortable: true },
+    { field: 'f043cardAcceptorCityName', header: t('transaction.cardAcceptorCityName'), sortable: true },
+
+    { field: 'f043cardAcceptorCountryCode', header: t('transaction.cardAcceptorCountryCode'), sortable: true,
+        body: (rowData) => getCardAcceptorCountry(rowData.f043cardAcceptorCountryCode) },
+
+    { field: 'paymentFacilatorId', header: t('transaction.paymentFacilatorId'), sortable: true },
+    { field: 'subMerchantId', header: t('transaction.subMerchantId'), sortable: true },
+    { field: 'pfSubMerchantId', header: t('transaction.pfSubMerchantId'), sortable: true },
+
+    { field: 'securityLevelIndicator', header: t('transaction.securityLevelIndicator'), sortable: true,
+        body: (rowData) => getSecurityLevelIndicator(rowData.securityLevelIndicator) },
+    
+    { field: 'f049', header: t('transaction.transactionCurrency'), sortable: true,
+      body: (rowData) => getTransactionCurrency(rowData.f049) },
+    { field: 'f050', header: t('transaction.exchangeCurrency'), sortable: true,
+      body: (rowData) => getTransactionCurrency(rowData.f050) },
+
+    { field: 'preauthorizationDate', header: t('transaction.preauthorizationDate'), sortable: true,
+      body: (rowData) => formatDate(rowData.preauthorizationDate) },
+    { field: 'preauthorizationClosingDateTime', header: t('transaction.preauthorizationClosingDateTime'), sortable: true,
+      body: (rowData) => formatDate(rowData.preauthorizationClosingDateTime) },
+
+    { 
+      field: 'isCapture',
+      header: t('transaction.isCapture'),
+      sortable: true,
+      className: "center-column",
+      body: (rowData) => <InputSwitch checked={rowData.isCapture} />
+    },
+
+    { field: 'paymentTransactionMethod', header: t('transaction.paymentTransactionMethod'), sortable: true },
+
+    {
+        field: 'selection',
+        header: t('common.actions'),
+        alignFrozen: "right",
+        frozen: true,
+        body: (rowData) => (
+            <div className="row-user-buttons">
+                {/*<Button tooltip="Confirm to proceed" label="Save" />*/}
+
+                <Link to={`/detail-payment/${rowData.guid}`} tooltip={t('common.view')} tooltipOptions={{ position: 'bottom' }} >
+                    <i className="pi pi-eye" style={{fontSize: '22px'}}></i>
+                </Link>
+                <div onClick={()=>confirmDeleteDialog(rowData.guid)} tooltip={t('common.cancel')} tooltipOptions={{ position: 'bottom' }} >
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M15.2454 1.04736H4.7546C2.68429 1.04736 1 2.73966 1 4.81982V15.2749C1 17.3551 2.68429 19.0474 4.7546 19.0474H15.2454C17.3157 19.0474 19 17.3551 19 15.2749V4.81982C19 2.73966 17.3157 1.04736 15.2454 1.04736ZM17.6246 15.2749C17.6246 16.5931 16.5573 17.6654 15.2454 17.6654H4.7546C3.44267 17.6654 2.37538 16.5931 2.37538 15.2749V4.81982C2.37538 3.5017 3.44267 2.42928 4.7546 2.42928H15.2454C16.5573 2.42928 17.6247 3.50165 17.6247 4.81982V15.2749H17.6246Z" fill="#EB3D4D"/>
+                    <path d="M14.1378 5.94187C13.8701 5.67115 13.4347 5.66972 13.1652 5.93869L10.1147 8.9838L7.06263 5.91723C6.79411 5.64738 6.35866 5.64738 6.0901 5.91723C5.82153 6.18707 5.82153 6.62454 6.0901 6.89438L9.13895 9.95777L6.11458 12.9768C5.84514 13.2457 5.84377 13.6832 6.11141 13.9539C6.24588 14.0899 6.42253 14.1579 6.59931 14.1579C6.77453 14.1579 6.94985 14.091 7.08399 13.9571L10.1115 10.9349L13.1407 13.9785C13.275 14.1134 13.451 14.1809 13.6269 14.1809C13.8029 14.1809 13.979 14.1134 14.1132 13.9785C14.3818 13.7087 14.3818 13.2712 14.1132 13.0014L11.0872 9.96095L14.1346 6.91898C14.404 6.65006 14.4054 6.21259 14.1378 5.94187Z" fill="#EB3D4D"/>
+                  </svg>
+                </div>
+            </div>
+        ),
+        className: "fixed-user-buttons"
+    },
+  ];
+
+
+  // DELETE API
+  const handleDeleteRecord = (guid) => {
+    setTimeout(() => {
+      confirmSuccessDialog();
+    }, 250);
+    /*
+    dispatch(deletePaymentRecord(guid))
+      .unwrap()
+      .then((result) => {
+        setTimeout(() => {
+          confirmSuccessDialog();
+        }, 250);
+      })
+      .catch((error) => {
+        console.log("error!!!!!!!!!!",error)
+        dispatch(setLinkPaymentListError(error));
+        setTimeout(() => {
+          confirmWarningDialog(error);
+        }, 250);
+      });
+      */
+  }
+
+  // DELETE FUNCTİON
+  const confirmWarningDialog = (errorCode) => {
+    showDialog(
+      'warning',
+      {
+          title: t('messages.DeletionDialogWarningTitle'),
+          content: t('messages.DeletionDialogWarningText'),
+      },
+      warningDialogIcon,
+      errorCode,
+      () => {}
+    );
+  };
+
+  const confirmSuccessDialog = () => {
+    showDialog(
+      'success',
+      {
+          title: t('messages.DeletionDialogSuccessTitle'),
+          content: t('messages.DeletionDialogSuccessText'),
+      },
+      successDialogIcon,
+      null,
+      () => {}
+    );
+  };
+
+  const confirmDeleteDialog = (guid) => {
+    showDialog(
+      'danger',
+      {
+          title: t('messages.DeletionDialogTitle'),
+          content: t('messages.DeletionDialogText'),
+      },
+      dangerDialogIcon,
+      null,
+      () => handleDeleteRecord(guid)
+    );
+  };
+
+  const handleFilter = (filters) => {
+    let filtered = [...transactionList];
+
+    if (filters.cardFirst6) {
+      filtered = filtered.filter(item => item.cardNo?.startsWith(filters.cardFirst6));
+    }
+
+    if (filters.cardLast4) {
+      filtered = filtered.filter(item => item.cardNo?.slice(-4) === filters.cardLast4);
+    }
+
+    if (filters.cardHolder) {
+      filtered = filtered.filter(item => item.cardHolder?.toLowerCase().includes(filters.cardHolder.toLowerCase()));
+    }
+
+    if (filters.amount) {
+      const amount = parseFloat(filters.amount);
+      if (filters.amountOperator === 'eq') {
+        filtered = filtered.filter(item => Number(item.f004) === amount);
+      } else if (filters.amountOperator === 'gt') {
+        filtered = filtered.filter(item => Number(item.f004) > amount);
+      } else if (filters.amountOperator === 'lt') {
+        filtered = filtered.filter(item => Number(item.f004) < amount);
+      }
+    }
+
+    if (filters.paymentId) {
+      filtered = filtered.filter(item => item.paymentId?.toLowerCase().includes(filters.paymentId.toLowerCase()));
+    }
+    if (filters.transactionNetworkGuid) {
+      filtered = filtered.filter(item => item.transactionNetworkGuid === filters.transactionNetworkGuid);
+    }
+    if (filters.ravenTransactionTypeGuid) {
+      filtered = filtered.filter(item => item.ravenTransactionTypeGuid === filters.ravenTransactionTypeGuid);
+    }
+    if (filters.cardTypeGuid) {
+      filtered = filtered.filter(item => item.cardTypeGuid === filters.cardTypeGuid);
+    }
+    if (filters.startDate) {
+      filtered = filtered.filter(item => new Date(item.insertDateTime) >= filters.startDate);
+    }
+    if (filters.endDate) {
+      filtered = filtered.filter(item => new Date(item.insertDateTime) <= filters.endDate);
+    }
+
+    setFilteredList(filtered);
+  };
+
+  useEffect(() => {
+    if (selectedDateFilter) {
+      const dateRange = getDateRange(selectedDateFilter);
+      dispatch(getTransactionList({
+        userName: user.userName,
+        transactionStartDate: dateRange?.startDate,
+        transactionEndDate: dateRange?.endDate
+      }));
+    }
+  }, [selectedDateFilter]);
+  
+  useEffect(() => {
+    if (selectedRange) {
+      dispatch(getTransactionList({
+        userName: user.userName,
+        transactionStartDate: selectedRange[0],
+        transactionEndDate: selectedRange[1]
+      }));
+    }
+  }, [selectedRange]);
+
+  return (
+    <>
+      <ConfirmDialog group="ConfirmDialogTemplating" />
+      <div className="table-filter-area">
+        <DateFilter 
+          selectedFilter={selectedDateFilter}
+          onFilterChange={(filter) => {
+            setSelectedDateFilter(filter)
+            setSelectedRange(null)
+          }}
+        />
+        <div className="other-buttons">
+          <Button onClick={() => setFilterDialogVisible(true)}>
+            <img src={ButtonIcon1} alt="" />
+            <span>{t("common.advancedSearch")}</span>
+          </Button>
+          <Button onClick={() => setDialogVisible(true)}>
+            <img src={ButtonIcon2} alt="" />
+            <span>{t("common.byDate")}</span>
+          </Button>
+        </div>
+      </div>
+      <DateRangeDialog
+        visible={dialogVisible}
+        onHide={() => setDialogVisible(false)}
+        onApply={(range) => {
+          setSelectedDateFilter()
+          setSelectedRange(range)
+        }}
+        initialRange={selectedRange}
+      />
+      <FilterDialog
+        visible={filterDialogVisible}
+        onHide={() => setFilterDialogVisible(false)}
+        onFilter={handleFilter}
+      />
+      
+      <DataTable 
+        value={filteredList || transactionList} 
+        paginator 
+        rows={10} 
+        rowsPerPageOptions={[5, 10, 25, 50]} 
+        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+        emptyMessage={emptyMessage}
+        currentPageReportTemplate={t('common.paginateText')}
+        selection={selectedProducts}
+        onSelectionChange={(e) => setSelectedProducts(e.value)}
+        removableSort 
+        dataKey="guid"
+        scrollable
+      >
+        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
+        {!loading && columns.map((col, index) => (
+            <Column 
+              key={index} 
+              {...col} 
+              style={{ 
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}
+            />
+        ))}
+      </DataTable>
+    </>
+  )
+}

@@ -28,6 +28,7 @@
     "password": "Şifre Belirleyin",
     "submit": "Gönder",
     "cancel": "İptal",
+    "view": "Görüntüle",
     "otpVerification": "SMS Doğrulama",
     "otpInstructions": "Telefonunuza gönderilen 6 haneli doğrulama kodunu giriniz",
     "verify": "Doğrula",
@@ -86,7 +87,6 @@
     "ButtonApprove": "Onaylıyorum",
     "ButtonCancel": "Vazgeç",
     "installmentTable": "Taksit Tablosu",
-    
     "Country": "Ülke",
     "City": "Şehir",
     "Province": "İl",
@@ -97,7 +97,32 @@
     "cardHolder": "İsim ve Soyisim",
     "cardNumber": "Kart Numarası (16 Haneli)",
     "expireDate": "Ay/Yıl",
-    "cvv": "CVC/CVV"
+    "cvv": "CVC/CVV",
+    "advancedSearch": "Detaylı Arama",
+    "byDate": "Tarihe Göre",
+    "allTime": "Tüm Zamanlar",
+    "today": "Bugün",
+    "yesterday": "Dün",
+    "last7Days": "7 Gün",
+    "lastMonth": "1 Ay",
+    "last3Months": "3 Ay",
+    "last6Months": "6 Ay",
+
+    "filterDialogTitle": "Detaylı Arama",
+    "filterDialogSubTitle": "Tüm işlemlerle ilgili detaylı arama yapabilirsiniz.",
+    "cardFirst6": "Kart No (İlk 6 Hane)",
+    "cardFirst6Placeholder": "123456",
+    "cardLast4": "Kart No (Son 4 Hane)",
+    "cardLast4Placeholder": "1234",
+    "amount": "İşlem Tutarı",
+    "amountPlaceholder": "Tutar",
+    "equals": "Eşittir",
+    "greaterThan": "Büyüktür",
+    "lessThan": "Küçüktür",
+    "clear": "Temizle",
+    "filter": "Arama Yap"
+
+
   },
   "faq": {
     "item1Title": "MorLink Nedir?",
@@ -219,6 +244,42 @@
     "errorCode": "Hata Kodu",
     "retryText": "Ödeme işlemini tekrar baştan deneyebilirsiniz.",
     "retryButton": "İşlemi Tekrarla"
+    
+  },
+  "transaction": {
+    "transactionDate": "İşlem Tarihi",
+    "orderId": "Sipariş Numarası",
+    "paymentId": "Ödeme ID",
+    "bankUniqueReferenceNumber": "Banka Referans Numarası",
+    "transactionNetwork": "İşlem Ağı Tipi",
+    "responseCode": "Otarizasyon Cevap Kodu",
+    "transactionType": "İşlem Tipi",
+    "cardNo": "Kart No",
+    "cardType": "Kart Tipi",
+    "provisionStatus": "Provizyon Statüsü",
+    "preAuthAmount": "Ön Otarizasyon Tutarı",
+    "installmentTypeGuid": "İşlem Taksit Tipi",
+    "installmentCount": "Taksit Sayısı",
+    "transactionAmount": "İşlem Tutarı",
+    "settlementAmount": "Takas Tutarı",
+    "posEntryModeGuid": "Pos Giriş Kodu",
+    "bankName": "Banka Adı",
+    "authorizationNumber": "Otorizasyon Numarası",
+    "terminalId": "Terminal ID",
+    
+    "cardAcceptorName" : "Üye İşyeri Adı",
+    "cardAcceptorCityName" : "Üye İşyeri Şehir Adı",
+    "cardAcceptorCountryCode" : "Üye İşyeri Ülke Adı",
+    "paymentFacilatorId" : "Ödeme Sağlayıcı ID",
+    "subMerchantId" : "Üye İşyeri Numarası",
+    "pfSubMerchantId" : "PF Alt Üye İşyeri Numarası",
+    "securityLevelIndicator" : "Güvenlik Seviyesi Göstergesi",
+    "transactionCurrency": "İşlem Para Birimi",
+    "exchangeCurrency": "Takas Para Birimi",
+    "preauthorizationDate" : "Ön Otorizasyon Tarihi",
+    "preauthorizationClosingDateTime" : "Ön Otorizasyon Kapama Tarihi",
+    "isCapture" : "Ön Provizyon Kapama",
+    "paymentTransactionMethod" : "Ödeme Kaynağı"
     
   },
   "errors": {

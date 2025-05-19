@@ -27,22 +27,18 @@ export const TRANSACTION_URL = {
   GetTransactionProvisionSettleSearch: '/TransactionProvisionSettle/GetTransactionProvisionSettleSearchByUserName'
 };
 
-export const CARD_URL = {
-  GetAllCardBrandDef: '/CardBrandDef/GetAllCardBrandDef',
-  GetAllCardType: '/CardType/GetAllCardType'
-};
-
-export const BANK_URL = {
-  GetUsersPayFacIntegrationEnabledBankList: '/DomesticBankDef/GetUsersPayFacIntegrationEnabledBankList'
-};
-
 export const SELECT_OPTIONS_URL = {
   GetCurrencyDef: '/Currency/GetCurrencyDef',
   GetAllProductType: '/ProductType/GetAllProductType',
-};
-
-export const TRANSACTION_TYPE_URL = {
-  GetAllRavenTransactionTypeDef: '/RavenTransactionTypeDef/GetAllRavenTransactionTypeDef'
+  GetAllRavenAuthorizationResponseCodeDef: '/RavenAuthorizationResponseCodeDef/GetAllRavenAuthorizationResponseCodeDef',
+  GetAllRavenTransactionTypeDef: '/RavenTransactionTypeDef/GetAllRavenTransactionTypeDef',
+  GetAllTransactionNetworkDef: '/TransactionNetworkDef/GetAllTransactionNetworkDef',
+  GetAllCardType: '/CardType/GetAllCardType',
+  GetAllProvisionStatusDef: '/ProvisionStatusDef/GetAllProvisionStatusDef',
+  GetAllTransactionInstallmentTypeDef: '/TransactionInstallmentTypeDef/GetAllTransactionInstallmentTypeDef',
+  GetAllPosEntryModeDef: '/PosEntryModeDef/GetAllPosEntryModeDef',
+  GetUsersPayFacIntegrationEnabledBankList: '/DomesticBankDef/GetUsersPayFacIntegrationEnabledBankList',
+  GetAllCountry: '/Country/GetAllCountry',
 };
 
 export const PAYMENT_URL = {

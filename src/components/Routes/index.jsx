@@ -46,7 +46,7 @@ const AppRoutes = () => {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/passwordChangeConfirm" element={<PasswordChangeConfirm />} />
      
-    <Route path="/linkpayment/:param" element={<LinkPayment />} />
+      <Route path="/linkpayment/:param" element={<LinkPayment />} />
 
       {/* Protected Routes */}
       <Route element={<Layout />}>

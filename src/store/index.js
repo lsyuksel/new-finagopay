@@ -5,8 +5,6 @@ import { combineReducers } from '@reduxjs/toolkit';
 
 // Reducers
 import menuReducer from './slices/menuSlice';
-import userReducer from './slices/userSlice';
-import transactionReducer from './slices/transactionSlice';
 
 import authReducer from './slices/login/authSlice';
 import registerReducer from './slices/login/registerSlice';
@@ -16,6 +14,9 @@ import passwordChangeConfirmReducer from './slices/login/passwordChangeConfirmSl
 import linkPaymentListReducer from './slices/linkPayment/linkPaymentListSlice';
 import linkPaymentReducer from './slices/linkPayment/linkPaymentSlice';
 import linkPaymentDetailReducer from './slices/linkPayment/linkPaymentDetailSlice';
+
+import transactionListReducer from './slices/transaction-managment/transactionListSlice';
+
 
 import selectOptionsReducer from './slices/selectOptionSlice';
 
@@ -37,9 +38,9 @@ const rootReducer = combineReducers({
   linkPayment: linkPaymentReducer,
   linkPaymentDetail: linkPaymentDetailReducer,
   
+  transactionList: transactionListReducer,
+  
   menu: menuReducer,
-  users: userReducer,
-  transaction: transactionReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
