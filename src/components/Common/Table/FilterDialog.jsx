@@ -77,17 +77,18 @@ const FilterDialog = ({ visible, onHide, onFilter }) => {
 
   const renderFooter = () => {
     return (
-      <div>
-        <Button label={t('common.clear')} icon="pi pi-times" onClick={handleClear} className="p-button-text" />
-        <Button label={t('common.filter')} icon="pi pi-check" onClick={handleFilter} autoFocus />
+      <div className='d-flex gap-4 justify-content-end'>
+        <Button label={t('common.clear')} icon="pi pi-times" onClick={handleClear} className="clear-button mx-0" />
+        <Button label={t('common.filter')} icon="pi pi-check" onClick={handleFilter} className="filter-button mx-0" autoFocus />
       </div>
     );
   };
 
   return (
     <Dialog 
+      className='filter-modal-dialog'
       visible={visible} 
-      style={{ width: '90%' }} 
+      style={{ width: '75%' }} 
       footer={renderFooter()} 
       onHide={onHide}
     >
@@ -95,8 +96,17 @@ const FilterDialog = ({ visible, onHide, onFilter }) => {
         <div className="title">{t('common.filterDialogTitle')} </div>
         <div className="subtitle">{t('common.filterDialogSubTitle')} </div>
       </div>
-      <div className="grid">
-        <div className="col-12 md:col-6">
+      <div className="filter-input-content">
+        <div className="field">
+          <InputText
+            id="paymentId"
+            value={filters.paymentId}
+            onChange={(e) => handleInputChange('paymentId', e.target.value)}
+            className="p-form-control"
+            placeholder={t('transaction.paymentId')}
+          />
+        </div>
+        <div className="field">
           <InputText
             type="text"
             maxLength={6}
@@ -106,7 +116,7 @@ const FilterDialog = ({ visible, onHide, onFilter }) => {
             placeholder={t('common.cardFirst6')}
           />
         </div>
-        <div className="col-12 md:col-6">
+        <div className="field">
           <InputText
             type="text"
             maxLength={4}
@@ -116,7 +126,19 @@ const FilterDialog = ({ visible, onHide, onFilter }) => {
             placeholder={t('common.cardLast4')}
           />
         </div>
-        <div className="col-12 md:col-6">
+        <div className="field">
+          <Dropdown
+            id="transactionType"
+            value={filters.ravenTransactionTypeGuid}
+            options={allTransactionType}
+            onChange={(e) => handleInputChange('ravenTransactionTypeGuid', e.value)}
+            optionLabel="description"
+            optionValue="guid"
+            placeholder={t('transaction.transactionType')}
+            filter
+          />
+        </div>
+        <div className="field">
           <InputText
             type="text"
             value={filters.cardHolder}
@@ -125,7 +147,7 @@ const FilterDialog = ({ visible, onHide, onFilter }) => {
             placeholder={t('common.cardHolder')}
           />
         </div>
-        <div className="col-12 md:col-6">
+        <div className="field">
           <div style={{ display: 'flex', gap: 8 }}>
             <InputText
               type="number"
@@ -144,66 +166,34 @@ const FilterDialog = ({ visible, onHide, onFilter }) => {
               ]}
               onChange={e => setFilters({ ...filters, amountOperator: e.value })}
               className="p-form-control"
-              style={{ width: 120 }}
+              style={{ width: 180 }}
               placeholder={t('common.select')}
             />
           </div>
         </div>
-        <div className="col-12 md:col-6">
-          <div className="field">
-            <InputText
-              id="paymentId"
-              value={filters.paymentId}
-              onChange={(e) => handleInputChange('paymentId', e.target.value)}
-              className="p-form-control"
-              placeholder={t('transaction.paymentId')}
-            />
-          </div>
+        <div className="field">
+          <Dropdown
+            id="transactionNetwork"
+            value={filters.transactionNetworkGuid}
+            options={allTransactionNetwork}
+            onChange={(e) => handleInputChange('transactionNetworkGuid', e.value)}
+            optionLabel="description"
+            optionValue="guid"
+            placeholder={t('transaction.transactionNetwork')}
+            filter
+          />
         </div>
-
-        <div className="col-12 md:col-6">
-          <div className="field">
-            <Dropdown
-              id="transactionNetwork"
-              value={filters.transactionNetworkGuid}
-              options={allTransactionNetwork}
-              onChange={(e) => handleInputChange('transactionNetworkGuid', e.value)}
-              optionLabel="description"
-              optionValue="guid"
-              placeholder={t('transaction.transactionNetwork')}
-              filter
-            />
-          </div>
-        </div>
-
-        <div className="col-12 md:col-6">
-          <div className="field">
-            <Dropdown
-              id="transactionType"
-              value={filters.ravenTransactionTypeGuid}
-              options={allTransactionType}
-              onChange={(e) => handleInputChange('ravenTransactionTypeGuid', e.value)}
-              optionLabel="description"
-              optionValue="guid"
-              placeholder={t('transaction.transactionType')}
-              filter
-            />
-          </div>
-        </div>
-
-        <div className="col-12 md:col-6">
-          <div className="field">
-            <Dropdown
-              id="cardType"
-              value={filters.cardTypeGuid}
-              options={allCardTypeName}
-              onChange={(e) => handleInputChange('cardTypeGuid', e.value)}
-              optionLabel="description"
-              optionValue="guid"
-              placeholder={t('transaction.cardType')}
-              filter
-            />
-          </div>
+        <div className="field">
+          <Dropdown
+            id="cardType"
+            value={filters.cardTypeGuid}
+            options={allCardTypeName}
+            onChange={(e) => handleInputChange('cardTypeGuid', e.value)}
+            optionLabel="description"
+            optionValue="guid"
+            placeholder={t('transaction.cardType')}
+            filter
+          />
         </div>
       </div>
     </Dialog>

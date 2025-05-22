@@ -6,7 +6,6 @@ export const getCurrencyDef = createAsyncThunk(
   'Currency/GetCurrencyDef',
   async (_, { getState, rejectWithValue }) => {
     const state = getState();
-    if (state.selectOptions.currencyDef.length === 0) {
       try {
         const response = await api.get(SELECT_OPTIONS_URL.GetCurrencyDef);
         return response || [];
@@ -14,9 +13,7 @@ export const getCurrencyDef = createAsyncThunk(
         return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
       }
     }
-  }
 );
-
 
 export const getAllProductType = createAsyncThunk(
   'ProductType/GetAllProductType',
@@ -34,7 +31,6 @@ export const getAllAuthorizationResponseCode = createAsyncThunk(
   'RavenAuthorizationResponseCodeDef/GetAllRavenAuthorizationResponseCodeDef',
   async (_, { getState, rejectWithValue }) => {
     const state = getState();
-    if (state.selectOptions.allAuthorizationResponseCode.length === 0) {
       try {
         const response = await api.get(SELECT_OPTIONS_URL.GetAllRavenAuthorizationResponseCodeDef);
         return response || [];
@@ -42,14 +38,12 @@ export const getAllAuthorizationResponseCode = createAsyncThunk(
         return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
       }
     }
-  }
 );
 
 export const getAllTransactionType = createAsyncThunk(
   'RavenTransactionTypeDef/GetAllRavenTransactionTypeDef',
   async (_, { getState, rejectWithValue }) => {
     const state = getState();
-    if (state.selectOptions.allTransactionType.length === 0) {
       try {
         const response = await api.get(SELECT_OPTIONS_URL.GetAllRavenTransactionTypeDef);
         return response || [];
@@ -57,14 +51,12 @@ export const getAllTransactionType = createAsyncThunk(
         return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
       }
     }
-  }
 );
 
 export const getAllTransactionNetworkDef = createAsyncThunk(
   'TransactionNetworkDef/GetAllTransactionNetworkDef',
   async (_, { getState, rejectWithValue }) => {
     const state = getState();
-    if (state.selectOptions.allTransactionNetwork.length === 0) {
       try {
         const response = await api.get(SELECT_OPTIONS_URL.GetAllTransactionNetworkDef);
         return response || [];
@@ -72,14 +64,12 @@ export const getAllTransactionNetworkDef = createAsyncThunk(
         return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
       }
     }
-  }
 );
 
 export const getAllCardType = createAsyncThunk(
   '/CardType/GetAllCardType',
   async (_, { getState, rejectWithValue }) => {
     const state = getState();
-    if (state.selectOptions.allCardTypeName.length === 0) {
       try {
         const response = await api.get(SELECT_OPTIONS_URL.GetAllCardType);
         return response || [];
@@ -87,14 +77,12 @@ export const getAllCardType = createAsyncThunk(
         return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
       }
     }
-  }
 );
 
 export const getAllProvisionStatusDef = createAsyncThunk(
   'ProvisionStatusDef/GetAllProvisionStatusDef',
   async (_, { getState, rejectWithValue }) => {
     const state = getState();
-    if (state.selectOptions.allProvisionStatus.length === 0) {
       try {
         const response = await api.get(SELECT_OPTIONS_URL.GetAllProvisionStatusDef);
         return response || [];
@@ -102,14 +90,12 @@ export const getAllProvisionStatusDef = createAsyncThunk(
         return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
       }
     }
-  }
 );
 
 export const getAllTransactionInstallmentTypeDef = createAsyncThunk(
   'TransactionInstallmentTypeDef/GetAllTransactionInstallmentTypeDef',
   async (_, { getState, rejectWithValue }) => {
     const state = getState();
-    if (state.selectOptions.allInstallmentType.length === 0) {
       try {
         const response = await api.get(SELECT_OPTIONS_URL.GetAllTransactionInstallmentTypeDef);
         return response || [];
@@ -117,14 +103,12 @@ export const getAllTransactionInstallmentTypeDef = createAsyncThunk(
         return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
       }
     }
-  }
 );
 
 export const getAllPosEntryModeDef = createAsyncThunk(
   'PosEntryModeDef/GetAllPosEntryModeDef',
   async (_, { getState, rejectWithValue }) => {
     const state = getState();
-    if (state.selectOptions.allPosEntryMode.length === 0) {
       try {
         const response = await api.get(SELECT_OPTIONS_URL.GetAllPosEntryModeDef);
         return response || [];
@@ -132,24 +116,19 @@ export const getAllPosEntryModeDef = createAsyncThunk(
         return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
       }
     }
-  }
 );
 
 export const getUsersPayFacIntegrationEnabledBankList = createAsyncThunk(
   'DomesticBankDef/GetUsersPayFacIntegrationEnabledBankList',
   async (userData, { getState, rejectWithValue }) => {
-    console.log("getUsersPayFacIntegrationEnabledBankList",userData);
     const state = getState();
-    if (state.selectOptions.allBankName.length === 0) {
       try {
         const response = await api.post(SELECT_OPTIONS_URL.GetUsersPayFacIntegrationEnabledBankList, {userName: userData});
-        console.log("response",response)
         return response || [];
       } catch (error) {
         return rejectWithValue(
           parseErrorResponse(error.response.data).message || t("messages.error")
         );
-      }
     }
   }
 );
@@ -158,7 +137,6 @@ export const getAllCountry = createAsyncThunk(
   'Country/GetAllCountry',
   async (_, { getState, rejectWithValue }) => {
     const state = getState();
-    if (state.selectOptions.allCardAcceptorCountry.length === 0) {
       try {
         const response = await api.get(SELECT_OPTIONS_URL.GetAllCountry);
         return response || [];
@@ -166,14 +144,12 @@ export const getAllCountry = createAsyncThunk(
         return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
       }
     }
-  }
 );
 
 /*export const getAllSecurityLevelIndicator = createAsyncThunk(
   'getAllSecurityLevelIndicator',
   async (_, { getState, rejectWithValue }) => {
     const state = getState();
-    if (state.selectOptions.allSecurityLevelIndicator.length === 0) {
       try {
         const response = await api.get(SELECT_OPTIONS_URL.getAllSecurityLevelIndicator);
         return response || [];
@@ -181,7 +157,6 @@ export const getAllCountry = createAsyncThunk(
         return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
       }
     }
-  }
 );*/
 
 

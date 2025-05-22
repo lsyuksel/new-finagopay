@@ -85,72 +85,72 @@ export const getDateRange = (filter) => {
 
 export const getCurrencyName = (guid) => {
     const { currencyDef } = useSelector((state) => state.selectOptions);
-    const found = currencyDef.find((item) => item.guid == Number(guid));
+    const found = currencyDef?.find((item) => item.guid == Number(guid));
     return found ? found.alphabeticCode : null;
 };
 
 export const getAuthorizationResponseCode = (guid) => {
     const { allAuthorizationResponseCode } = useSelector((state) => state.selectOptions);
-    const found = allAuthorizationResponseCode.find((item) => item.guid == Number(guid));
+    const found = allAuthorizationResponseCode?.find((item) => item.guid == Number(guid));
     return found ? found.description : null;
 };
 
 export const getTransactionType = (guid) => {
     const { allTransactionType } = useSelector((state) => state.selectOptions);
-    const found = allTransactionType.find((item) => item.guid == Number(guid));
+    const found = allTransactionType?.find((item) => item.guid == Number(guid));
     return found ? found.description : null;
 };
 
 export const getTransactionNetwork = (guid) => {
     const { allTransactionNetwork } = useSelector((state) => state.selectOptions);
-    const found = allTransactionNetwork.find((item) => item.guid == Number(guid));
+    const found = allTransactionNetwork?.find((item) => item.guid == Number(guid));
     return found ? found.description : null;
 };
 
 export const getCardTypeName = (guid) => {
     const { allCardTypeName } = useSelector((state) => state.selectOptions);
-    const found = allCardTypeName.find((item) => item.guid == Number(guid));
+    const found = allCardTypeName?.find((item) => item.guid == Number(guid));
     return found ? found.description : null;
 };
 
 export const getProvisionStatus = (guid) => {
     const { allProvisionStatus } = useSelector((state) => state.selectOptions);
-    const found = allProvisionStatus.find((item) => item.guid == Number(guid));
+    const found = allProvisionStatus?.find((item) => item.guid == Number(guid));
     return found ? found.name : null;
 };
 
 export const getInstallmentType = (guid) => {
     const { allInstallmentType } = useSelector((state) => state.selectOptions);
-    const found = allInstallmentType.find((item) => item.guid == Number(guid));
+    const found = allInstallmentType?.find((item) => item.guid == Number(guid));
     return found ? found.description : null;
 };
 
 export const getPosEntryMode = (guid) => {
     const { allPosEntryMode } = useSelector((state) => state.selectOptions);
-    const found = allPosEntryMode.find((item) => item.guid == Number(guid));
+    const found = allPosEntryMode?.find((item) => item.guid == Number(guid));
     return found ? found.description : null;
 };
 
 export const getBankName = (guid) => {
     const { allBankName } = useSelector((state) => state.selectOptions);
-    const found = allBankName.find((item) => item.guid == Number(guid));
+    const found = allBankName?.find((item) => item.guid == Number(guid));
     return found ? found.bankName : null;
 };
 
 export const getCardAcceptorCountry = (numericCode) => {
     const { allCardAcceptorCountry } = useSelector((state) => state.selectOptions);
-    const found = allCardAcceptorCountry.find((item) => item.numericCode == Number(numericCode));
+    const found = allCardAcceptorCountry?.find((item) => item.numericCode == Number(numericCode));
     return found ? found.countryName : "getCardAcceptorCountry calısmıyorr";
 };
 
 export const getSecurityLevelIndicator = (guid) => {
     const { allSecurityLevelIndicator } = useSelector((state) => state.selectOptions);
-    const found = allSecurityLevelIndicator.find((item) => item.guid == Number(guid));
+    const found = allSecurityLevelIndicator?.find((item) => item.guid == Number(guid));
     return found ? found.description : null;
 };
 
 export const getTransactionCurrency = (numericCode) => {
     const { currencyDef } = useSelector((state) => state.selectOptions);
-    const found = currencyDef.find((item) => item.numericCode == Number(numericCode));
+    const found = currencyDef?.find((item) => item.numericCode == Number(numericCode));
     return found ? found.currencyName : null;
 };

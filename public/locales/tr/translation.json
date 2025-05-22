@@ -247,6 +247,9 @@
     
   },
   "transaction": {
+    "transactionTitle": "Tüm İşlemleriniz",
+    "transactionText": "Bu sayfada yapmış olduğunuz tüm işlemlerinizi görüntülemektesiniz.",
+
     "transactionDate": "İşlem Tarihi",
     "orderId": "Sipariş Numarası",
     "paymentId": "Ödeme ID",
@@ -323,6 +326,14 @@
     "DeletionDialogSuccessText": "MorLink silme işleminiz <b>başarılı</b> bir şekilde<br />gerçekleşti!",
     "DeletionDialogWarningTitle": "Başarısız İşlem!",
     "DeletionDialogWarningText": "Silme işleminiz başarısız oldu!",
+
+    "CancelDialogTitle": "İptal İşlemi",
+    "CancelDialogText": "'li ödeme için <b>iptal</b> işlemini onaylıyor musunuz?",
+    "CancelDialogSuccessTitle": "İptal İşlemi Başarılı!",
+    "CancelDialogSuccessText": "İptal işlemi <b>başarılı</b> bir şekilde gerçekleşti!",
+    "CancelDialogWarningTitle": "Başarısız İşlem!",
+    "CancelDialogWarningText": "İptal işleminiz başarısız oldu!",
+
     "ErrorCode": "Hata Kodu:"
   }
 }

@@ -17,6 +17,7 @@ import ButtonIcon2 from "@/assets/images/icons/by-date.svg";
 import successDialogIcon from '@assets/images/icons/successDialogIcon.svg'
 import dangerDialogIcon from '@assets/images/icons/dangerDialogIcon.svg'
 import warningDialogIcon from '@assets/images/icons/warningDialogIcon.svg'
+import smallLogo from '@assets/images/small-logo.png'
 
 import { 
   getAuthorizationResponseCode,
@@ -81,21 +82,25 @@ export default function TransactionMonitoring() {
     console.log("transactionList99",transactionList)
   }, [transactionList])
 
-  const emptyMessage = () => {
-    return !loading ? (
-        <b>{t('common.emptyMessage')}</b>
-    ) : (
-      <div className="table-progress-spinner">
-          <ProgressSpinner />
-      </div>
-    );
-  };
+  const emptyMessage = () => <b>{t('common.emptyMessage')}</b>;
 
   const columns = [
+    { field: 'orderId', header: t('transaction.orderId'), sortable: true, className: "primary-text", },
+
+    { 
+      field: 'ravenTransactionTypeGuid', 
+      header: t('transaction.transactionType'), 
+      sortable: true,
+      body: (rowData) => (
+        <div className="logos-text">
+          <i><img src={smallLogo} /></i>
+          <span>{getTransactionType(rowData.ravenTransactionTypeGuid)}</span>
+        </div>
+      )
+    },
     { field: 'insertDateTime', header: t('transaction.transactionDate'), sortable: true,
       body: (rowData) => formatDate(rowData.insertDateTime) },
-      
-    { field: 'orderId', header: t('transaction.orderId'), sortable: true },
+
     { field: 'paymentId', header: t('transaction.paymentId'), sortable: true },
     { field: 'bankUniqueReferenceNumber', header: t('transaction.bankUniqueReferenceNumber'), sortable: true },
 
@@ -107,12 +112,6 @@ export default function TransactionMonitoring() {
         header: t('transaction.responseCode'), 
         sortable: true,
         body: (rowData) => getAuthorizationResponseCode(rowData.ravenAuthorizationResponseCodeGuid)
-    },
-    { 
-        field: 'ravenTransactionTypeGuid', 
-        header: t('transaction.transactionType'), 
-        sortable: true,
-        body: (rowData) => getTransactionType(rowData.ravenTransactionTypeGuid)
     },
     { field: 'cardNo', header: t('transaction.cardNo'), sortable: true },
     { 
@@ -203,11 +202,10 @@ export default function TransactionMonitoring() {
     },
   ];
 
-
   // DELETE API
   const handleDeleteRecord = (guid) => {
     setTimeout(() => {
-      confirmSuccessDialog();
+      confirmWarningDialog();
     }, 250);
     /*
     dispatch(deletePaymentRecord(guid))
@@ -232,8 +230,8 @@ export default function TransactionMonitoring() {
     showDialog(
       'warning',
       {
-          title: t('messages.DeletionDialogWarningTitle'),
-          content: t('messages.DeletionDialogWarningText'),
+          title: t('messages.CancelDialogWarningTitle'),
+          content: t('messages.CancelDialogWarningText'),
       },
       warningDialogIcon,
       errorCode,
@@ -245,8 +243,8 @@ export default function TransactionMonitoring() {
     showDialog(
       'success',
       {
-          title: t('messages.DeletionDialogSuccessTitle'),
-          content: t('messages.DeletionDialogSuccessText'),
+          title: t('messages.CancelDialogSuccessTitle'),
+          content: t('messages.CancelDialogSuccessText'),
       },
       successDialogIcon,
       null,
@@ -258,8 +256,8 @@ export default function TransactionMonitoring() {
     showDialog(
       'danger',
       {
-          title: t('messages.DeletionDialogTitle'),
-          content: t('messages.DeletionDialogText'),
+          title: t('messages.CancelDialogTitle'),
+          content: `<a href="#">#${guid}</a> TX ID${t('messages.CancelDialogText')}`,
       },
       dangerDialogIcon,
       null,
@@ -372,34 +370,48 @@ export default function TransactionMonitoring() {
         onHide={() => setFilterDialogVisible(false)}
         onFilter={handleFilter}
       />
-      
-      <DataTable 
-        value={filteredList || transactionList} 
-        paginator 
-        rows={10} 
-        rowsPerPageOptions={[5, 10, 25, 50]} 
-        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        emptyMessage={emptyMessage}
-        currentPageReportTemplate={t('common.paginateText')}
-        selection={selectedProducts}
-        onSelectionChange={(e) => setSelectedProducts(e.value)}
-        removableSort 
-        dataKey="guid"
-        scrollable
-      >
-        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-        {!loading && columns.map((col, index) => (
-            <Column 
-              key={index} 
-              {...col} 
-              style={{ 
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis'
-              }}
-            />
-        ))}
-      </DataTable>
+      <div className="datatable-area-container">
+        <div className="datatable-top-header">
+          <div>
+            <div className="title">{t("transaction.transactionTitle")}</div>
+            <div className="text">{t("transaction.transactionText")}</div>
+          </div>
+        </div>
+        { !loading ? (
+          <DataTable 
+            value={filteredList || transactionList} 
+            paginator 
+            rows={10} 
+            rowsPerPageOptions={[5, 10, 25, 50]} 
+            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+            emptyMessage={emptyMessage}
+            currentPageReportTemplate={t('common.paginateText')}
+            selection={selectedProducts}
+            onSelectionChange={(e) => setSelectedProducts(e.value)}
+            removableSort 
+            dataKey="guid"
+            scrollable
+          >
+          <Column selectionMode="multiple" className='center-column' headerStyle={{ width: '3rem' }}></Column>
+          {!loading && columns.map((col, index) => (
+              <Column 
+                className='center-column'
+                key={index} 
+                {...col} 
+                style={{ 
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis'
+                }}
+              />
+          ))}
+          </DataTable>
+        ) : (
+          <div className="custom-table-progress-spinner">
+            <ProgressSpinner />
+          </div>
+        )}
+      </div>
     </>
   )
 }
