@@ -20,6 +20,7 @@ import LinkPayment from "../../pages/LinkPayment/Paylink/LinkPayment";
 import DetailLinkPayment from "../../pages/LinkPayment/LinkPaymentList/DetailLinkPayment";
 import CreateLinkPayment from "../../pages/LinkPayment/LinkPaymentList/CreateLinkPayment";
 import Layout from "../Layout/Layout";
+import DetailTransaction from "../../pages/TransactionManagement/DetailTransaction";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -79,6 +80,14 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <TransactionMonitoring />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/detail-transaction/:param"
+          element={
+            <ProtectedRoute>
+              <DetailTransaction />
             </ProtectedRoute>
           }
         />

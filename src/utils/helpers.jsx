@@ -24,7 +24,7 @@ export const showDialog = (type, message, icon, errorCode, acceptCallback) => {
             </div>
         ),
         acceptClassName: type === 'success' ? 'success-color' : type === 'warning' ? 'warning-color' : 'danger-color',
-        acceptLabel: type === 'success' ? t('common.ButtonComplete') : t('common.ButtonApprove'),
+        acceptLabel: type !== 'danger' ? t('common.ButtonComplete') : t('common.ButtonApprove'),
         accept: acceptCallback,
         rejectClassName: type !== 'danger' && 'd-none',
         rejectLabel: type === 'danger' && t('common.ButtonCancel'),

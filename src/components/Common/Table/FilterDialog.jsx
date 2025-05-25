@@ -78,8 +78,8 @@ const FilterDialog = ({ visible, onHide, onFilter }) => {
   const renderFooter = () => {
     return (
       <div className='d-flex gap-4 justify-content-end'>
-        <Button label={t('common.clear')} icon="pi pi-times" onClick={handleClear} className="clear-button mx-0" />
-        <Button label={t('common.filter')} icon="pi pi-check" onClick={handleFilter} className="filter-button mx-0" autoFocus />
+        <Button label={t('common.clear')} onClick={handleClear} className="clear-button mx-0" />
+        <Button label={t('common.filter')} onClick={handleFilter} className="filter-button mx-0" autoFocus />
       </div>
     );
   };

@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable'
 import { ProgressSpinner } from 'primereact/progressspinner';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { getTransactionList, setTransactionListError } from '../../store/slices/transaction-managment/transactionListSlice';
@@ -13,11 +13,18 @@ import DateFilter from '../../components/Common/Table/DateFilter';
 
 import ButtonIcon1 from "@/assets/images/icons/advanced-search.svg";
 import ButtonIcon2 from "@/assets/images/icons/by-date.svg";
+import cancelButtonIcon from "@/assets/images/icons/cancel-button-1.svg";
+import printIcon from "@/assets/images/icons/print-icon.svg";
 
 import successDialogIcon from '@assets/images/icons/successDialogIcon.svg'
 import dangerDialogIcon from '@assets/images/icons/dangerDialogIcon.svg'
 import warningDialogIcon from '@assets/images/icons/warningDialogIcon.svg'
 import smallLogo from '@assets/images/small-logo.png'
+
+import PdfIcon from '@assets/images/icons/pdf.svg';
+import ExcelIcon from '@assets/images/icons/excel.svg';
+import WordIcon from '@assets/images/icons/word.svg';
+import CsvIcon from '@assets/images/icons/csv.svg';
 
 import { 
   getAuthorizationResponseCode,
@@ -42,9 +49,12 @@ import { InputSwitch } from 'primereact/inputswitch';
 import { Calendar } from 'primereact/calendar';
 import DateRangeDialog from '../../components/Common/Table/DateRangeDialog';
 import { ConfirmDialog } from 'primereact/confirmdialog';
+import { MultiSelect } from 'primereact/multiselect';
+import { Dropdown } from 'react-bootstrap';
+import { exportDataToCSV, exportDataToExcel } from '../../utils/exportUtils';
 
 export default function TransactionMonitoring() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -59,6 +69,9 @@ export default function TransactionMonitoring() {
   const [dialogVisible, setDialogVisible] = useState(false);
 
   const { user } = useSelector((state) => state.auth);
+
+  const selectOptions = useSelector((state) => state.selectOptions);
+  
   const { loading, error, success, transactionList, deleteSuccess } = useSelector((state) => state.transactionList);
 
   useEffect(() => {
@@ -82,11 +95,8 @@ export default function TransactionMonitoring() {
     console.log("transactionList99",transactionList)
   }, [transactionList])
 
-  const emptyMessage = () => <b>{t('common.emptyMessage')}</b>;
-
   const columns = [
     { field: 'orderId', header: t('transaction.orderId'), sortable: true, className: "primary-text", },
-
     { 
       field: 'ravenTransactionTypeGuid', 
       header: t('transaction.transactionType'), 
@@ -100,13 +110,10 @@ export default function TransactionMonitoring() {
     },
     { field: 'insertDateTime', header: t('transaction.transactionDate'), sortable: true,
       body: (rowData) => formatDate(rowData.insertDateTime) },
-
     { field: 'paymentId', header: t('transaction.paymentId'), sortable: true },
     { field: 'bankUniqueReferenceNumber', header: t('transaction.bankUniqueReferenceNumber'), sortable: true },
-
     { field: 'transactionNetworkGuid', header: t('transaction.transactionNetwork'), sortable: true,
         body: (rowData) => getTransactionNetwork(rowData.transactionNetworkGuid) },
-
     { 
         field: 'ravenAuthorizationResponseCodeGuid', 
         header: t('transaction.responseCode'), 
@@ -120,20 +127,15 @@ export default function TransactionMonitoring() {
         sortable: true,
         body: (rowData) => getCardTypeName(rowData.cardTypeGuid)
     },
-    
     { field: 'provisionStatusGuid', header: t('transaction.provisionStatus'), sortable: true,
       body: (rowData) => getProvisionStatus(rowData.provisionStatusGuid) },
-
     { field: 'preAuthAmount', header: t('transaction.preAuthAmount'), sortable: true },
-
     { field: 'installmentTypeGuid', header: t('transaction.installmentTypeGuid'), sortable: true,
       body: (rowData) => getInstallmentType(rowData.installmentTypeGuid) },
-    
     { field: 'installmentCount', header: t('transaction.installmentCount'), sortable: true },
     { field: 'f004', header: t('transaction.transactionAmount'), sortable: true },
     { field: 'f005', header: t('transaction.settlementAmount'), sortable: true },
     { field: 'f013', header: t('transaction.transactionDate'), sortable: true },
-
     { field: 'posEntryModeGuid', header: t('transaction.posEntryModeGuid'), sortable: true,
         body: (rowData) => getPosEntryMode(rowData.posEntryModeGuid) },
     { 
@@ -142,27 +144,21 @@ export default function TransactionMonitoring() {
         sortable: true,
         body: (rowData) => getBankName(rowData.bankGuid)
     },
-
     { field: 'f038', header: t('transaction.authorizationNumber'), sortable: true },
     { field: 'f041', header: t('transaction.terminalId'), sortable: true },
     { field: 'f043cardAcceptorName', header: t('transaction.cardAcceptorName'), sortable: true },
     { field: 'f043cardAcceptorCityName', header: t('transaction.cardAcceptorCityName'), sortable: true },
-
     { field: 'f043cardAcceptorCountryCode', header: t('transaction.cardAcceptorCountryCode'), sortable: true,
         body: (rowData) => getCardAcceptorCountry(rowData.f043cardAcceptorCountryCode) },
-
     { field: 'paymentFacilatorId', header: t('transaction.paymentFacilatorId'), sortable: true },
     { field: 'subMerchantId', header: t('transaction.subMerchantId'), sortable: true },
     { field: 'pfSubMerchantId', header: t('transaction.pfSubMerchantId'), sortable: true },
-
     { field: 'securityLevelIndicator', header: t('transaction.securityLevelIndicator'), sortable: true,
         body: (rowData) => getSecurityLevelIndicator(rowData.securityLevelIndicator) },
-    
     { field: 'f049', header: t('transaction.transactionCurrency'), sortable: true,
       body: (rowData) => getTransactionCurrency(rowData.f049) },
     { field: 'f050', header: t('transaction.exchangeCurrency'), sortable: true,
       body: (rowData) => getTransactionCurrency(rowData.f050) },
-
     { field: 'preauthorizationDate', header: t('transaction.preauthorizationDate'), sortable: true,
       body: (rowData) => formatDate(rowData.preauthorizationDate) },
     { field: 'preauthorizationClosingDateTime', header: t('transaction.preauthorizationClosingDateTime'), sortable: true,
@@ -187,14 +183,11 @@ export default function TransactionMonitoring() {
             <div className="row-user-buttons">
                 {/*<Button tooltip="Confirm to proceed" label="Save" />*/}
 
-                <Link to={`/detail-payment/${rowData.guid}`} tooltip={t('common.view')} tooltipOptions={{ position: 'bottom' }} >
+                <Link to={`/detail-transaction/${rowData.guid}`}>
                     <i className="pi pi-eye" style={{fontSize: '22px'}}></i>
                 </Link>
-                <div onClick={()=>confirmDeleteDialog(rowData.guid)} tooltip={t('common.cancel')} tooltipOptions={{ position: 'bottom' }} >
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M15.2454 1.04736H4.7546C2.68429 1.04736 1 2.73966 1 4.81982V15.2749C1 17.3551 2.68429 19.0474 4.7546 19.0474H15.2454C17.3157 19.0474 19 17.3551 19 15.2749V4.81982C19 2.73966 17.3157 1.04736 15.2454 1.04736ZM17.6246 15.2749C17.6246 16.5931 16.5573 17.6654 15.2454 17.6654H4.7546C3.44267 17.6654 2.37538 16.5931 2.37538 15.2749V4.81982C2.37538 3.5017 3.44267 2.42928 4.7546 2.42928H15.2454C16.5573 2.42928 17.6247 3.50165 17.6247 4.81982V15.2749H17.6246Z" fill="#EB3D4D"/>
-                    <path d="M14.1378 5.94187C13.8701 5.67115 13.4347 5.66972 13.1652 5.93869L10.1147 8.9838L7.06263 5.91723C6.79411 5.64738 6.35866 5.64738 6.0901 5.91723C5.82153 6.18707 5.82153 6.62454 6.0901 6.89438L9.13895 9.95777L6.11458 12.9768C5.84514 13.2457 5.84377 13.6832 6.11141 13.9539C6.24588 14.0899 6.42253 14.1579 6.59931 14.1579C6.77453 14.1579 6.94985 14.091 7.08399 13.9571L10.1115 10.9349L13.1407 13.9785C13.275 14.1134 13.451 14.1809 13.6269 14.1809C13.8029 14.1809 13.979 14.1134 14.1132 13.9785C14.3818 13.7087 14.3818 13.2712 14.1132 13.0014L11.0872 9.96095L14.1346 6.91898C14.404 6.65006 14.4054 6.21259 14.1378 5.94187Z" fill="#EB3D4D"/>
-                  </svg>
+                <div onClick={()=>confirmDeleteDialog(rowData.guid)}>
+                  <img src={cancelButtonIcon} alt="" />
                 </div>
             </div>
         ),
@@ -313,6 +306,71 @@ export default function TransactionMonitoring() {
     setFilteredList(filtered);
   };
 
+  const [visibleColumns, setVisibleColumns] = useState(columns);
+
+  const onColumnToggle = (event) => {
+    let selectedColumns = event.value;
+    let orderedSelectedColumns = columns.filter((col) => !selectedColumns.some((sCol) => sCol.field === col.field));
+    setVisibleColumns(orderedSelectedColumns);
+  };
+
+  const [isPrintOpen, setIsPrintOpen] = useState(false);
+
+  const printButtons = [
+//    { code: 'pdf', name: t('common.pdf'), icon: PdfIcon},
+    { code: 'xlsx', name: t('common.excel'), icon: ExcelIcon},
+//    { code: 'word', name: t('common.word'), icon: WordIcon},
+    { code: 'csv', name: t('common.csv'), icon: CsvIcon},
+  ];
+
+  const handleSelect = (code) => {
+    if(code == 'csv') exportDataToCSV(transactionList, columns, selectOptions, 'transactions');;
+    if(code == 'xlsx') exportDataToExcel(transactionList, columns, selectOptions, 'transactions');
+    if(code == 'pdf') exportPdf();
+
+    setIsPrintOpen(false);
+  };
+
+  const header = (
+    <div className='d-flex align-items-center'>
+      <div className='flex-fill'>
+        <div className="title">{t("transaction.transactionTitle")}</div>
+        <div className="text">{t("transaction.transactionText")}</div>
+      </div>
+      <div className='d-flex gap-3'>
+        <div className="column-toggle-icon-container"> 
+          <MultiSelect 
+            value={columns.filter(col => !visibleColumns.some(vCol => vCol.field === col.field))} 
+            options={columns} 
+            optionLabel="header" 
+            onChange={onColumnToggle} 
+            display="chip"
+            placeholder="Gizlenecek Kolonları Seçin"
+            className='hidden-table-column'
+            filter
+          />
+        </div>
+        <div className='table-print-button'>
+          <Dropdown className="print-selector" show={isPrintOpen} onToggle={(isPrintOpen) => setIsPrintOpen(isPrintOpen)}>
+            <Dropdown.Toggle>
+              <img src={printIcon} alt="" />
+              <span>Raporu İndir</span>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              {printButtons.map((print) => (
+                <Dropdown.Item key={print.code} onClick={() => handleSelect(print.code)}>
+                  <img src={print.icon} />
+                  <span>{print.name}</span>
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+      </div>
+    </div>
+  );
+
   useEffect(() => {
     if (selectedDateFilter) {
       const dateRange = getDateRange(selectedDateFilter);
@@ -371,20 +429,15 @@ export default function TransactionMonitoring() {
         onFilter={handleFilter}
       />
       <div className="datatable-area-container">
-        <div className="datatable-top-header">
-          <div>
-            <div className="title">{t("transaction.transactionTitle")}</div>
-            <div className="text">{t("transaction.transactionText")}</div>
-          </div>
-        </div>
         { !loading ? (
           <DataTable 
+            header={header}
             value={filteredList || transactionList} 
             paginator 
             rows={10} 
             rowsPerPageOptions={[5, 10, 25, 50]} 
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-            emptyMessage={emptyMessage}
+            emptyMessage={t('common.recordEmptyMessage')}
             currentPageReportTemplate={t('common.paginateText')}
             selection={selectedProducts}
             onSelectionChange={(e) => setSelectedProducts(e.value)}
@@ -393,7 +446,7 @@ export default function TransactionMonitoring() {
             scrollable
           >
           <Column selectionMode="multiple" className='center-column' headerStyle={{ width: '3rem' }}></Column>
-          {!loading && columns.map((col, index) => (
+          {!loading && visibleColumns.map((col, index) => (
               <Column 
                 className='center-column'
                 key={index} 

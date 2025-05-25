@@ -74,6 +74,8 @@
     "safeShopping":"%100 Güvenli Alışveriş",
     "searchInput":"İşlem Arama...",
     "footerCopyright":"Copyright 2025 © <b>MorPos</b> Her hakkı saklıdır. <b>MorPos,</b> bir <b>A Ödeme ve Elektronik Para Hizmetleri A.Ş.</b> markasıdır.<br />Kredi kartı bilgileriniz 256bit SSL sertifikası ile korunmaktadır.",
+    "yes": "Evet",
+    "no": "Hayır",
     "share": "Paylaş",
     "Digital": "Dijital",
     "Physical": "Fiziksel",
@@ -83,6 +85,7 @@
     "MorLinkAddress": "MorLink Adresiniz",
     "paginateText": "Görüntülenen {first}-{last} Toplam {totalRecords}",
     "emptyMessage": "Lütfen satırlarınız yüklenirken bekleyin veya bunun yerine arama panelini deneyin",
+    "recordEmptyMessage": "Üzgünüz! Aradığınız kriterlere uygun sonuç bulunamadı!",
     "ButtonComplete": "Tamam",
     "ButtonApprove": "Onaylıyorum",
     "ButtonCancel": "Vazgeç",
@@ -107,7 +110,6 @@
     "lastMonth": "1 Ay",
     "last3Months": "3 Ay",
     "last6Months": "6 Ay",
-
     "filterDialogTitle": "Detaylı Arama",
     "filterDialogSubTitle": "Tüm işlemlerle ilgili detaylı arama yapabilirsiniz.",
     "cardFirst6": "Kart No (İlk 6 Hane)",
@@ -120,8 +122,11 @@
     "greaterThan": "Büyüktür",
     "lessThan": "Küçüktür",
     "clear": "Temizle",
-    "filter": "Arama Yap"
-
+    "filter": "Arama Yap",
+    "pdf": "PDF Olarak İndir",
+    "excel": "Excel Olarak İndir",
+    "word": "Word Olarak İndir",
+    "csv": "CSV Olarak İndir"
 
   },
   "faq": {
