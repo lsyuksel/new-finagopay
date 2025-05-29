@@ -178,16 +178,16 @@
     "supportBoxButton": "Yardım Sayfası"    
   },
   "linkPayment": {
-    "paymentListTitle": "Tüm MorLink’ler",
-    "paymentListText": "Oluşturduğunuz MorLink’lerinizi dijital platformlarda paylaşarak kolayca ödeme almaya başlayabilirsiniz.",
-    "paymentCreateTitle": "MorLink’e Hoşgeldiniz!",
-    "paymentCreateText": "Kolayca MorLink’lerinizi oluşturun ve güvenle ödeme almaya başlayın!",
+    "paymentListTitle": "Tüm MorLink'ler",
+    "paymentListText": "Oluşturduğunuz MorLink'lerinizi dijital platformlarda paylaşarak kolayca ödeme almaya başlayabilirsiniz.",
+    "paymentCreateTitle": "MorLink'e Hoşgeldiniz!",
+    "paymentCreateText": "Kolayca MorLink'lerinizi oluşturun ve güvenle ödeme almaya başlayın!",
 
     "paymentDetailTitle": "MorLink Oluştur",
     "paymentDetailText": "İlgi çekici bir resim ve etkileyici açıklamalar ekleyerek ürün satışlarınızı arttırabilirsiniz.",
     "linkCreateButton": "MorLink Oluştur",
 
-    "paymentLinkCreateTitle": "Henüz Bir <b>MorLink</b>’e Sahip Değilsiniz.",
+    "paymentLinkCreateTitle": "Henüz Bir <b>MorLink</b>'e Sahip Değilsiniz.",
     "paymentLinkItem1": "Bir web sitesine ihtiyacınız yok",
     "paymentLinkItem2": "Bir entegrasyonada ihtiyacınız yok!",
     "paymentLinkItem3": "İhtiyacınız olan tek şey bir MorLink!",
@@ -197,7 +197,7 @@
     "paymentLinkInfoItem2Title": "Sınırsız MorLink",
     "paymentLinkInfoItem2Text": "Sınırsız morlink ile daha fazla mutlu müşteri, daha fazla kazanç!",
     "paymentLinkInfoItem3Title": "Her Platformda Paylaşın",
-    "paymentLinkInfoItem3Text": "Kolayca oluşturduğunuz morlink’i her platformda paylaşın!",
+    "paymentLinkInfoItem3Text": "Kolayca oluşturduğunuz morlink'i her platformda paylaşın!",
     "paymentLinkInfoItem4Title": "Güvenle Ödeme Alın!",
     "paymentLinkInfoItem4Text": "Tüm ülkelerden morlink ile kolayca ve güvenle ödeme alın!",
     "paymentLinkBottomText": "<b>MorLink, MorPara</b> güvencesi ile kolay, hızlı ve güvenle ödeme alabileceğiniz bir link ödeme sistemidir.<br />İnternetten yapmış olduğunuz satışlar için pratik bir şekilde link ödemeler alabilirsiniz.",
@@ -290,6 +290,55 @@
     "paymentTransactionMethod" : "Ödeme Kaynağı"
     
   },
+  "transactionDetail": {
+    "sectionTitle1": "Ödeme Ayarları",
+    "sectionText1": "Ödeme ayarlarınızı görüntüleyebilir ve ödeme ayarlarınız ile ilgili aksiyon alabilirsiniz.",
+    "sectionTitle2": "İptal / İade İşlemleri",
+    "sectionText2": "Ödeme işlemleriniz ile ilgili herhangi bir tutar girişi yaparak aksiyon alabilirsiniz.",
+    "sectionTitle3": "İptal / İade Geçmişi",
+    "sectionTitle4": "Kart Detayları",
+
+    "tableTitle1": "TX ID",
+    "tableTitle2": "Ödeme Methodu",
+    "tableTitle3": "Ad Soyad",
+    "tableTitle4": "İşlem Tutarı",
+    "tableTitle5": "İşlem Sonucu",
+    "tableTitle6": "Tarih/Saat",
+
+    "tableTitle7": "Vade",
+    "tableTitle8": "Kart Tipi",
+    "tableTitle9": "Conversationld",
+    "tableTitle10": "Ödeme Kaynağı",
+    "tableTitle11": "TX ID",
+    "tableTitle12": "İşlem Tutarı",
+    "tableTitle13": "İşlem Türü",
+    "tableTitle14": "İşlem Sonucu",
+    "tableTitle15": "Açıklama",
+    "tableTitle16": "Tarih/Saat",
+    "tableTitle17": "Kart Numarası",
+    "tableTitle18": "Kart Sahibinin Adı Soyadı",
+    "tableTitle19": "Kart Şeması",
+    "tableTitle20": "Kart Ailesi",
+    "tableTitle21": "Kart Tipi",
+    "affordableAmount": "Uygun Tutar",
+
+    
+    "CancelDialogWarningTitle": "Başarısız İşlem!",
+    "CancelDialogWarningText": "İade işleminiz başarısız oldu. Lütfen girmiş olduğunuz tutarı kontrol edin.",
+    
+    "CancelDialogSuccessTitle": "İşleminiz Başarılı!",
+    "CancelDialogSuccessText": "İşleminiz başarıyla tamamlandı.",
+
+    "CancelDialogTitle": "İptal İşlemi",
+    "CancelDialogText": "<b>iptal işlemi yapmak üzeresiniz.</b><br /><br />Bu işlemi onaylıyor musunuz?",
+
+    "RefundDialogTitle": "İade İşlemi",
+    "RefundDialogText": "<b>iade işlemi yapmak üzeresiniz.</b><br /><br />Bu işlemi onaylıyor musunuz?",
+
+    "refundButton": "İade Et",
+    "cancelButton": "İptal Et"
+    
+  },
   "errors": {
     "incorrectPassword": "Girmiş olduğunuz şifre hatalı. Lütfen tekrar deneyiniz.",
     "required": "Lütfen tüm alanları doldurunuz.",
@@ -310,7 +359,10 @@
     "maxLength": "En fazla {{length}} karakter olmalıdır",
     "invalidCardNumber": "Geçersiz kart numarası",
     "invalidExpireDate": "Geçersiz son kullanma tarihi (MM/YY)",
-    "expiredCard": "Kartın son kullanma tarihi geçmiş"
+    "expiredCard": "Kartın son kullanma tarihi geçmiş",
+    "invalidAmount": "Geçersiz tutar girdiniz.",
+    "amountGreaterThanZero": "Tutar sıfırdan büyük olmalıdır.",
+    "amountExceedsAvailable": "Girilen tutar uygun tutarı aşıyor: {{available}} ₺"
   },
   "messages": {
     "success": "İşlem başarılı",
@@ -322,11 +374,11 @@
     "registerError": "Kayıt işlemi başarısız oldu.",
     "passwordChangeSuccess": "Şifre Sıfırlama başarılı!",
     "passwordChangeError": "Şifre Sıfırlama başarısız oldu.",
-    "confirmationEmailSent": "Onay E-Posta’sı Gönderildi!",
+    "confirmationEmailSent": "Onay E-Posta'sı Gönderildi!",
     "confirmationEmailContent": "<p>Şifre yenileme süreci başlatıldı ve e-posta adresinize bundan sonraki aşamalarda ne yapmanız gerektiğine dair yönergeler içeren bir e-posta gönderildi. Lütfen e-posta adresinizi kontrol ediniz.<br /><br />Yönergeleri içeren e-postaya ulaşamadıysanız lütfen junk mail (gereksiz e-posta) klasörünü de kontrol etmeyi unutmayınız. E-posta adresimizi güvenli gönderenler listesine eklemenizi önemle rica ederiz.</p>",
 
-    "DeletionDialogTitle": "MorLink’i Sil?",
-    "DeletionDialogText": "Oluşturduğunuz <b>MorLink</b>’in silme işlemini<br />onaylıyor musunuz?",
+    "DeletionDialogTitle": "MorLink'i Sil?",
+    "DeletionDialogText": "Oluşturduğunuz <b>MorLink</b>'in silme işlemini<br />onaylıyor musunuz?",
     "DeletionDialogSuccessTitle": "Silme İşlemi Başarılı!",
     "DeletionDialogSuccessText": "MorLink silme işleminiz <b>başarılı</b> bir şekilde<br />gerçekleşti!",
     "DeletionDialogWarningTitle": "Başarısız İşlem!",

@@ -5,10 +5,17 @@ body {
     color: $text-color;
     font-size: var(--font-size-15);
     font-family: $font-family;
-    background: $purple-light;
+    background: $white-color;
     transition: left 0.2s linear, right 0.2s linear;
     margin: 0;
     padding: 0;
+}
+
+.gray-bg {
+    background: $purple-light;
+    & + footer {
+        background: $purple-light;
+    }
 }
 
 /*Global*/
@@ -113,6 +120,38 @@ button,
     }
     &.user-share-overlay {
         transform: translateX(78px) translateY(10px);
+    }
+}
+
+.p-tag {
+    @include text-9-semibold;
+    padding: var(--spacer-1) var(--spacer-3);
+    border-radius: 50px;
+    background: $primary-color;
+    color: $white-color;
+    &.p-tag-success {
+        background: $succes-secondary-color;
+        color: $succes-color;
+    }
+    &.p-tag-info {
+        background: $gray-2;
+        color: $sub-text-color;
+    }
+    &.p-tag-warning {
+        background: #FDF1E8;
+        color: $orange-color;
+    }
+    &.p-tag-danger {
+        background: #FFD7D5;
+        color: $red;
+    }
+    &.p-tag-secondary {
+        background: $background;
+        color: $brand-3-color;
+    }
+    &.p-tag-waiting {
+        background: $refund-secondary-color;
+        color: $waiting-color;
     }
 }
 
@@ -368,8 +407,7 @@ button,
                 @include text-8-medium;
                 border-right: 1px solid;
                 border-color: $border-2;
-                &:last-child,
-                &:nth-last-child(2) {
+                &:last-child {
                     border-right: 0;
                 }
                 &.p-frozen-column {
@@ -378,6 +416,11 @@ button,
                 &.primary-text {
                     color: $primary-color;
                     font-weight: 600;
+                }
+                &.price-column {
+                    color: $primary-color;
+                    @include line-rule(16);
+                    font-weight: bold;
                 }
                 .logos-text {
                     display: flex;
@@ -410,7 +453,6 @@ button,
         justify-content: center;
         text-align: center;
     }
-    
     .p-paginator.p-paginator-bottom {
         padding: var(--spacer-4) var(--spacer-6);
         background: $white-color;
@@ -981,6 +1023,7 @@ button,
         align-items: center;
         gap: var(--spacer-4);
         > * {
+            box-shadow: none;
             display: flex;
             align-items: center;
             gap: var(--spacer-2);
@@ -1067,6 +1110,7 @@ button,
 .datatable-area-container {
     border-radius: 8px;
     @include box-shadow;
+    overflow: hidden;
     background-color: $white-color;
     border: 1px solid $border-2;
     .p-datatable-header {
@@ -1083,6 +1127,49 @@ button,
             padding: var(--spacer-1) 0 0;
             @include text-7-regular;
             color: $sub-text-color;
+        }
+    }
+    &.detail-page-table {
+        .p-datatable-header {
+            .title {
+                display: flex;
+                align-items: center;
+                gap: var(--spacer-2);
+                color: $primary-color;
+            }
+            .text {
+                padding: var(--spacer-2) 0 0;
+            }
+        }
+        .p-datatable  {
+            border-bottom: 1px solid $border-2;
+            &:last-child {
+                border-bottom: 0;
+            }
+            .p-datatable-thead {
+                > tr {
+                    > th {
+                        padding: var(--spacer-5) var(--spacer-5);
+                        background: $title-bg-color;
+                        text-align: center;
+                        .p-column-header-content {
+                            justify-content: center;
+                        }
+                    }
+                }
+            }
+            .p-datatable-tbody {
+                > tr {
+                    &:last-child {
+                        > td {
+                            border-bottom: 0;
+                        }
+                    }
+                    > td {
+                        text-align: center;
+                    }
+                }
+            }
         }
     }
 }
@@ -1687,6 +1774,11 @@ button,
                             color: $red;
                         }
                     }
+                    &.custom-color {
+                        > span {
+                            color: $orange-color;
+                        }
+                    }
                 }
             }
         }
@@ -1720,6 +1812,7 @@ button,
                     background: $fourth-color;
                 }
                 &.p-confirm-dialog-accept {
+                    &.custom-color,
                     &.success-color {
                         background: $green-succes;
                     }
@@ -2206,7 +2299,7 @@ main {
     width: calc(100% - 264px);
     .main-content {
         padding: var(--spacer-6) var(--spacer-6) 0;
-        min-height: 1000px;
+        min-height: 900px;
     }
 }
 
@@ -2632,6 +2725,89 @@ footer {
         }
         b {
             @include text-9-semibold;
+        }
+    }
+}
+
+/*Transaction Component*/
+.detail-table-section {
+    > div {
+        margin: 0 0 var(--spacer-6);
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.refund-cancel-section {
+    .section-content {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--spacer-6);
+        padding: var(--spacer-10) var(--spacer-8);
+        border-bottom: 1px solid $border-2;
+        background: $secondary-color-4;
+        .available-amount {
+            > span {
+                @include text-9-semibold;
+                color: $text-color;
+                margin-right: 10px;
+            }
+            b {
+                color: $primary-color;
+                @include text-15-semibold;
+            }
+        }
+        .input-and-buttons {
+            flex: 1 0 0;
+            max-width: 1200px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacer-6);
+            > * {
+                flex: 1;
+            }
+            .p-inputnumber {
+                > input {
+                    height: 52px;
+                    text-align: center;
+                    border: 1px solid $gray;
+                    color: $fourth-color;
+                    @include text-15-semibold;
+                    &:focus,
+                    &:hover {
+                        border-color: $fourth-color;
+                    }
+                }
+            }
+            .button {
+                width: 268px;
+                @include center;
+                height: 52px;
+                color: $white-color;
+                @include text-15-semibold;
+                border-radius: 8px;
+                gap: 10px;
+                border: 0;
+                outline: none;
+                transition: $transition;
+                &.refund-button {
+                    background: $green-succes;
+                    color: $white-color;
+                    &:Hover {
+                        background: $succes-color;
+                    }
+                }
+                &.cancel-button {
+                    background: $red;
+                    color: $white-color;
+                    &:Hover {
+                        background: $waiting-color;
+                    }
+                }
+            }
         }
     }
 }

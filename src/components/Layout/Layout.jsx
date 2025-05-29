@@ -13,13 +13,20 @@ const Layout = () => {
     console.log("authData",authData);
     console.log("pathname",pathname);
   }, [authData])
+
+  const getMainContentClass = () => {
+    if (pathname === '/link-payment-list' || pathname.startsWith('/detail-payment/')) {
+      return 'main-content gray-bg';
+    }
+    return 'main-content';
+  };
   
   return (
     <div className="layout">
       <Sidebar />
       <main>
         <TopHeader />
-        <div className="main-content">
+        <div className={getMainContentClass()}>
           <Outlet />
         </div>
         <BottomFooter />

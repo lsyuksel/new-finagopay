@@ -16,18 +16,19 @@ export const showDialog = (type, message, icon, errorCode, acceptCallback) => {
     const dialogConfig = {
         group: 'ConfirmDialogTemplating',
         message: (
-            <div className={`dialog-flex-box ${type === 'success' ? 'success-color' : type === 'warning' ? 'warning-color' : 'danger-color'}`}>
+            <div className={`dialog-flex-box ${type === 'success' ? 'success-color' : type === 'warning' ? 'warning-color' : type === 'danger2' ? 'custom-color' : 'danger-color'}`}>
                 <i><img src={icon} alt="" /></i>
                 <span>{message.title}</span>
                 <div dangerouslySetInnerHTML={{ __html: message.content }} />
                 {errorCode && (<b>{t('messages.ErrorCode')} {errorCode}</b>)}
             </div>
         ),
-        acceptClassName: type === 'success' ? 'success-color' : type === 'warning' ? 'warning-color' : 'danger-color',
-        acceptLabel: type !== 'danger' ? t('common.ButtonComplete') : t('common.ButtonApprove'),
+        acceptClassName: type === 'success' ? 'success-color' : type === 'warning' ? 'warning-color' : type === 'danger2' ? 'custom-color' : 'danger-color',
+        acceptLabel: type !== 'danger' && type !== 'danger2' ? t('common.ButtonComplete') : t('common.ButtonApprove'),
         accept: acceptCallback,
-        rejectClassName: type !== 'danger' && 'd-none',
-        rejectLabel: type === 'danger' && t('common.ButtonCancel'),
+        
+        rejectClassName: type !== 'danger' && type !== 'danger2' && 'd-none',
+        rejectLabel: t('common.ButtonCancel'),
         reject: type === 'success' ? null : () => {},
     };
 
