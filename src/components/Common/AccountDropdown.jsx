@@ -20,7 +20,7 @@ export default function AccountDropdown() {
     { link: "/accounts", name: t("menu.account"), icon: "pi-user" },
     { link: "/profile", name: t("menu.profileSettings"), icon: "pi-cog" },
     { link: "/company-settings", name: t("menu.companySettings"), icon: "pi-pen-to-square" },
-    { link: "/logout", name: t("menu.logout"), icon: "pi-sign-out" },
+    { link: "/logout", name: t("menu.exit"), icon: "pi-sign-out" },
   ];
 
   const navigateFunction = (item) => {

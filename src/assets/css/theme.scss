@@ -1673,6 +1673,9 @@ button,
     border-radius: 20px;
     max-width: 94%;
     max-height: 94%;
+    @include max($sm) {
+        width: 100% !important;
+    }
     .p-dialog-content {
         color: $text-color;
         @include text-7-regular;
@@ -2038,6 +2041,14 @@ button,
                 padding-top: var(--spacer-12);
                 padding-right: var(--spacer-20);
             }
+            @include max($md) {
+                &:before {
+                    display: none;
+                }
+                > div {
+                    padding: var(--spacer-12) 0;
+                }                
+            }
         }
         .right-column {
             > div {
@@ -2046,6 +2057,11 @@ button,
                 background: transparent;
                 padding-top: var(--spacer-8);
                 padding-left: var(--spacer-10);
+            }
+            @include max($md) {
+                > div {
+                    padding: 0;
+                }
             }
         }
         .p-accordion {
@@ -2132,6 +2148,13 @@ button,
                 @include text-4-medium;
                 color: $gray;
             }
+            @include max($xs) {
+                padding: var(--spacer-6) 0 !important;
+                flex-direction: column;
+                gap: var(--spacer-6);
+                justify-content: flex-start;
+                align-items: flex-start;
+            } 
         }
     }
 }
@@ -2375,7 +2398,7 @@ main {
                 display: flex;
                 align-items: center;
                 color: $white-color;
-                padding: var(--spacer-1) 0;
+                padding: var(--spacer-2) 0;
                 @include line-rule(14);
                 font-weight: 600;
                 > div {
@@ -2399,6 +2422,36 @@ main {
                     width: 24px;
                     height: 24px;
                     font-size: 21px;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    &:before {
+                        display: none;
+                    }
+                    &.bx-home-circle {
+                        background-image: url("@/assets/images/menu-icon/home-circle.svg");
+                    }
+                    &.bx-credit-card-alt {
+                        background-image: url("@/assets/images/menu-icon/credit-card.svg");
+                    }
+                    &.bx-stats {
+                        background-image: url("@/assets/images/menu-icon/stats.svg");
+                    }
+                    &.bx-calculator {
+                        background-image: url("@/assets/images/menu-icon/calculator.svg");
+                    }
+                    &.bxs-report {
+                        background-image: url("@/assets/images/menu-icon/report.svg");
+                    }
+                    &.bx-lock-open {
+                        background-image: url("@/assets/images/menu-icon/lock-open.svg");
+                    }
+                    &.bx-window-close {
+                        background-image: url("@/assets/images/menu-icon/window-close.svg");
+                    }
+                    &.bxs-help-circle {
+                        background-image: url("@/assets/images/menu-icon/help-circle.svg");
+                    }
                 }
             }
             .submenu {
@@ -2439,6 +2492,9 @@ main {
                                 width: 16px;
                                 height: 16px;
                                 font-size: 12px;
+                            }
+                            > i {
+                                display: none;
                             }
                         }
                     }

@@ -32,24 +32,11 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-      {/* Public Routes */}
-      <Route
-        path="/login"
-        element={
-          isAuthenticated ? (
-            <Navigate to="/dashboard" replace />
-          ) : (
-            <AuthLayout page="login" />
-          )
-        }
-      />
-      <Route path="/register" element={<AuthLayout page="register" />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/passwordChangeConfirm" element={<PasswordChangeConfirm />} />
-     
-      <Route path="/linkpayment/:param" element={<LinkPayment />} />
 
       {/* Protected Routes */}
+
+
+      {/* dashboard */}
       <Route element={<Layout />}>
         <Route
           path="/dashboard"
@@ -59,14 +46,9 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
+
+
+        {/* merchantapplication */}
         <Route
           path="/merchant-application"
           element={
@@ -75,6 +57,10 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+
+
+
+        {/* transaction */}
         <Route
           path="/transaction-monitoring"
           element={
@@ -91,14 +77,7 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/merchant-reconciliation"
-          element={
-            <ProtectedRoute>
-              <MerchantReconciliation />
-            </ProtectedRoute>
-          }
-        />
+        
         <Route
           path="/chargeback-monitoring"
           element={
@@ -107,14 +86,11 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/merchant-commission-list"
-          element={
-            <ProtectedRoute>
-              <MerchantCommissionList />
-            </ProtectedRoute>
-          }
-        />
+
+
+
+
+        {/* link payment */}
         <Route
           path="/link-payment-list"
           element={
@@ -147,11 +123,29 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+
+
+
+
+
+        {/* reports */}
         <Route
-          path="/key-definition"
+          path="/merchant-reconciliation"
           element={
             <ProtectedRoute>
-              <KeyDefinition />
+              <MerchantReconciliation />
+            </ProtectedRoute>
+          }
+        />
+
+
+
+        {/* settings */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
             </ProtectedRoute>
           }
         />
@@ -164,6 +158,22 @@ const AppRoutes = () => {
           }
         />
         <Route
+          path="/key-definition"
+          element={
+            <ProtectedRoute>
+              <KeyDefinition />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/merchant-commission-list"
+          element={
+            <ProtectedRoute>
+              <MerchantCommissionList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/user-role-relation"
           element={
             <ProtectedRoute>
@@ -171,6 +181,8 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        
+        {/* * */}
         <Route
           path="/"
           element={
@@ -192,6 +204,25 @@ const AppRoutes = () => {
           }
         />
       </Route>
+
+      
+      {/* Public Routes */}
+      <Route
+        path="/login"
+        element={
+          isAuthenticated ? (
+            <Navigate to="/dashboard" replace />
+          ) : (
+            <AuthLayout page="login" />
+          )
+        }
+      />
+      <Route path="/register" element={<AuthLayout page="register" />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/passwordChangeConfirm" element={<PasswordChangeConfirm />} />
+     
+      <Route path="/linkpayment/:param" element={<LinkPayment />} />
+
     </Routes>
   );
 };

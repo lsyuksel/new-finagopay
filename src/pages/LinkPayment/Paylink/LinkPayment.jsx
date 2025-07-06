@@ -243,7 +243,7 @@ export default function LinkPayment() {
 
   return (
     <div className="paylink-container">
-      <LoginHeader pageTitle={t("Penta Yazılım A.Ş")} />
+      <LoginHeader pageTitle={t("Firma Adı A.Ş")} />
       <div className="paylink-content">
         <div className="container">
           <div className="row align-items-strech h-100">
@@ -522,7 +522,7 @@ export default function LinkPayment() {
                           />
                         </Form.Group>
                         {
-                          installmentList && (
+                          installmentList && installmentList?.installmentList?.length > 0 && (
                             <>
                               <div className="installment-title">Taksit Seçenekleri</div>
                               <div className="installment-list">

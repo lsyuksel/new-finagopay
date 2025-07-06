@@ -59,10 +59,11 @@ const Sidebar = () => {
           className={`menu-button`}
         >
           <div>
-            {item.pageIcon && hasChildren && (
+            {item.pageIcon && (
               <i className={`${item.pageIcon} menu-icon`} />
             )}
-            <span>{t(`menu.${item.pageName?.toLowerCase()}`, item.pageName)}</span>
+            <span>{t(`menu.${item.pageName}`)}</span>
+            {/*<span>{item.pageUrl}</span>*/}
           </div>
           {hasChildren && (
             <i className={`fas fa-chevron-${isExpanded ? 'up' : 'down'}`} />
@@ -109,11 +110,12 @@ const Sidebar = () => {
               {t('menu.empty')}
             </div>
           )}
+          {/*
           <div className='menu-item'>
             <Link onClick={handleLogout} className={`menu-button`}>
               <div>
                 <i className='pi pi-power-off menu-icon'></i>
-                <span>{t('menu.logout')}</span>
+                <span>{t('menu.exit')}</span>
               </div>
             </Link>
           </div>
@@ -121,10 +123,10 @@ const Sidebar = () => {
             <Link to={"/support"} className={`menu-button`}>
               <div>
                 <i className='pi pi-headphones menu-icon'></i>
-                <span>{t('menu.support')}</span>
+                <span>{t('menu.helpdesk')}</span>
               </div>
             </Link>
-          </div>
+          </div> */}
         </Nav>
       </div>
       <div className="sidebar-bottom">

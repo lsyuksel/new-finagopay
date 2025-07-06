@@ -22,7 +22,7 @@ export default function PayLinkResult() {
 
     return (
         <div className="auth-container paylink-page">
-            <LoginHeader pageTitle={t("Penta Yazılım A.Ş")} />
+            <LoginHeader pageTitle={t("Firma Adı A.Ş")} />
             <div className="auth-content">
                 <div className="container">
                 <div className="row align-items-strech">
@@ -45,7 +45,7 @@ export default function PayLinkResult() {
                                         </tr>
                                         <tr>
                                             <td>{t('linkPayment.storeName')}:</td>
-                                            <td>Penta Yazılım A.Ş</td>
+                                            <td>Firma Adı A.Ş</td>
                                         </tr>
                                         <tr>
                                             <td>{t('linkPayment.installmentCount')}:</td>
