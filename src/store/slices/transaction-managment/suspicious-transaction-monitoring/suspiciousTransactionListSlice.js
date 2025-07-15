@@ -1,11 +1,11 @@
-// src/store/slices/refundTransactionListSlice.js
+// src/store/slices/suspiciousTransactionListSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api, parseErrorResponse } from "@/services/api";
 import { t } from "i18next";
 import { TRANSACTION_URL } from "../../../../constants/apiUrls";
 
 /*
-export const getRefundTransactionList = createAsyncThunk(
+export const getSuspiciousTransactionList = createAsyncThunk(
   "TransactionProvision/GetTransactionProvisionSearch",
   async (userData, { rejectWithValue }) => {
     try {
@@ -51,8 +51,8 @@ const testData = [
 ];
 
 // backend servisi geldiğinde yukarıdaki kullanılacak uygun apiye istek atılıp response return edilecek
-export const getRefundTransactionList = createAsyncThunk(
-  "TransactionProvision/GetRefundTransactionList",
+export const getSuspiciousTransactionList = createAsyncThunk(
+  "TransactionProvision/GetSuspiciousTransactionList",
   async (userData, { rejectWithValue }) => {
     try {
       const response = testData;
@@ -62,46 +62,46 @@ export const getRefundTransactionList = createAsyncThunk(
   }
 );
 
-const refundTransactionListSlice = createSlice({
-  name: "refundTransactionList",
+const suspiciousTransactionListSlice = createSlice({
+  name: "suspiciousTransactionList",
   initialState: {
     loading: false,
     error: null,
     success: false,
-    refundTransactionList: [],
+    suspiciousTransactionList: [],
     deleteSuccess: false,
   },
   reducers: {
-    clearRefundTransactionListState: (state) => {
+    clearSuspiciousTransactionListState: (state) => {
       state.loading = false;
       state.deleteSuccess = false,
       state.error = null;
       state.success = false;
-      state.refundTransactionList = null;
+      state.suspiciousTransactionList = null;
     },
-    setRefundTransactionListError: (state, action) => {
+    setSuspiciousTransactionListError: (state, action) => {
       state.error = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
       
-      .addCase(getRefundTransactionList.pending, (state) => {
+      .addCase(getSuspiciousTransactionList.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(getRefundTransactionList.fulfilled, (state, action) => {
+      .addCase(getSuspiciousTransactionList.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
-        state.refundTransactionList = action.payload;
+        state.suspiciousTransactionList = action.payload;
         state.error = null;
       })
-      .addCase(getRefundTransactionList.rejected, (state, action) => {
+      .addCase(getSuspiciousTransactionList.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
   },
 });
 
-export const { clearRefundTransactionListState, setRefundTransactionListError } = refundTransactionListSlice.actions;
-export default refundTransactionListSlice.reducer;
+export const { clearSuspiciousTransactionListState, setSuspiciousTransactionListError } = suspiciousTransactionListSlice.actions;
+export default suspiciousTransactionListSlice.reducer;

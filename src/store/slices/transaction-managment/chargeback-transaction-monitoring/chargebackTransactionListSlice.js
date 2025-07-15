@@ -1,11 +1,11 @@
-// src/store/slices/refundTransactionListSlice.js
+// src/store/slices/chargebackTransactionListSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api, parseErrorResponse } from "@/services/api";
 import { t } from "i18next";
 import { TRANSACTION_URL } from "../../../../constants/apiUrls";
 
 /*
-export const getRefundTransactionList = createAsyncThunk(
+export const getChargebackTransactionList = createAsyncThunk(
   "TransactionProvision/GetTransactionProvisionSearch",
   async (userData, { rejectWithValue }) => {
     try {
@@ -51,8 +51,8 @@ const testData = [
 ];
 
 // backend servisi geldiğinde yukarıdaki kullanılacak uygun apiye istek atılıp response return edilecek
-export const getRefundTransactionList = createAsyncThunk(
-  "TransactionProvision/GetRefundTransactionList",
+export const getChargebackTransactionList = createAsyncThunk(
+  "TransactionProvision/GetChargebackTransactionList",
   async (userData, { rejectWithValue }) => {
     try {
       const response = testData;
@@ -62,46 +62,46 @@ export const getRefundTransactionList = createAsyncThunk(
   }
 );
 
-const refundTransactionListSlice = createSlice({
-  name: "refundTransactionList",
+const chargebackTransactionListSlice = createSlice({
+  name: "chargebackTransactionList",
   initialState: {
     loading: false,
     error: null,
     success: false,
-    refundTransactionList: [],
+    chargebackTransactionList: [],
     deleteSuccess: false,
   },
   reducers: {
-    clearRefundTransactionListState: (state) => {
+    clearChargebackTransactionListState: (state) => {
       state.loading = false;
       state.deleteSuccess = false,
       state.error = null;
       state.success = false;
-      state.refundTransactionList = null;
+      state.chargebackTransactionList = null;
     },
-    setRefundTransactionListError: (state, action) => {
+    setChargebackTransactionListError: (state, action) => {
       state.error = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
       
-      .addCase(getRefundTransactionList.pending, (state) => {
+      .addCase(getChargebackTransactionList.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(getRefundTransactionList.fulfilled, (state, action) => {
+      .addCase(getChargebackTransactionList.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
-        state.refundTransactionList = action.payload;
+        state.chargebackTransactionList = action.payload;
         state.error = null;
       })
-      .addCase(getRefundTransactionList.rejected, (state, action) => {
+      .addCase(getChargebackTransactionList.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
   },
 });
 
-export const { clearRefundTransactionListState, setRefundTransactionListError } = refundTransactionListSlice.actions;
-export default refundTransactionListSlice.reducer;
+export const { clearChargebackTransactionListState, setChargebackTransactionListError } = chargebackTransactionListSlice.actions;
+export default chargebackTransactionListSlice.reducer;

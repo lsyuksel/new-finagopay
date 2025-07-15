@@ -395,7 +395,9 @@ export default function RefundTransactionMonitoring() {
               dataKey="guid"
               scrollable
             >
+            {/*
             <Column selectionMode="multiple" className='center-column' headerStyle={{ width: '3rem' }}></Column>
+            */}
             {!loading && visibleColumns.map((col, index) => (
                 <Column 
                   className='center-column'

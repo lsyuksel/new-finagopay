@@ -21,6 +21,11 @@ import transactionDetailReducer from './slices/transaction-managment/transaction
 import refundTransactionListReducer from './slices/transaction-managment/refund-transaction-monitoring/refundTransactionListSlice';
 import refundTransactionDetailReducer from './slices/transaction-managment/refund-transaction-monitoring/refundTransactionDetailSlice';
 
+import suspiciousTransactionListReducer from './slices/transaction-managment/suspicious-transaction-monitoring/suspiciousTransactionListSlice';
+import suspiciousTransactionDetailReducer from './slices/transaction-managment/suspicious-transaction-monitoring/suspiciousTransactionDetailSlice';
+
+import chargebackTransactionListReducer from './slices/transaction-managment/chargeback-transaction-monitoring/chargebackTransactionListSlice';
+import chargebackTransactionDetailReducer from './slices/transaction-managment/chargeback-transaction-monitoring/chargebackTransactionDetailSlice';
 
 import selectOptionsReducer from './slices/selectOptionSlice';
 
@@ -47,6 +52,14 @@ const rootReducer = combineReducers({
   
   refundTransactionList: refundTransactionListReducer,
   refundTransactionDetail: refundTransactionDetailReducer,
+
+  
+  suspiciousTransactionList: suspiciousTransactionListReducer,
+  suspiciousTransactionDetail: suspiciousTransactionDetailReducer,
+
+  
+  chargebackTransactionList: chargebackTransactionListReducer,
+  chargebackTransactionDetail: chargebackTransactionDetailReducer,
   
   menu: menuReducer,
 });
