@@ -26,9 +26,10 @@ import { ConfirmDialog } from 'primereact/confirmdialog';
 import { showDialog } from '@/utils/helpers';
 import { toast } from 'react-toastify';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { getTransactionDetail } from '../../../store/slices/transaction-managment/transaction-monitoring/transactionDetailSlice';
+import { getRefundTransactionDetail } from '../../../store/slices/transaction-managment/refund-transaction-monitoring/refundTransactionDetailSlice';
 
-export default function DetailTransaction() {
+
+export default function DetailRefundTransaction() {
     const { param } = useParams();
     const { t } = useTranslation();
   
@@ -36,12 +37,12 @@ export default function DetailTransaction() {
     const navigate = useNavigate();
     const authData = useSelector((state) => state.auth);
 
-    const { loading, error, success, transactionDetail } = useSelector((state) => state.transactionDetail);
+    const { loading, error, success, refundTransactionDetail } = useSelector((state) => state.refundTransactionDetail);
 
     useEffect(() => {
-        if(param) dispatch(getTransactionDetail(param));
-        console.log("transactionDetail",transactionDetail?.data1)
-    }, [transactionDetail])
+        if(param) dispatch(getRefundTransactionDetail(param));
+        console.log("refundTransactionDetail",refundTransactionDetail?.data1)
+    }, [refundTransactionDetail])
 
 
     const [refundAmount, setRefundAmount] = useState('');
@@ -271,7 +272,7 @@ export default function DetailTransaction() {
                         <div className="datatable-area-container detail-page-table">
                             <DataTable 
                                 header={header1}
-                                value={transactionDetail?.data1} 
+                                value={refundTransactionDetail?.data1} 
                                 emptyMessage={t('common.recordEmptyMessage')}
                                 currentPageReportTemplate={t('common.paginateText')}
                                 dataKey="guid"
@@ -291,7 +292,7 @@ export default function DetailTransaction() {
                                 ))}
                             </DataTable>
                             <DataTable 
-                                value={transactionDetail?.data2} 
+                                value={refundTransactionDetail?.data2} 
                                 emptyMessage={t('common.recordEmptyMessage')}
                                 currentPageReportTemplate={t('common.paginateText')}
                                 dataKey="guid"
@@ -348,7 +349,7 @@ export default function DetailTransaction() {
                             </div>
                             <DataTable 
                                 header={header3}
-                                value={transactionDetail?.data3} 
+                                value={refundTransactionDetail?.data3} 
                                 emptyMessage={t('common.recordEmptyMessage')}
                                 currentPageReportTemplate={t('common.paginateText')}
                                 dataKey="guid"
@@ -371,7 +372,7 @@ export default function DetailTransaction() {
                         <div className="datatable-area-container detail-page-table">
                             <DataTable 
                                 header={header4}
-                                value={transactionDetail?.data4} 
+                                value={refundTransactionDetail?.data4} 
                                 emptyMessage={t('common.recordEmptyMessage')}
                                 currentPageReportTemplate={t('common.paginateText')}
                                 dataKey="guid"

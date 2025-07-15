@@ -5,7 +5,7 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { getTransactionList, setTransactionListError } from '../../../store/slices/transaction-managment/transaction-monitoring/transactionListSlice';
+import { getTransactionList, setTransactionListError } from '../../../store/slices/transaction/transactionListSlice';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'primereact/button';
 import FilterDialog from '../../../components/Common/Table/FilterDialog';

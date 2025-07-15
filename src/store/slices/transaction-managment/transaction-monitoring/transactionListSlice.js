@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api, parseErrorResponse } from "@/services/api";
 import { t } from "i18next";
-import { TRANSACTION_URL } from "../../../constants/apiUrls";
+import { TRANSACTION_URL } from "../../../../constants/apiUrls";
 
 export const getTransactionList = createAsyncThunk(
   "TransactionProvision/GetTransactionProvisionSearch",

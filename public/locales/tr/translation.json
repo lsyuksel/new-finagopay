@@ -269,6 +269,15 @@
     "transactionTitle": "Tüm İşlemleriniz",
     "transactionText": "Bu sayfada yapmış olduğunuz tüm işlemlerinizi görüntülemektesiniz.",
 
+    "refundTransactionTitle": "İade İşlemleri",
+    "refundTransactionText": "Tüm iade işlemleri aşağıda listelenmiştir.",
+    "refundTransactionColumn1": "İade İşlemleri",
+    "refundTransactionColumn2": "İade İşlemleri",
+    "refundTransactionColumn3": "İade İşlemleri",
+    "refundTransactionColumn4": "İade İşlemleri",
+    "refundTransactionColumn5": "İade İşlemleri",
+    "refundTransactionColumn6": "İade İşlemleri",
+
     "transactionDate": "İşlem Tarihi",
     "orderId": "Sipariş Numarası",
     "paymentId": "Ödeme ID",

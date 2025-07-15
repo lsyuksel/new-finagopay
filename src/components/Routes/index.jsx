@@ -6,7 +6,6 @@ import Dashboard from "../../pages/Dashboard/Dashboard";
 import MerchantApplication from "../../pages/ApplicationManagement/MerchantApplication";
 import TransactionMonitoring from "../../pages/Transaction/TransactionManagement/TransactionMonitoring";
 import MerchantReconciliation from "../../pages/Reports/ReconciliationManagement/MerchantReconciliation";
-import ChargebackMonitoring from "../../pages/Transaction/ChargebackManagement/ChargebackMonitoring";
 import MerchantCommissionList from "../../pages/Settings/InstallmentAndCommissionManagement/MerchantCommissionList";
 import KeyDefinition from "../../pages/Settings/KeyManagement/KeyDefinition";
 import UserDefinition from "../../pages/Settings/UserManagement/UserDefinition";
@@ -21,6 +20,10 @@ import DetailLinkPayment from "../../pages/LinkPayment/LinkPaymentList/DetailLin
 import CreateLinkPayment from "../../pages/LinkPayment/LinkPaymentList/CreateLinkPayment";
 import Layout from "../Layout/Layout";
 import DetailTransaction from "../../pages/Transaction/TransactionManagement/DetailTransaction";
+import RefundTransactionMonitoring from "../../pages/Transaction/RefundTransactionMonitoring/RefundTransactionMonitoring";
+import SuspiciousTransactionMonitoring from "../../pages/Transaction/SuspiciousTransactionMonitoring/SuspiciousTransactionMonitoring";
+import ChargebackMonitoring from "../../pages/Transaction/ChargebackMonitoring/ChargebackMonitoring";
+import DetailRefundTransaction from "../../pages/Transaction/RefundTransactionMonitoring/DetailRefundTransaction";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -77,11 +80,20 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/refund-transaction-monitoring"
           element={
             <ProtectedRoute>
-              <ChargebackMonitoring />
+              <RefundTransactionMonitoring />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/detail-refund-transaction/:param"
+          element={
+            <ProtectedRoute>
+              <DetailRefundTransaction />
             </ProtectedRoute>
           }
         />
@@ -89,7 +101,7 @@ const AppRoutes = () => {
           path="/suspicious-transaction-monitoring"
           element={
             <ProtectedRoute>
-              <ChargebackMonitoring />
+              <SuspiciousTransactionMonitoring />
             </ProtectedRoute>
           }
         />
