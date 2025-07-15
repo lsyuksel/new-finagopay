@@ -23,7 +23,7 @@ import warningDialogIcon from '@assets/images/icons/warningDialogIcon.svg'
 import { Tag } from 'primereact/tag';
 import { InputNumber } from 'primereact/inputnumber';
 import { ConfirmDialog } from 'primereact/confirmdialog';
-import { showDialog } from '../../utils/helpers';
+import { showDialog } from '@/utils/helpers';
 import { toast } from 'react-toastify';
 
 export default function DetailTransaction() {

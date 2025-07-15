@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Nav, Navbar, Button, Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +11,8 @@ import smallLogo from '@assets/images/small-logo.png'
 import supportIcon from '@assets/images/icons/support.svg'
 
 const Sidebar = () => {
+  const location = useLocation();
+
   const { toggleSidebarStatus } = useSelector((state) => state.menu);
   const { isAuthenticated } = useSelector((state) => state.auth);
 
@@ -34,7 +36,7 @@ const Sidebar = () => {
   };
 
   const toKebabCase = (str) => {
-    return str.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+    return str?.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
   };
   
   const handleMenuClick = (item) => {
@@ -48,22 +50,25 @@ const Sidebar = () => {
 
   const renderMenuItem = (item) => {
     if (!item) return null;
+    if (item.pageName === 'exit' || item.pageName === 'helpdesk') return null;
 
     const isExpanded = expandedItems.includes(item.id);
     const hasChildren = Array.isArray(item.children) && item.children.length > 0;
+
+    const isActive = location.pathname === toKebabCase(item.pageUrl);
 
     return (
       <div className='menu-item' key={item.id}>
         <Nav.Link
           onClick={() => handleMenuClick(item)}
-          className={`menu-button`}
-        >
+          className={`menu-button${isActive ? ' menuActive' : ''}`}
+          >
           <div>
             {item.pageIcon && (
               <i className={`${item.pageIcon} menu-icon`} />
             )}
             <span>{t(`menu.${item.pageName}`)}</span>
-            {/*<span>{item.pageUrl}</span>*/}
+            {/*<span>{toKebabCase(item.pageUrl)}</span>*/}
           </div>
           {hasChildren && (
             <i className={`fas fa-chevron-${isExpanded ? 'up' : 'down'}`} />
@@ -110,11 +115,11 @@ const Sidebar = () => {
               {t('menu.empty')}
             </div>
           )}
-          {/*
+          {/**/}
           <div className='menu-item'>
             <Link onClick={handleLogout} className={`menu-button`}>
               <div>
-                <i className='pi pi-power-off menu-icon'></i>
+                <i className='bx bx-window-close menu-icon'></i>
                 <span>{t('menu.exit')}</span>
               </div>
             </Link>
@@ -122,11 +127,11 @@ const Sidebar = () => {
           <div className='menu-item'>
             <Link to={"/support"} className={`menu-button`}>
               <div>
-                <i className='pi pi-headphones menu-icon'></i>
+                <i className='bx bxs-help-circle menu-icon'></i>
                 <span>{t('menu.helpdesk')}</span>
               </div>
             </Link>
-          </div> */}
+          </div> 
         </Nav>
       </div>
       <div className="sidebar-bottom">

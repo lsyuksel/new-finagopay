@@ -4,13 +4,13 @@ import { useSelector } from "react-redux";
 import Login from "../../pages/Login/Login";
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import MerchantApplication from "../../pages/ApplicationManagement/MerchantApplication";
-import TransactionMonitoring from "../../pages/TransactionManagement/TransactionMonitoring";
-import MerchantReconciliation from "../../pages/ReconciliationManagement/MerchantReconciliation";
-import ChargebackMonitoring from "../../pages/ChargebackManagement/ChargebackMonitoring";
-import MerchantCommissionList from "../../pages/InstallmentAndCommissionManagement/MerchantCommissionList";
-import KeyDefinition from "../../pages/KeyManagement/KeyDefinition";
-import UserDefinition from "../../pages/UserManagement/UserDefinition";
-import UserRoleRelation from "../../pages/UserManagement/UserRoleRelation";
+import TransactionMonitoring from "../../pages/Transaction/TransactionManagement/TransactionMonitoring";
+import MerchantReconciliation from "../../pages/Reports/ReconciliationManagement/MerchantReconciliation";
+import ChargebackMonitoring from "../../pages/Transaction/ChargebackManagement/ChargebackMonitoring";
+import MerchantCommissionList from "../../pages/Settings/InstallmentAndCommissionManagement/MerchantCommissionList";
+import KeyDefinition from "../../pages/Settings/KeyManagement/KeyDefinition";
+import UserDefinition from "../../pages/Settings/UserManagement/UserDefinition";
+import UserRoleRelation from "../../pages/Settings/UserManagement/UserRoleRelation";
 import ProtectedRoute from "./ProtectedRoute";
 import AuthLayout from "../../pages/Login/AuthLayout";
 import ForgotPassword from "../../pages/Login/ForgotPassword";
@@ -20,7 +20,7 @@ import LinkPayment from "../../pages/LinkPayment/Paylink/LinkPayment";
 import DetailLinkPayment from "../../pages/LinkPayment/LinkPaymentList/DetailLinkPayment";
 import CreateLinkPayment from "../../pages/LinkPayment/LinkPaymentList/CreateLinkPayment";
 import Layout from "../Layout/Layout";
-import DetailTransaction from "../../pages/TransactionManagement/DetailTransaction";
+import DetailTransaction from "../../pages/Transaction/TransactionManagement/DetailTransaction";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -77,7 +77,22 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
-        
+        <Route
+          path="/refund-transaction-monitoring"
+          element={
+            <ProtectedRoute>
+              <ChargebackMonitoring />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/suspicious-transaction-monitoring"
+          element={
+            <ProtectedRoute>
+              <ChargebackMonitoring />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/chargeback-monitoring"
           element={
@@ -108,7 +123,7 @@ const AppRoutes = () => {
           }
         />
         <Route
-          path="/create-payment"
+          path="/create-link-payment"
           element={
             <ProtectedRoute>
               <CreateLinkPayment />
@@ -116,7 +131,7 @@ const AppRoutes = () => {
           }
         />
         <Route
-          path="/create-payment/new"
+          path="/create-link-payment/new"
           element={
             <ProtectedRoute>
               <DetailLinkPayment />
@@ -130,7 +145,23 @@ const AppRoutes = () => {
 
         {/* reports */}
         <Route
+          path="/transaction-reports"
+          element={
+            <ProtectedRoute>
+              <MerchantReconciliation />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/merchant-reconciliation"
+          element={
+            <ProtectedRoute>
+              <MerchantReconciliation />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/invoice-reports"
           element={
             <ProtectedRoute>
               <MerchantReconciliation />
