@@ -5,7 +5,7 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { getTransactionList, setTransactionListError } from '../../../store/slices/transaction-managment/transaction-monitoring/transactionListSlice';
+import { cancelTransaction, getTransactionList, getTransactionSearchList, setTransactionListError } from '../../../store/slices/transaction-managment/transactionListSlice';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'primereact/button';
 import FilterDialog from '../../../components/Common/Table/FilterDialog';
@@ -52,6 +52,7 @@ import { ConfirmDialog } from 'primereact/confirmdialog';
 import { MultiSelect } from 'primereact/multiselect';
 import { Dropdown } from 'react-bootstrap';
 import { exportDataToCSV, exportDataToExcel } from '../../../utils/exportUtils';
+import { Tag } from 'primereact/tag';
 
 export default function TransactionMonitoring() {
   const { t, i18n } = useTranslation();
@@ -61,7 +62,6 @@ export default function TransactionMonitoring() {
   const [selectedProducts, setSelectedProducts] = useState(null);
 
   const [filterDialogVisible, setFilterDialogVisible] = useState(false);
-  const [filteredList, setFilteredList] = useState(null);
 
   const [selectedDateFilter, setSelectedDateFilter] = useState('all');
   const [selectedRange, setSelectedRange] = useState(null);
@@ -72,7 +72,8 @@ export default function TransactionMonitoring() {
 
   const selectOptions = useSelector((state) => state.selectOptions);
   
-  const { loading, error, success, transactionList, deleteSuccess } = useSelector((state) => state.transactionList);
+  const { loading, error, success, transactionList, deleteSuccess, filteredList } = useSelector((state) => state.transactionList);
+  const authData = useSelector((state) => state.auth);
 
   useEffect(() => {
     setSelectedProducts(null);
@@ -96,83 +97,44 @@ export default function TransactionMonitoring() {
   }, [transactionList])
 
   const columns = [
-    { field: 'orderId', header: t('transaction.orderId'), sortable: true, className: "primary-text", },
-    { 
-      field: 'ravenTransactionTypeGuid', 
-      header: t('transaction.transactionType'), 
-      sortable: true,
+    { field: 'orderId', header: t('transaction.orderId2'), sortable: true, className: "primary-text", },
+    { field: 'paymentMethod', header: t('transaction.paymentMethod'), sortable: true },
+    { field: 'amount', header: t('transaction.amount'), sortable: true },
+    { field: 'conversationId', header: t('transaction.conversationId'), sortable: true },
+    { field: 'transactionType', header: t('transaction.transactionType2'), sortable: true,
       body: (rowData) => (
         <div className="logos-text">
           <i><img src={smallLogo} /></i>
-          <span>{getTransactionType(rowData.ravenTransactionTypeGuid)}</span>
+          <span>{rowData.transactionType}</span>
         </div>
       )
     },
-    { field: 'insertDateTime', header: t('transaction.transactionDate'), sortable: true,
-      body: (rowData) => formatDate(rowData.insertDateTime) },
-    { field: 'paymentId', header: t('transaction.paymentId'), sortable: true },
-    { field: 'bankUniqueReferenceNumber', header: t('transaction.bankUniqueReferenceNumber'), sortable: true },
-    { field: 'transactionNetworkGuid', header: t('transaction.transactionNetwork'), sortable: true,
-        body: (rowData) => getTransactionNetwork(rowData.transactionNetworkGuid) },
-    { 
-        field: 'ravenAuthorizationResponseCodeGuid', 
-        header: t('transaction.responseCode'), 
-        sortable: true,
-        body: (rowData) => getAuthorizationResponseCode(rowData.ravenAuthorizationResponseCodeGuid)
-    },
-    { field: 'cardNo', header: t('transaction.cardNo'), sortable: true },
-    { 
-        field: 'cardTypeGuid', 
-        header: t('transaction.cardType'), 
-        sortable: true,
-        body: (rowData) => getCardTypeName(rowData.cardTypeGuid)
-    },
-    { field: 'provisionStatusGuid', header: t('transaction.provisionStatus'), sortable: true,
-      body: (rowData) => getProvisionStatus(rowData.provisionStatusGuid) },
-    { field: 'preAuthAmount', header: t('transaction.preAuthAmount'), sortable: true },
-    { field: 'installmentTypeGuid', header: t('transaction.installmentTypeGuid'), sortable: true,
-      body: (rowData) => getInstallmentType(rowData.installmentTypeGuid) },
-    { field: 'installmentCount', header: t('transaction.installmentCount'), sortable: true },
-    { field: 'f004', header: t('transaction.transactionAmount'), sortable: true },
-    { field: 'f005', header: t('transaction.settlementAmount'), sortable: true },
-    { field: 'f013', header: t('transaction.transactionDate'), sortable: true },
-    { field: 'posEntryModeGuid', header: t('transaction.posEntryModeGuid'), sortable: true,
-        body: (rowData) => getPosEntryMode(rowData.posEntryModeGuid) },
-    { 
-        field: 'bankGuid', 
-        header: t('transaction.bankName'), 
-        sortable: true,
-        body: (rowData) => getBankName(rowData.bankGuid)
-    },
-    { field: 'f038', header: t('transaction.authorizationNumber'), sortable: true },
-    { field: 'f041', header: t('transaction.terminalId'), sortable: true },
-    { field: 'f043cardAcceptorName', header: t('transaction.cardAcceptorName'), sortable: true },
-    { field: 'f043cardAcceptorCityName', header: t('transaction.cardAcceptorCityName'), sortable: true },
-    { field: 'f043cardAcceptorCountryCode', header: t('transaction.cardAcceptorCountryCode'), sortable: true,
-        body: (rowData) => getCardAcceptorCountry(rowData.f043cardAcceptorCountryCode) },
-    { field: 'paymentFacilatorId', header: t('transaction.paymentFacilatorId'), sortable: true },
-    { field: 'subMerchantId', header: t('transaction.subMerchantId'), sortable: true },
-    { field: 'pfSubMerchantId', header: t('transaction.pfSubMerchantId'), sortable: true },
-    { field: 'securityLevelIndicator', header: t('transaction.securityLevelIndicator'), sortable: true,
-        body: (rowData) => getSecurityLevelIndicator(rowData.securityLevelIndicator) },
-    { field: 'f049', header: t('transaction.transactionCurrency'), sortable: true,
-      body: (rowData) => getTransactionCurrency(rowData.f049) },
-    { field: 'f050', header: t('transaction.exchangeCurrency'), sortable: true,
-      body: (rowData) => getTransactionCurrency(rowData.f050) },
-    { field: 'preauthorizationDate', header: t('transaction.preauthorizationDate'), sortable: true,
-      body: (rowData) => formatDate(rowData.preauthorizationDate) },
-    { field: 'preauthorizationClosingDateTime', header: t('transaction.preauthorizationClosingDateTime'), sortable: true,
-      body: (rowData) => formatDate(rowData.preauthorizationClosingDateTime) },
+    
+    { field: 'paymentChannel', header: t('transaction.paymentChannel'), sortable: true },
+    { field: 'paymentMethod', header: t('transaction.paymentMethod2'), sortable: true },
+    { field: 'currencyName', header: t('transaction.currencyName'), sortable: true },
+    { field: 'bankName', header: t('transaction.bankName2'), sortable: true },
+    { field: 'cardBank', header: t('transaction.cardBank'), sortable: true },
+    { field: 'cardOrganization', header: t('transaction.cardOrganization'), sortable: true },
+    { field: 'cardFirstSix', header: t('transaction.cardFirstSix'), sortable: true },
+    { field: 'cardLastFour', header: t('transaction.cardLastFour'), sortable: true },
+    { field: 'securityLevelIndicator', header: t('transaction.securityLevelIndicator2'), sortable: true },
+    { field: 'installmentCount', header: t('transaction.installmentCount2'), sortable: true },
+    { field: 'f043CardAcceptorName', header: t('transaction.f043CardAcceptorName'), sortable: true },
 
     { 
-      field: 'isCapture',
-      header: t('transaction.isCapture'),
-      sortable: true,
-      className: "center-column",
-      body: (rowData) => <InputSwitch checked={rowData.isCapture} />
-    },
-
-    { field: 'paymentTransactionMethod', header: t('transaction.paymentTransactionMethod'), sortable: true },
+      field: 'transactionStatusCode', 
+      header: t('transaction.transactionStatusCode'), 
+      body: (rowData) => (
+          rowData.transactionStatusCode === '00' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="waiting" value="Başarısız"></Tag>
+      )
+  },
+    { field: 'resultDesc', header: t('transaction.resultDesc'), sortable: true },
+    { field: 'responseCode', header: t('transaction.responseCode2'), sortable: true },
+    { field: 'transactionType', header: t('transaction.transactionTypeCode'), sortable: true },
+    { field: 'mdStatus', header: t('transaction.mdStatus'), sortable: true },
+    { field: 'authorizationResponseCode', header: t('transaction.authorizationResponseCode'), sortable: true },
+    { field: 'hostRefNo', header: t('transaction.hostRefNo'), sortable: true },
 
     {
         field: 'selection',
@@ -183,12 +145,14 @@ export default function TransactionMonitoring() {
             <div className="row-user-buttons">
                 {/*<Button tooltip="Confirm to proceed" label="Save" />*/}
 
-                <Link to={`/detail-transaction/${rowData.guid}`}>
+                <Link to={`/detail-transaction/${rowData.orderId}`}>
                     <i className="pi pi-eye" style={{fontSize: '22px'}}></i>
                 </Link>
-                <div onClick={()=>confirmDeleteDialog(rowData.guid)}>
+                {/*
+                <div onClick={()=>confirmDeleteDialog(rowData)}>
                   <img src={cancelButtonIcon} alt="" />
                 </div>
+                */}
             </div>
         ),
         className: "fixed-user-buttons"
@@ -196,26 +160,24 @@ export default function TransactionMonitoring() {
   ];
 
   // DELETE API
-  const handleDeleteRecord = (guid) => {
-    setTimeout(() => {
-      confirmWarningDialog();
-    }, 250);
-    /*
-    dispatch(deletePaymentRecord(guid))
-      .unwrap()
-      .then((result) => {
+  const handleDeleteRecord = (rowData) => {
+    dispatch(cancelTransaction({
+        merchantId: `${authData.merchantId}`,
+        orderId: rowData.orderId,
+        amount: rowData.amount,
+        description: ""
+    }))
+    .unwrap()
+    .then((result) => {
         setTimeout(() => {
-          confirmSuccessDialog();
+            confirmSuccessDialog();
         }, 250);
-      })
-      .catch((error) => {
-        console.log("error!!!!!!!!!!",error)
-        dispatch(setLinkPaymentListError(error));
+    })
+    .catch((error) => {
         setTimeout(() => {
-          confirmWarningDialog(error);
+            confirmWarningDialog(error);
         }, 250);
-      });
-      */
+    });
   }
 
   // DELETE FUNCTİON
@@ -245,65 +207,41 @@ export default function TransactionMonitoring() {
     );
   };
 
-  const confirmDeleteDialog = (guid) => {
+  const confirmDeleteDialog = (rowData) => {
     showDialog(
       'danger',
       {
           title: t('messages.CancelDialogTitle'),
-          content: `<a href="#">#${guid}</a> TX ID${t('messages.CancelDialogText')}`,
+          content: `<a href="#">#${rowData.orderId}</a> TX ID${t('messages.CancelDialogText')}`,
       },
       dangerDialogIcon,
       null,
-      () => handleDeleteRecord(guid)
+      () => handleDeleteRecord(rowData)
     );
   };
 
   const handleFilter = (filters) => {
-    let filtered = [...transactionList];
+    console.log("handleFilter filters",filters)
 
-    if (filters.cardFirst6) {
-      filtered = filtered.filter(item => item.cardNo?.startsWith(filters.cardFirst6));
-    }
+    const dateRange = getDateRange(selectedDateFilter);
+    dispatch(getTransactionSearchList({
+      merchantId: `${authData.merchantId}`,
+      beginDate: selectedRange ? selectedRange[0] : dateRange?.startDate,
+      endDate: selectedRange ? selectedRange[1] : dateRange?.endDate,
+      transactionType: null,
 
-    if (filters.cardLast4) {
-      filtered = filtered.filter(item => item.cardNo?.slice(-4) === filters.cardLast4);
-    }
+      orderId: filters.paymentId,
+      firstSixNumbersOfTheCard: filters.cardFirst6,
+      lastFourNumbersOfTheCard: filters.cardLast4,
 
-    if (filters.cardHolder) {
-      filtered = filtered.filter(item => item.cardHolder?.toLowerCase().includes(filters.cardHolder.toLowerCase()));
-    }
+      installmentCount: null,
 
-    if (filters.amount) {
-      const amount = parseFloat(filters.amount);
-      if (filters.amountOperator === 'eq') {
-        filtered = filtered.filter(item => Number(item.f004) === amount);
-      } else if (filters.amountOperator === 'gt') {
-        filtered = filtered.filter(item => Number(item.f004) > amount);
-      } else if (filters.amountOperator === 'lt') {
-        filtered = filtered.filter(item => Number(item.f004) < amount);
-      }
-    }
+      lowAmount: filters.amountOperator == 'gt' ? filters.amount : null, // En düşük tutar
+      highAmount: filters.amountOperator == 'lt' ? filters.amount : null, // En yüksek tutar
 
-    if (filters.paymentId) {
-      filtered = filtered.filter(item => item.paymentId?.toLowerCase().includes(filters.paymentId.toLowerCase()));
-    }
-    if (filters.transactionNetworkGuid) {
-      filtered = filtered.filter(item => item.transactionNetworkGuid === filters.transactionNetworkGuid);
-    }
-    if (filters.ravenTransactionTypeGuid) {
-      filtered = filtered.filter(item => item.ravenTransactionTypeGuid === filters.ravenTransactionTypeGuid);
-    }
-    if (filters.cardTypeGuid) {
-      filtered = filtered.filter(item => item.cardTypeGuid === filters.cardTypeGuid);
-    }
-    if (filters.startDate) {
-      filtered = filtered.filter(item => new Date(item.insertDateTime) >= filters.startDate);
-    }
-    if (filters.endDate) {
-      filtered = filtered.filter(item => new Date(item.insertDateTime) <= filters.endDate);
-    }
+      f043CardAcceptorName: filters.cardHolder
+    }));
 
-    setFilteredList(filtered);
   };
 
   const [visibleColumns, setVisibleColumns] = useState(columns);
@@ -374,20 +312,24 @@ export default function TransactionMonitoring() {
   useEffect(() => {
     if (selectedDateFilter) {
       const dateRange = getDateRange(selectedDateFilter);
-      dispatch(getTransactionList({
+      dispatch(getTransactionSearchList({
+        merchantId: `${authData.merchantId}`,
         userName: user.userName,
-        transactionStartDate: dateRange?.startDate,
-        transactionEndDate: dateRange?.endDate
+        beginDate: dateRange?.startDate,
+        endDate: dateRange?.endDate,
+        transactionType: null,
       }));
     }
   }, [selectedDateFilter]);
   
   useEffect(() => {
     if (selectedRange) {
-      dispatch(getTransactionList({
+      dispatch(getTransactionSearchList({
+        merchantId: `${authData.merchantId}`,
         userName: user.userName,
-        transactionStartDate: selectedRange[0],
-        transactionEndDate: selectedRange[1]
+        beginDate: selectedRange[0],
+        endDate: selectedRange[1],
+        transactionType: null,
       }));
     }
   }, [selectedRange]);

@@ -1136,6 +1136,12 @@ button,
                 align-items: center;
                 gap: var(--spacer-2);
                 color: $primary-color;
+                &.danger-color {
+                    color: $refund-color;
+                }
+                &.warning-color {
+                    color: $orange-color;
+                }
             }
             .text {
                 padding: var(--spacer-2) 0 0;

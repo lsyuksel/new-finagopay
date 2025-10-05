@@ -126,6 +126,7 @@ const FilterDialog = ({ visible, onHide, onFilter }) => {
             placeholder={t('common.cardLast4')}
           />
         </div>
+        {/*
         <div className="field">
           <Dropdown
             id="transactionType"
@@ -138,6 +139,7 @@ const FilterDialog = ({ visible, onHide, onFilter }) => {
             filter
           />
         </div>
+        */}
         <div className="field">
           <InputText
             type="text"
@@ -160,7 +162,6 @@ const FilterDialog = ({ visible, onHide, onFilter }) => {
             <Dropdown
               value={filters.amountOperator}
               options={[
-                { label: t('common.equals'), value: 'eq' },
                 { label: t('common.greaterThan'), value: 'gt' },
                 { label: t('common.lessThan'), value: 'lt' }
               ]}
@@ -171,6 +172,7 @@ const FilterDialog = ({ visible, onHide, onFilter }) => {
             />
           </div>
         </div>
+        {/*
         <div className="field">
           <Dropdown
             id="transactionNetwork"
@@ -195,6 +197,7 @@ const FilterDialog = ({ visible, onHide, onFilter }) => {
             filter
           />
         </div>
+        */}
       </div>
     </Dialog>
   );

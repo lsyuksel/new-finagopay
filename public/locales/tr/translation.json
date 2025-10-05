@@ -328,7 +328,33 @@
     "preauthorizationDate" : "Ön Otorizasyon Tarihi",
     "preauthorizationClosingDateTime" : "Ön Otorizasyon Kapama Tarihi",
     "isCapture" : "Ön Provizyon Kapama",
-    "paymentTransactionMethod" : "Ödeme Kaynağı"
+    "paymentTransactionMethod" : "Ödeme Kaynağı",
+
+
+    "orderId2": "Ödeme Numarası",
+    "paymentMethod": "Ödeme Kaynağı",
+    "amount": "Tahsilat Tutarı",
+    "conversationId": "Conversation Id",
+    "transactionType2": "Ödeme Fazı",
+    "paymentChannel": "Ödeme Kanalı",
+    "paymentMethod2": "Ödeme Grubu",
+    "currencyName": "Para Birimi",
+    "bankName2": "Ödeme Bankası",
+    "cardBank": "Kart Bankası",
+    "cardOrganization": "Kart Ailesi",
+    "cardFirstSix": "İlk 6 Hane",
+    "cardLastFour": "Son 4 Hane",
+    "securityLevelIndicator2": "3DS",
+    "installmentCount2": "Taksit Sayısı",
+    "f043CardAcceptorName": "Alıcı Adı",
+    "transactionStatusCode": "Ödeme Durumu",
+    "resultDesc": "Hata Mesajı",
+    "responseCode2": "Hata Kodu",
+    "transactionTypeCode": "İptal / İade Durumu",
+    "mdStatus": "MD Status",
+    "authorizationResponseCode": "Auth Code",
+    "hostRefNo": "Host Referans Numarası"
+
     
   },
   "transactionDetail": {
@@ -377,8 +403,13 @@
     "RefundDialogText": "<b>iade işlemi yapmak üzeresiniz.</b><br /><br />Bu işlemi onaylıyor musunuz?",
 
     "refundButton": "İade Et",
-    "cancelButton": "İptal Et"
+    "cancelButton": "İptal Et",
     
+
+
+    "headerFraud": "Fraud Geçmişi",
+    "headerChargeback": "Chargeback Geçmişi"
+
   },
   "errors": {
     "incorrectPassword": "Girmiş olduğunuz şifre hatalı. Lütfen tekrar deneyiniz.",

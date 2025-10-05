@@ -11,6 +11,12 @@ import paymentIcon2 from '@assets/images/icons/payment-system-2.svg';
 import paymentIcon3 from '@assets/images/icons/payment-system-3.svg';
 import paymentIcon4 from '@assets/images/icons/payment-system-4.svg';
 
+import paymentIconFraud from '@assets/images/icons/paymentIconFraud.svg';
+import paymentIconChargerback from '@assets/images/icons/paymentIconChargerback.svg';
+
+
+
+
 import refundIcon from '@assets/images/icons/icon-refund.svg';
 import cancelIcon from '@assets/images/icons/icon-cancel.svg';
 
@@ -26,8 +32,9 @@ import { ConfirmDialog } from 'primereact/confirmdialog';
 import { showDialog } from '@/utils/helpers';
 import { toast } from 'react-toastify';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { getRefundTransactionDetail } from '../../../store/slices/transaction-managment/refund-transaction-monitoring/refundTransactionDetailSlice';
-
+import { getTransactionDetail } from '../../../store/slices/transaction-managment/transactionDetailSlice';
+import { formatDate } from '../../../utils/helpers';
+import { cancelTransaction, refundTransaction } from '../../../store/slices/transaction-managment/transactionListSlice';
 
 export default function DetailRefundTransaction() {
     const { param } = useParams();
@@ -37,18 +44,28 @@ export default function DetailRefundTransaction() {
     const navigate = useNavigate();
     const authData = useSelector((state) => state.auth);
 
-    const { loading, error, success, refundTransactionDetail } = useSelector((state) => state.refundTransactionDetail);
-
-    useEffect(() => {
-        if(param) dispatch(getRefundTransactionDetail(param));
-        console.log("refundTransactionDetail",refundTransactionDetail?.data1)
-    }, [refundTransactionDetail])
-
-
+    const { loading, error, success, transactionDetail } = useSelector((state) => state.transactionDetail);
     const [refundAmount, setRefundAmount] = useState('');
 
-    const availableAmount = '96,784';
-    const numericAvailableAmount = parseFloat(availableAmount.replace(',', '.'));
+    const [availableAmount, setAvailableAmount] = useState();
+
+    useEffect(() => {
+        console.log("param",param)
+        if(param) {
+            dispatch(getTransactionDetail({
+                merchantId: `${authData.merchantId}`,
+                orderId: param
+            }));
+        }
+    }, [])
+
+    useEffect(() => {
+        if (transactionDetail && transactionDetail.length > 0) {
+            const amount = transactionDetail[0]?.refundableTotalAmount || 0;
+            setAvailableAmount(amount);
+        }
+    }, [transactionDetail])
+
 
     const validateAmount = (amount) => {
         const numericAmount = amount;
@@ -61,7 +78,7 @@ export default function DetailRefundTransaction() {
             toast.error(t('errors.amountGreaterThanZero'));
             return false;
         }
-        if (numericAmount > numericAvailableAmount) {
+        if (numericAmount > availableAmount) {
             toast.error(t('errors.amountExceedsAvailable', { available: availableAmount }));
             return false;
         }
@@ -90,33 +107,36 @@ export default function DetailRefundTransaction() {
             <div className="text">{t("transactionDetail.sectionText1")}</div>
         </>
     );
+
     const columns1 = [
-        { field: 'field1', header: t('transactionDetail.tableTitle1'), className: "", },
+        { field: 'orderId', header: t('transactionDetail.tableTitle1'), className: "", },
         { 
-            field: 'field2', 
+            field: 'paymentMethod', 
             header: t('transactionDetail.tableTitle2'), 
             body: (rowData) => (
               <div className="logos-text justify-content-center">
                 <i><img src={smallLogo} /></i>
-                <span>{rowData.field2}</span>
+                <span>{rowData.paymentMethod}</span>
               </div>
             )
         },
-        { field: 'field3', header: t('transactionDetail.tableTitle3'), className: "", },
-        { field: 'field4', header: t('transactionDetail.tableTitle4'), className: "price-column", },
+        { field: 'f043CardAcceptorName', header: t('transactionDetail.tableTitle3'), className: "", },
+        { field: 'amount', header: t('transactionDetail.tableTitle4'), className: "price-column", },
         { 
-            field: 'field5', 
+            field: 'transactionStatusDesc', 
             header: t('transactionDetail.tableTitle5'), 
-            body: (rowData) => (<Tag severity="success" value={rowData.field5}></Tag>)
+            body: (rowData) => (
+                rowData.transactionStatusCode === '00' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="waiting" value="Başarısız"></Tag>
+            )
         },
-        { field: 'field6', header: t('transactionDetail.tableTitle6'), className: "", },
+        { field: 'transactionDate', header: t('transactionDetail.tableTitle6'), className: "", body: (rowData) => formatDate(rowData.transactionDate) },
     ];
 
     const columns2 = [
-        { field: 'field1', header: t('transactionDetail.tableTitle7'), className: "primary-text", },
-        { field: 'field2', header: t('transactionDetail.tableTitle8'), className: "", },
-        { field: 'field3', header: t('transactionDetail.tableTitle9'), className: ""},
-        { field: 'field4', header: t('transactionDetail.tableTitle10'), className: "", },
+        { field: 'installmentCount', header: t('transactionDetail.tableTitle7'), className: "primary-text", },
+        { field: 'cardType', header: t('transactionDetail.tableTitle8'), className: "", },
+        { field: 'conversationId', header: t('transactionDetail.tableTitle9'), className: ""},
+        { field: 'bankName', header: t('transactionDetail.tableTitle10'), className: "", },
     ];
 
     const header3 = (
@@ -126,22 +146,18 @@ export default function DetailRefundTransaction() {
         </div>
     );
     const columns3 = [
-        { field: 'field1', header: t('transactionDetail.tableTitle11'), className: "" },
-        { field: 'field2', header: t('transactionDetail.tableTitle12'), className: "price-column", },
-        { field: 'field3', header: t('transactionDetail.tableTitle13'), className: "" },
+        { field: 'orderId', header: t('transactionDetail.tableTitle11'), className: "" },
+        { field: 'amount', header: t('transactionDetail.tableTitle12'), className: "price-column", },
+        { field: 'transactionType', header: t('transactionDetail.tableTitle13'), className: "" },
         { 
-            field: 'field4', 
+            field: 'transactionStatusDesc', 
             header: t('transactionDetail.tableTitle14'), 
             body: (rowData) => (
-                rowData.field4 === 'Başarılı' ? 
-                    <Tag severity="success" value={rowData.field4}></Tag> :
-                rowData.field4 === 'Beklemede' ? 
-                    <Tag severity="waiting" value={rowData.field4}></Tag> :
-                    <Tag severity="waiting" value={rowData.field4}></Tag>
+                rowData.transactionStatusCode === '00' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="waiting" value="Başarısız"></Tag>
             )
         },
-        { field: 'field5', header: t('transactionDetail.tableTitle15'), className: "" },
-        { field: 'field6', header: t('transactionDetail.tableTitle16'), className: "" },
+        { field: 'description', header: t('transactionDetail.tableTitle15'), className: "" },
+        { field: 'refundDatetime', header: t('transactionDetail.tableTitle16'), className: "" },
     ];
     
     const header4 = (
@@ -151,58 +167,110 @@ export default function DetailRefundTransaction() {
         </div>
     );
     const columns4 = [
-        { field: 'field1', header: t('transactionDetail.tableTitle17'), className: "" },
-        { field: 'field2', header: t('transactionDetail.tableTitle18'), className: "" },
-        { field: 'field3', header: t('transactionDetail.tableTitle19'), className: "" },
-        { field: 'field4', header: t('transactionDetail.tableTitle20'), className: "" },
-        { field: 'field5', header: t('transactionDetail.tableTitle21'), className: "" },
+        { field: 'cardFirstSix', header: t('transactionDetail.tableTitle17'), className: "", body: (rowData) => (rowData.cardFirstSix + rowData.cardLastFour) },
+        { field: 'f043CardAcceptorName', header: t('transactionDetail.tableTitle18'), className: "" },
+        { field: 'cardOrganization', header: t('transactionDetail.tableTitle19'), className: "" },
+        { field: 'cardFamily', header: t('transactionDetail.tableTitle20'), className: "" },
+        { field: 'cardType', header: t('transactionDetail.tableTitle21'), className: "" },
 
     ];
     
 
+    const headerFraud = (
+        <div className="title danger-color">
+            <img src={paymentIconFraud} alt="" />
+            <span>{t("transactionDetail.headerFraud")}</span>
+        </div>
+    );
+    const columnsFraud = [
+        { field: 'orderId', header: t('Fraud ID'), className: "" },
+        { 
+            field: 'transactionStatusDesc', 
+            header: t('Fraud Durumu'), 
+            body: (rowData) => (
+                rowData.transactionStatusCode === '00' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="waiting" value="Başarısız"></Tag>
+            )
+        },
+        { field: 'description', header: t('transactionDetail.tableTitle15'), className: "" },
+        { field: 'refundDatetime', header: t('transactionDetail.tableTitle16'), className: "" },
+    ];
+
+    
+    const headerChargeback = (
+        <div className="title warning-color">
+            <img src={paymentIconChargerback} alt="" />
+            <span>{t("transactionDetail.headerChargeback")}</span>
+        </div>
+    );
+    const columnsChargeback = [
+        { field: 'orderId', header: t('Chargeback ID'), className: "" },
+        { 
+            field: 'transactionStatusDesc', 
+            header: t('Chargeback Durumu'), 
+            body: (rowData) => (
+                rowData.transactionStatusCode === '00' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="waiting" value="Başarısız"></Tag>
+            )
+        },
+        { field: 'description', header: t('transactionDetail.tableTitle15'), className: "" },
+        { field: 'refundDatetime', header: t('transactionDetail.tableTitle16'), className: "" },
+    ];
+
+    
+
+
     // CANCEL API
     const handleCancelRecord = (guid) => {
-        setTimeout(() => {
-            confirmWarningDialog();
-        }, 250);
-        /*
-        dispatch(CancelPaymentRecord(guid))
+        dispatch(cancelTransaction({
+            merchantId: `${authData.merchantId}`,
+            orderId: param,
+            amount: guid,
+            description: ""
+        }))
         .unwrap()
         .then((result) => {
             setTimeout(() => {
-            confirmSuccessDialog();
+                confirmSuccessDialog();
+                
+                if(param) {
+                    dispatch(getTransactionDetail({
+                        merchantId: `${authData.merchantId}`,
+                        orderId: param
+                    }));
+                }
             }, 250);
         })
         .catch((error) => {
-            console.log("error!!!!!!!!!!",error)
-            dispatch(setLinkPaymentListError(error));
             setTimeout(() => {
-            confirmWarningDialog(error);
+                confirmWarningDialog(error);
             }, 250);
         });
-        */
     }
 
     const handleRefundRecord = (guid) => {
-        setTimeout(() => {
-            confirmSuccessDialog();
-        }, 250);
-        /*
-        dispatch(CancelPaymentRecord(guid))
+        dispatch(refundTransaction({
+            merchantId: `${authData.merchantId}`,
+            orderId: param,
+            amount: guid,
+            description: ""
+        }))
         .unwrap()
         .then((result) => {
             setTimeout(() => {
-            confirmSuccessDialog();
+                confirmSuccessDialog();
+                
+                if(param) {
+                    dispatch(getTransactionDetail({
+                        merchantId: `${authData.merchantId}`,
+                        orderId: param
+                    }));
+                }
             }, 250);
         })
         .catch((error) => {
-            console.log("error!!!!!!!!!!",error)
-            dispatch(setLinkPaymentListError(error));
             setTimeout(() => {
-            confirmWarningDialog(error);
+                confirmWarningDialog(error);
             }, 250);
         });
-        */
     }
 
     // CANCEL FUNCTİON
@@ -257,7 +325,6 @@ export default function DetailRefundTransaction() {
         () => handleRefundRecord(guid)
         );
     };
-    
     return (
         <>
             <ConfirmDialog group="ConfirmDialogTemplating" />
@@ -272,7 +339,7 @@ export default function DetailRefundTransaction() {
                         <div className="datatable-area-container detail-page-table">
                             <DataTable 
                                 header={header1}
-                                value={refundTransactionDetail?.data1} 
+                                value={transactionDetail} 
                                 emptyMessage={t('common.recordEmptyMessage')}
                                 currentPageReportTemplate={t('common.paginateText')}
                                 dataKey="guid"
@@ -292,7 +359,7 @@ export default function DetailRefundTransaction() {
                                 ))}
                             </DataTable>
                             <DataTable 
-                                value={refundTransactionDetail?.data2} 
+                                value={transactionDetail} 
                                 emptyMessage={t('common.recordEmptyMessage')}
                                 currentPageReportTemplate={t('common.paginateText')}
                                 dataKey="guid"
@@ -330,7 +397,7 @@ export default function DetailRefundTransaction() {
                                             value={refundAmount}
                                             onValueChange={(e) => setRefundAmount(e.value)}
                                             min={0}
-                                            max={numericAvailableAmount}
+                                            max={availableAmount}
                                             minFractionDigits={2}
                                             locale="de-DE"
                                             placeholder='Tutar Giriniz.'
@@ -349,7 +416,7 @@ export default function DetailRefundTransaction() {
                             </div>
                             <DataTable 
                                 header={header3}
-                                value={refundTransactionDetail?.data3} 
+                                value={transactionDetail[0]?.refundHistory} 
                                 emptyMessage={t('common.recordEmptyMessage')}
                                 currentPageReportTemplate={t('common.paginateText')}
                                 dataKey="guid"
@@ -372,13 +439,61 @@ export default function DetailRefundTransaction() {
                         <div className="datatable-area-container detail-page-table">
                             <DataTable 
                                 header={header4}
-                                value={refundTransactionDetail?.data4} 
+                                value={transactionDetail} 
                                 emptyMessage={t('common.recordEmptyMessage')}
                                 currentPageReportTemplate={t('common.paginateText')}
                                 dataKey="guid"
                                 scrollable
                             >
                                 {columns4.map((col, index) => (
+                                    <Column 
+                                        className='center-column'
+                                        key={index} 
+                                        {...col} 
+                                        style={{ 
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}
+                                    />
+                                ))}
+                            </DataTable>
+                        </div>
+
+                        
+                        <div className="datatable-area-container detail-page-table">
+                            <DataTable 
+                                header={headerFraud}
+                                value={transactionDetail[0]?.fraudHistory} 
+                                emptyMessage={t('common.recordEmptyMessage')}
+                                currentPageReportTemplate={t('common.paginateText')}
+                                dataKey="guid"
+                                scrollable
+                            >
+                                {columnsFraud.map((col, index) => (
+                                    <Column 
+                                        className='center-column'
+                                        key={index} 
+                                        {...col} 
+                                        style={{ 
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}
+                                    />
+                                ))}
+                            </DataTable>
+                        </div>
+                        <div className="datatable-area-container detail-page-table">
+                            <DataTable 
+                                header={headerChargeback}
+                                value={transactionDetail[0]?.chargebackHistory} 
+                                emptyMessage={t('common.recordEmptyMessage')}
+                                currentPageReportTemplate={t('common.paginateText')}
+                                dataKey="guid"
+                                scrollable
+                            >
+                                {columnsChargeback.map((col, index) => (
                                     <Column 
                                         className='center-column'
                                         key={index} 

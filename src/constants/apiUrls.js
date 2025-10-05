@@ -23,6 +23,16 @@ export const AUTH_URL = {
 };
 
 export const TRANSACTION_URL = {
+  GetTransactionList: '/UnifiedTransaction/GetTransactionList',
+  GetTransactionSearchList: '/UnifiedTransaction/GetTransactionSearchList',
+  GetTransactionDetail: '/UnifiedTransaction/GetTransactionDetail',
+  
+  CancelTransaction: '/UnifiedTransaction/CancelTransaction',
+  RefundTransaction: '/UnifiedTransaction/RefundTransaction',
+
+  
+
+
   GetTransactionProvisionSearch: '/TransactionProvision/GetTransactionProvisionSearch',
   GetTransactionProvisionSettleSearch: '/TransactionProvisionSettle/GetTransactionProvisionSettleSearchByUserName'
 };

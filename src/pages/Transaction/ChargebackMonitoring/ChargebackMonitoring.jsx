@@ -5,8 +5,7 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { getChargebackTransactionList, setChargebackTransactionListError } from '../../../store/slices/transaction-managment/chargeback-transaction-monitoring/chargebackTransactionListSlice';
-
+import { cancelTransaction, getTransactionList, getTransactionSearchList, setTransactionListError } from '../../../store/slices/transaction-managment/transactionListSlice';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'primereact/button';
 import FilterDialog from '../../../components/Common/Table/FilterDialog';
@@ -63,7 +62,6 @@ export default function ChargebackMonitoring() {
   const [selectedProducts, setSelectedProducts] = useState(null);
 
   const [filterDialogVisible, setFilterDialogVisible] = useState(false);
-  const [filteredList, setFilteredList] = useState(null);
 
   const [selectedDateFilter, setSelectedDateFilter] = useState('all');
   const [selectedRange, setSelectedRange] = useState(null);
@@ -74,12 +72,13 @@ export default function ChargebackMonitoring() {
 
   const selectOptions = useSelector((state) => state.selectOptions);
   
-  const { loading, error, success, chargebackTransactionList, deleteSuccess } = useSelector((state) => state.chargebackTransactionList);
+  const { loading, error, success, transactionList, deleteSuccess, filteredList } = useSelector((state) => state.transactionList);
+  const authData = useSelector((state) => state.auth);
 
   useEffect(() => {
     setSelectedProducts(null);
-    dispatch(setChargebackTransactionListError(null));
-/*
+    dispatch(setTransactionListError(null));
+
     dispatch(getCurrencyDef());
     dispatch(getAllTransactionNetworkDef());
     dispatch(getAllAuthorizationResponseCode());
@@ -90,41 +89,52 @@ export default function ChargebackMonitoring() {
     dispatch(getAllPosEntryModeDef());
     dispatch(getUsersPayFacIntegrationEnabledBankList(user.userName));
     dispatch(getAllCountry());
-*/
+
   }, [])
-    
+  
+  useEffect(()=> {
+    console.log("transactionList99",transactionList)
+  }, [transactionList])
+
   const columns = [
-    { field: 'field1', header: t('transaction.chargebackColumn1'), sortable: true, className: "primary-text center-column", },
+    { field: 'orderId', header: t('transaction.orderId2'), sortable: true, className: "primary-text", },
+    { field: 'paymentMethod', header: t('transaction.paymentMethod'), sortable: true },
+    { field: 'amount', header: t('transaction.amount'), sortable: true },
+    { field: 'conversationId', header: t('transaction.conversationId'), sortable: true },
+    { field: 'transactionType', header: t('transaction.transactionType2'), sortable: true,
+      body: (rowData) => (
+        <div className="logos-text">
+          <i><img src={smallLogo} /></i>
+          <span>{rowData.transactionType}</span>
+        </div>
+      )
+    },
     
-    { 
-      field: 'field2', 
-      header: t('transaction.chargebackColumn2'),
-      sortable: true, 
-      body: (rowData) => (
-          rowData.field2 === 'İade' ? 
-              <div style={{ fontWeight: '600', color: '#667085' }}>{rowData.field2}</div> :
-          rowData.field2 === 'İptal' ? 
-              <div style={{ fontWeight: '600', color: '#F04438' }}>{rowData.field2}</div> :
-              <div style={{ fontWeight: '600', color: '#F04438' }}>{rowData.field2}</div>
-      )
-    },
-
-    { field: 'field3', header: t('transaction.chargebackColumn3'), className: "price-column center-column", sortable: true, },
-    { field: 'field4', header: t('transaction.chargebackColumn4'), sortable: true, },
-    { field: 'field5', header: t('transaction.chargebackColumn5'), sortable: true, },
+    { field: 'paymentChannel', header: t('transaction.paymentChannel'), sortable: true },
+    { field: 'paymentMethod', header: t('transaction.paymentMethod2'), sortable: true },
+    { field: 'currencyName', header: t('transaction.currencyName'), sortable: true },
+    { field: 'bankName', header: t('transaction.bankName2'), sortable: true },
+    { field: 'cardBank', header: t('transaction.cardBank'), sortable: true },
+    { field: 'cardOrganization', header: t('transaction.cardOrganization'), sortable: true },
+    { field: 'cardFirstSix', header: t('transaction.cardFirstSix'), sortable: true },
+    { field: 'cardLastFour', header: t('transaction.cardLastFour'), sortable: true },
+    { field: 'securityLevelIndicator', header: t('transaction.securityLevelIndicator2'), sortable: true },
+    { field: 'installmentCount', header: t('transaction.installmentCount2'), sortable: true },
+    { field: 'f043CardAcceptorName', header: t('transaction.f043CardAcceptorName'), sortable: true },
 
     { 
-      field: 'field6', 
-      header: t('transaction.chargebackColumn6'),
-      sortable: true, 
+      field: 'transactionStatusCode', 
+      header: t('transaction.transactionStatusCode'), 
       body: (rowData) => (
-          rowData.field6 === 'Tamamlandı' ? 
-              <Tag severity="success" value={rowData.field6}></Tag> :
-          rowData.field6 === 'Devam Ediyor' ? 
-              <Tag severity="waiting" value={rowData.field6}></Tag> :
-              <Tag severity="waiting" value={rowData.field6}></Tag>
+          rowData.transactionStatusCode === '00' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="waiting" value="Başarısız"></Tag>
       )
-    },
+  },
+    { field: 'resultDesc', header: t('transaction.resultDesc'), sortable: true },
+    { field: 'responseCode', header: t('transaction.responseCode2'), sortable: true },
+    { field: 'transactionType', header: t('transaction.transactionTypeCode'), sortable: true },
+    { field: 'mdStatus', header: t('transaction.mdStatus'), sortable: true },
+    { field: 'authorizationResponseCode', header: t('transaction.authorizationResponseCode'), sortable: true },
+    { field: 'hostRefNo', header: t('transaction.hostRefNo'), sortable: true },
 
     {
         field: 'selection',
@@ -135,12 +145,14 @@ export default function ChargebackMonitoring() {
             <div className="row-user-buttons">
                 {/*<Button tooltip="Confirm to proceed" label="Save" />*/}
 
-                <Link to={`/detail-chargeback/${rowData.guid}`}>
+                <Link to={`/detail-chargeback/${rowData.orderId}`}>
                     <i className="pi pi-eye" style={{fontSize: '22px'}}></i>
                 </Link>
-                <div onClick={()=>confirmDeleteDialog(rowData.guid)}>
+                {/*
+                <div onClick={()=>confirmDeleteDialog(rowData)}>
                   <img src={cancelButtonIcon} alt="" />
                 </div>
+                */}
             </div>
         ),
         className: "fixed-user-buttons"
@@ -148,26 +160,24 @@ export default function ChargebackMonitoring() {
   ];
 
   // DELETE API
-  const handleDeleteRecord = (guid) => {
-    setTimeout(() => {
-      confirmWarningDialog();
-    }, 250);
-    /*
-    dispatch(deletePaymentRecord(guid))
-      .unwrap()
-      .then((result) => {
+  const handleDeleteRecord = (rowData) => {
+    dispatch(cancelTransaction({
+        merchantId: `${authData.merchantId}`,
+        orderId: rowData.orderId,
+        amount: rowData.amount,
+        description: ""
+    }))
+    .unwrap()
+    .then((result) => {
         setTimeout(() => {
-          confirmSuccessDialog();
+            confirmSuccessDialog();
         }, 250);
-      })
-      .catch((error) => {
-        console.log("error!!!!!!!!!!",error)
-        dispatch(setLinkPaymentListError(error));
+    })
+    .catch((error) => {
         setTimeout(() => {
-          confirmWarningDialog(error);
+            confirmWarningDialog(error);
         }, 250);
-      });
-      */
+    });
   }
 
   // DELETE FUNCTİON
@@ -197,65 +207,41 @@ export default function ChargebackMonitoring() {
     );
   };
 
-  const confirmDeleteDialog = (guid) => {
+  const confirmDeleteDialog = (rowData) => {
     showDialog(
       'danger',
       {
           title: t('messages.CancelDialogTitle'),
-          content: `<a href="#">#${guid}</a> TX ID${t('messages.CancelDialogText')}`,
+          content: `<a href="#">#${rowData.orderId}</a> TX ID${t('messages.CancelDialogText')}`,
       },
       dangerDialogIcon,
       null,
-      () => handleDeleteRecord(guid)
+      () => handleDeleteRecord(rowData)
     );
   };
 
   const handleFilter = (filters) => {
-    let filtered = [...chargebackTransactionList];
+    console.log("handleFilter filters",filters)
 
-    if (filters.cardFirst6) {
-      filtered = filtered.filter(item => item.cardNo?.startsWith(filters.cardFirst6));
-    }
+    const dateRange = getDateRange(selectedDateFilter);
+    dispatch(getTransactionSearchList({
+      merchantId: `${authData.merchantId}`,
+      beginDate: selectedRange ? selectedRange[0] : dateRange?.startDate,
+      endDate: selectedRange ? selectedRange[1] : dateRange?.endDate,
+      transactionType: 6,
 
-    if (filters.cardLast4) {
-      filtered = filtered.filter(item => item.cardNo?.slice(-4) === filters.cardLast4);
-    }
+      orderId: filters.paymentId,
+      firstSixNumbersOfTheCard: filters.cardFirst6,
+      lastFourNumbersOfTheCard: filters.cardLast4,
 
-    if (filters.cardHolder) {
-      filtered = filtered.filter(item => item.cardHolder?.toLowerCase().includes(filters.cardHolder.toLowerCase()));
-    }
+      installmentCount: null,
 
-    if (filters.amount) {
-      const amount = parseFloat(filters.amount);
-      if (filters.amountOperator === 'eq') {
-        filtered = filtered.filter(item => Number(item.f004) === amount);
-      } else if (filters.amountOperator === 'gt') {
-        filtered = filtered.filter(item => Number(item.f004) > amount);
-      } else if (filters.amountOperator === 'lt') {
-        filtered = filtered.filter(item => Number(item.f004) < amount);
-      }
-    }
+      lowAmount: filters.amountOperator == 'gt' ? filters.amount : null, // En düşük tutar
+      highAmount: filters.amountOperator == 'lt' ? filters.amount : null, // En yüksek tutar
 
-    if (filters.paymentId) {
-      filtered = filtered.filter(item => item.paymentId?.toLowerCase().includes(filters.paymentId.toLowerCase()));
-    }
-    if (filters.transactionNetworkGuid) {
-      filtered = filtered.filter(item => item.transactionNetworkGuid === filters.transactionNetworkGuid);
-    }
-    if (filters.ravenTransactionTypeGuid) {
-      filtered = filtered.filter(item => item.ravenTransactionTypeGuid === filters.ravenTransactionTypeGuid);
-    }
-    if (filters.cardTypeGuid) {
-      filtered = filtered.filter(item => item.cardTypeGuid === filters.cardTypeGuid);
-    }
-    if (filters.startDate) {
-      filtered = filtered.filter(item => new Date(item.insertDateTime) >= filters.startDate);
-    }
-    if (filters.endDate) {
-      filtered = filtered.filter(item => new Date(item.insertDateTime) <= filters.endDate);
-    }
+      f043CardAcceptorName: filters.cardHolder
+    }));
 
-    setFilteredList(filtered);
   };
 
   const [visibleColumns, setVisibleColumns] = useState(columns);
@@ -269,13 +255,15 @@ export default function ChargebackMonitoring() {
   const [isPrintOpen, setIsPrintOpen] = useState(false);
 
   const printButtons = [
+//    { code: 'pdf', name: t('common.pdf'), icon: PdfIcon},
     { code: 'xlsx', name: t('common.excel'), icon: ExcelIcon},
+//    { code: 'word', name: t('common.word'), icon: WordIcon},
     { code: 'csv', name: t('common.csv'), icon: CsvIcon},
   ];
 
   const handleSelect = (code) => {
-    if(code == 'csv') exportDataToCSV(chargebackTransactionList, columns, selectOptions, 'chargebackTransactions');;
-    if(code == 'xlsx') exportDataToExcel(chargebackTransactionList, columns, selectOptions, 'chargebackTransactions');
+    if(code == 'csv') exportDataToCSV(transactionList, columns, selectOptions, 'transactions');;
+    if(code == 'xlsx') exportDataToExcel(transactionList, columns, selectOptions, 'transactions');
     if(code == 'pdf') exportPdf();
 
     setIsPrintOpen(false);
@@ -284,8 +272,8 @@ export default function ChargebackMonitoring() {
   const header = (
     <div className='d-flex align-items-center'>
       <div className='flex-fill'>
-        <div className="title">{t("transaction.chargebackTitle")}</div>
-        <div className="text">{t("transaction.chargebackText")}</div>
+        <div className="title">{t("transaction.transactionTitle")}</div>
+        <div className="text">{t("transaction.transactionText")}</div>
       </div>
       <div className='d-flex gap-3'>
         <div className="column-toggle-icon-container"> 
@@ -324,20 +312,24 @@ export default function ChargebackMonitoring() {
   useEffect(() => {
     if (selectedDateFilter) {
       const dateRange = getDateRange(selectedDateFilter);
-      dispatch(getChargebackTransactionList({
+      dispatch(getTransactionSearchList({
+        merchantId: `${authData.merchantId}`,
         userName: user.userName,
-        transactionStartDate: dateRange?.startDate,
-        transactionEndDate: dateRange?.endDate
+        beginDate: dateRange?.startDate,
+        endDate: dateRange?.endDate,
+        transactionType: 6,
       }));
     }
   }, [selectedDateFilter]);
   
   useEffect(() => {
     if (selectedRange) {
-      dispatch(getChargebackTransactionList({
+      dispatch(getTransactionSearchList({
+        merchantId: `${authData.merchantId}`,
         userName: user.userName,
-        transactionStartDate: selectedRange[0],
-        transactionEndDate: selectedRange[1]
+        beginDate: selectedRange[0],
+        endDate: selectedRange[1],
+        transactionType: 6,
       }));
     }
   }, [selectedRange]);
@@ -382,7 +374,7 @@ export default function ChargebackMonitoring() {
         { !loading ? (
           <DataTable 
             header={header}
-            value={filteredList || chargebackTransactionList} 
+            value={filteredList || transactionList} 
             paginator 
             rows={10} 
             rowsPerPageOptions={[5, 10, 25, 50]} 
@@ -401,7 +393,6 @@ export default function ChargebackMonitoring() {
           {!loading && visibleColumns.map((col, index) => (
               <Column 
                 className='center-column'
-                headerClassName='center-column'
                 key={index} 
                 {...col} 
                 style={{ 
