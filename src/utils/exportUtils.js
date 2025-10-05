@@ -99,6 +99,12 @@ export const saveAsExcelFile = (buffer, fileName) => {
 };
 
 export const exportDataToExcel = (dataList, columns, selectOptions, fileName = 'data') => {
+  console.log("export data",[
+    dataList,
+    columns,
+    selectOptions,
+    fileName])
+    
   const headers = columns.map(col => col.header);
 
   const data = dataList.map(item =>

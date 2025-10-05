@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api, parseErrorResponse } from "@/services/api";
 import { t } from "i18next";
 import { TRANSACTION_URL } from "../../../constants/apiUrls";
+import { toast } from "react-toastify";
 
 export const getTransactionList = createAsyncThunk(
   "UnifiedTransaction/GetTransactionList",
@@ -60,6 +61,20 @@ export const refundTransaction = createAsyncThunk(
   }
 );
 
+export const getTransactionReceipt = createAsyncThunk(
+  "UnifiedTransaction/GetTransactionReceipt",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await api.post(TRANSACTION_URL.GetTransactionReceipt, {...userData});
+      return response;
+    } catch (error) {
+      return rejectWithValue(
+        parseErrorResponse(error.response.data).message || t("messages.error")
+      );
+    }
+  }
+);
+
 
 
 const transactionListSlice = createSlice({
@@ -70,6 +85,7 @@ const transactionListSlice = createSlice({
     success: false,
     transactionList: [],
     filteredList: null,
+    transactionReceiptData: null,
     deleteSuccess: false,
   },
   reducers: {
@@ -116,6 +132,20 @@ const transactionListSlice = createSlice({
       .addCase(getTransactionSearchList.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      
+      .addCase(getTransactionReceipt.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(getTransactionReceipt.fulfilled, (state, action) => {
+        state.success = true;
+        state.transactionReceiptData = action.payload;
+        state.error = null;
+      })
+      .addCase(getTransactionReceipt.rejected, (state, action) => {
+        state.error = action.payload;
+        toast.error(state.error);
       });
 
 

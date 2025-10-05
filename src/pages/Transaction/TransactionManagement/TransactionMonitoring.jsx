@@ -78,6 +78,8 @@ export default function TransactionMonitoring() {
   useEffect(() => {
     setSelectedProducts(null);
     dispatch(setTransactionListError(null));
+/*
+    GEREKLI MI EMIN DEGILIM ?
 
     dispatch(getCurrencyDef());
     dispatch(getAllTransactionNetworkDef());
@@ -89,7 +91,7 @@ export default function TransactionMonitoring() {
     dispatch(getAllPosEntryModeDef());
     dispatch(getUsersPayFacIntegrationEnabledBankList(user.userName));
     dispatch(getAllCountry());
-
+*/
   }, [])
   
   useEffect(()=> {
@@ -262,8 +264,8 @@ export default function TransactionMonitoring() {
   ];
 
   const handleSelect = (code) => {
-    if(code == 'csv') exportDataToCSV(transactionList, columns, selectOptions, 'transactions');;
-    if(code == 'xlsx') exportDataToExcel(transactionList, columns, selectOptions, 'transactions');
+    if(code == 'csv') exportDataToCSV(filteredList, columns, selectOptions, 'transactions');;
+    if(code == 'xlsx') exportDataToExcel(filteredList, columns, selectOptions, 'transactions');
     if(code == 'pdf') exportPdf();
 
     setIsPrintOpen(false);

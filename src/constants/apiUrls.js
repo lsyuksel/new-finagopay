@@ -29,13 +29,20 @@ export const TRANSACTION_URL = {
   
   CancelTransaction: '/UnifiedTransaction/CancelTransaction',
   RefundTransaction: '/UnifiedTransaction/RefundTransaction',
-
+  GetTransactionReceipt: '/UnifiedTransaction/GetTransactionReceipt',
   
 
 
   GetTransactionProvisionSearch: '/TransactionProvision/GetTransactionProvisionSearch',
   GetTransactionProvisionSettleSearch: '/TransactionProvisionSettle/GetTransactionProvisionSettleSearchByUserName'
 };
+
+
+export const REPORTS_URL = {
+  GetMerchantPaymentFileSearchByUserName: 'MerchantPaymentFile/GetMerchantPaymentFileSearchByUserName',
+};
+
+
 
 export const SELECT_OPTIONS_URL = {
   GetCurrencyDef: '/Currency/GetCurrencyDef',
@@ -49,6 +56,8 @@ export const SELECT_OPTIONS_URL = {
   GetAllPosEntryModeDef: '/PosEntryModeDef/GetAllPosEntryModeDef',
   GetUsersPayFacIntegrationEnabledBankList: '/DomesticBankDef/GetUsersPayFacIntegrationEnabledBankList',
   GetAllCountry: '/Country/GetAllCountry',
+
+  GetAllPayOutStatusDef: '/PayOutStatusDef/GetAllPayOutStatusDef',
 };
 
 export const PAYMENT_URL = {

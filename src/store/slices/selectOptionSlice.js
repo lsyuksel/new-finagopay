@@ -159,6 +159,17 @@ export const getAllCountry = createAsyncThunk(
     }
 );*/
 
+export const getAllPayOutStatusDef = createAsyncThunk(
+  '/PayOutStatusDef/GetAllPayOutStatusDef',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const response = await api.get(SELECT_OPTIONS_URL.GetAllPayOutStatusDef);
+      return response || [];
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
+    }
+  }
+);
 
 const initialState = {
   testOptions: [
@@ -210,6 +221,8 @@ const initialState = {
       description: "Full Secure"
     }
   ],
+
+  allPayOutStatusDef : [],
 
   loading: false,
   error: null,
@@ -386,6 +399,21 @@ const selectOptionsSlice = createSlice({
         state.error = null;
       })
       .addCase(getAllCountry.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      
+      // ProductType cases
+      .addCase(getAllPayOutStatusDef.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllPayOutStatusDef.fulfilled, (state, action) => {
+        state.loading = false;
+        state.allPayOutStatusDef = action.payload;
+        state.error = null;
+      })
+      .addCase(getAllPayOutStatusDef.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

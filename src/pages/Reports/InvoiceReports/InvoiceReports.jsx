@@ -5,37 +5,50 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { cancelTransaction, getTransactionList, getTransactionReceipt, getTransactionSearchList, setTransactionListError } from '../../../store/slices/transaction-managment/transactionListSlice';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'primereact/button';
-import ReportsFilterDialog from '../../../components/Common/Table/ReportsFilterDialog';
+import FilterDialog from '../../../components/Common/Table/FilterDialog';
 import DateFilter from '../../../components/Common/Table/DateFilter';
 
 import ButtonIcon1 from "@/assets/images/icons/advanced-search.svg";
 import ButtonIcon2 from "@/assets/images/icons/by-date.svg";
 import printIcon from "@/assets/images/icons/print-icon.svg";
 
+import smallLogo from '@assets/images/small-logo.png'
+
 import ExcelIcon from '@assets/images/icons/excel.svg';
 import CsvIcon from '@assets/images/icons/csv.svg';
+import { Tooltip } from 'primereact/tooltip';
 
-import { formatDate, getDateRange } from '../../../utils/helpers';
+import { 
+  formatDate,
+  getDateRange
+ } from '../../../utils/helpers';
 
+import { getAllAuthorizationResponseCode, getAllCardType, getAllCountry, getAllPosEntryModeDef, getAllProvisionStatusDef, getAllTransactionInstallmentTypeDef, getAllTransactionNetworkDef, getAllTransactionType, getCurrencyDef, getUsersPayFacIntegrationEnabledBankList } from '../../../store/slices/selectOptionSlice';
+import { InputSwitch } from 'primereact/inputswitch';
+import { Calendar } from 'primereact/calendar';
 import DateRangeDialog from '../../../components/Common/Table/DateRangeDialog';
 import { ConfirmDialog } from 'primereact/confirmdialog';
 import { MultiSelect } from 'primereact/multiselect';
 import { Dropdown } from 'react-bootstrap';
 import { exportDataToCSV, exportDataToExcel } from '../../../utils/exportUtils';
-import { getMerchantReconciliationList, setMerchantReconciliationListError } from '../../../store/slices/reports/merchantReconciliationSlice';
-import { getAllPayOutStatusDef } from '../../../store/slices/selectOptionSlice';
+import { Tag } from 'primereact/tag';
+import TransactionReceipt, { downloadReceiptDirect } from '../../../components/Common/Table/TransactionReceipt';
 
-export default function MerchantReconciliation() {
+export default function InvoiceReports() {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [selectedProducts, setSelectedProducts] = useState(null);
 
-  const [filteredList, setFilteredList] = useState(null);
   const [filterDialogVisible, setFilterDialogVisible] = useState(false);
+  const [receiptDialogVisible, setReceiptDialogVisible] = useState(false);
+  
+  const [isDirectDownload, setIsDirectDownload] = useState(false);
+  
 
   const [selectedDateFilter, setSelectedDateFilter] = useState('all');
   const [selectedRange, setSelectedRange] = useState(null);
@@ -46,43 +59,35 @@ export default function MerchantReconciliation() {
 
   const selectOptions = useSelector((state) => state.selectOptions);
   
-  const { loading, error, success, merchantReconciliationList, deleteSuccess } = useSelector((state) => state.merchantReconciliationList);
+  const { loading, error, success, transactionList, deleteSuccess, filteredList, transactionReceiptData } = useSelector((state) => state.transactionList);
   const authData = useSelector((state) => state.auth);
 
   useEffect(() => {
     setSelectedProducts(null);
-    dispatch(setMerchantReconciliationListError(null));
-
-    dispatch(getAllPayOutStatusDef())
+    dispatch(setTransactionListError(null));
+/*
+    dispatch(getCurrencyDef());
+    dispatch(getAllTransactionNetworkDef());
+    dispatch(getAllAuthorizationResponseCode());
+    dispatch(getAllTransactionType());
+    dispatch(getAllCardType());
+    dispatch(getAllProvisionStatusDef());
+    dispatch(getAllTransactionInstallmentTypeDef());
+    dispatch(getAllPosEntryModeDef());
+    dispatch(getUsersPayFacIntegrationEnabledBankList(user.userName));
+    dispatch(getAllCountry());
+*/
   }, [])
   
-  useEffect(()=> {
-    console.log("merchantReconciliationList99",merchantReconciliationList)
-  }, [merchantReconciliationList])
-
   const columns = [
-    { field: 'merchantPayment.merchant.merchantId', header: t('Üye İşyeri Numarası'), sortable: true, className: "primary-text", },
-    { field: 'merchantPayment.domesticBank.bankName', header: t('Banka Adı'), sortable: true },
-    { field: 'merchantPayOut.iban', header: t('Iban'), sortable: true },
-    { field: 'merchantPayment.currency.currencyName', header: t('Para Birimi'), sortable: true },
-
-    { field: 'merchantPayment.eodDate', header: t('Günsonu Tarihi'), className: "", sortable: true, body: (rowData) => formatDate(rowData.merchantPayment.eodDate) },
-    { field: 'merchantPayment.paymentDate', header: t('Ödeme Tarihi'), className: "", sortable: true, body: (rowData) => formatDate(rowData.merchantPayment.paymentDate) },
-
-    { field: 'payOutStatus.description', header: t('Ödeme Durumu'), sortable: true },
-    { field: 'merchantPayment.ravenTransactionType.description', header: t('İşlem Tİpi'), sortable: true },
-    { field: 'merchantPayment.totalRecordCount', header: t('Toplam İşlem Sayısı'), sortable: true },
-    { field: 'merchantPayment.totalAmount', header: t('Toplam Tutar'), sortable: true },
-    { field: 'merchantPayment.totalNetAmount', header: t('Toplam Net Tutar'), sortable: true },
-    { field: 'merchantPayment.totalPayFacCommissionAmount', header: t('Toplam PayFac Komisyon Tutarı'), sortable: true },
-    { field: 'merchantPayment.totalPayFacBsmvAmount', header: t('Toplam Bsmv'), sortable: true },
-
-    { field: 'merchantPayment.totalTransactionAmountTL', header: t('Toplam İşlem Tutarı (TL)'), sortable: true },
-    { field: 'merchantPayment.totalPayFacCommissionAmountTL', header: t('Toplam PayFac Komsiyon Tutarı (TL)'), sortable: true },
-    { field: 'merchantPayment.totalPayFacBsmvAmountTL', header: t('Toplam Bsmv Tutarı (TL)'), sortable: true },
-    { field: 'merchantPayment.merchantPaymentType.name', header: t('Ödeme Yöntemi'), sortable: true },
-    { field: 'paymentStatusDescription', header: t('EFT Açıklaması'), sortable: true },
-    { field: 'paymentStatusCode', header: t('EFT Statüsü'), sortable: true },
+    { field: 'orderId', header: t('transaction.orderId2'), sortable: true, className: "primary-text text-center", },
+    { field: 'amount', header: t('transaction.amount'), sortable: true },
+    { field: 'currencyName', header: t('transaction.currencyName'), sortable: true },
+    { field: 'bankName', header: t('transaction.bankName2'), sortable: true },
+    { field: 'tableName', header: t('Table_Name'), sortable: true },
+    
+    { field: 'transactionDate', header: t('transaction.refundTransactionColumn5'), className: "center-column", sortable: true, body: (rowData) => formatDate(rowData.transactionDate) },
+    
     {
         field: 'selection',
         header: t('common.actions'),
@@ -90,27 +95,34 @@ export default function MerchantReconciliation() {
         frozen: true,
         body: (rowData) => (
             <div className="row-user-buttons">
-                <Link>
-                    <i className="pi pi-eye" style={{fontSize: '22px'}}></i>
-                </Link>
-                <div><i className="fa-regular fa-file-lines"></i></div>
+                <Button tooltip="Görüntüle" className='p-tooltip-button' tooltipOptions={{ position: 'bottom' }} onClick={()=>transactionReceipt(rowData)}><i className="pi pi-eye" style={{fontSize: '22px'}}></i></Button>
+                <Button tooltip="İndir" className='p-tooltip-button' tooltipOptions={{ position: 'bottom' }} onClick={()=>downloadTransactionReceipt(rowData)}><i className="fa-regular fa-file-lines" style={{fontSize: '20px'}}></i></Button>
             </div>
         ),
         className: "fixed-user-buttons"
     },
   ];
 
-
   const handleFilter = (filters) => {
     console.log("handleFilter filters",filters)
 
     const dateRange = getDateRange(selectedDateFilter);
-    dispatch(getMerchantReconciliationList({
-      //merchantId: `${authData.merchantId}`,
-      userName: user.userName,
-      paymentDateStartDate: dateRange?.startDate,
-      paymentDateEndDate: dateRange?.endDate,
-      payOutStatusGuid: filters.payOutStatusGuid,
+    dispatch(getTransactionSearchList({
+      merchantId: `${authData.merchantId}`,
+      beginDate: selectedRange ? selectedRange[0] : dateRange?.startDate,
+      endDate: selectedRange ? selectedRange[1] : dateRange?.endDate,
+      transactionType: null,
+
+      orderId: filters.paymentId,
+      firstSixNumbersOfTheCard: filters.cardFirst6,
+      lastFourNumbersOfTheCard: filters.cardLast4,
+
+      installmentCount: null,
+
+      lowAmount: filters.amountOperator == 'gt' ? filters.amount : null, // En düşük tutar
+      highAmount: filters.amountOperator == 'lt' ? filters.amount : null, // En yüksek tutar
+
+      f043CardAcceptorName: filters.cardHolder
     }));
 
   };
@@ -133,16 +145,17 @@ export default function MerchantReconciliation() {
   ];
 
   const handleSelect = (code) => {
-    if(code == 'csv') exportDataToCSV(merchantReconciliationList, columns, selectOptions, 'merchantReconciliations');;
-    if(code == 'xlsx') exportDataToExcel(merchantReconciliationList, columns, selectOptions, 'merchantReconciliations');
+    if(code == 'csv') exportDataToCSV(filteredList, columns, selectOptions, 'transactions');;
+    if(code == 'xlsx') exportDataToExcel(filteredList, columns, selectOptions, 'transactions');
     if(code == 'pdf') exportPdf();
+
     setIsPrintOpen(false);
   };
 
   const header = (
     <div className='d-flex align-items-center'>
       <div className='flex-fill'>
-        <div className="title">{t("Para Gönderim Raporları")}</div>
+        <div className="title">{t("Dekontlarım")}</div>
       </div>
       <div className='d-flex gap-3'>
         <div className="column-toggle-icon-container"> 
@@ -181,31 +194,65 @@ export default function MerchantReconciliation() {
   useEffect(() => {
     if (selectedDateFilter) {
       const dateRange = getDateRange(selectedDateFilter);
-      dispatch(getMerchantReconciliationList({
-        //merchantId: `${authData.merchantId}`,
+      dispatch(getTransactionSearchList({
+        merchantId: `${authData.merchantId}`,
         userName: user.userName,
-        paymentDateStartDate: dateRange?.startDate,
-        paymentDateEndDate: dateRange?.endDate,
-        payOutStatusGuid: null,
+        beginDate: dateRange?.startDate,
+        endDate: dateRange?.endDate,
+        transactionType: null,
       }));
     }
   }, [selectedDateFilter]);
   
   useEffect(() => {
     if (selectedRange) {
-      dispatch(getMerchantReconciliationList({
-        //merchantId: `${authData.merchantId}`,
+      dispatch(getTransactionSearchList({
+        merchantId: `${authData.merchantId}`,
         userName: user.userName,
-        paymentDateStartDate: selectedRange[0],
-        paymentDateEndDate: selectedRange[1],
-        payOutStatusGuid: null,
+        beginDate: selectedRange[0],
+        endDate: selectedRange[1],
+        transactionType: null,
       }));
     }
   }, [selectedRange]);
 
+
+  const transactionReceipt =(item) => {
+    dispatch(getTransactionReceipt({
+      merchantId: `${authData.merchantId}`,
+      orderId: item.orderId,
+    }));
+    setIsDirectDownload(false)
+  }
+  
+  const downloadTransactionReceipt =(item) => {
+    dispatch(getTransactionReceipt({
+      merchantId: `${authData.merchantId}`,
+      orderId: item.orderId,
+    }));
+    setIsDirectDownload(true)
+  }
+
+  useEffect(()=> {
+    console.log("transactionReceiptData || 99",transactionReceiptData);
+    if(!error && transactionReceiptData && !isDirectDownload){
+      setReceiptDialogVisible(true);
+    } else if(isDirectDownload) {
+      downloadReceiptDirect(transactionReceiptData);
+      setIsDirectDownload(false)
+    }
+  }, [transactionReceiptData])
+
   return (
     <>
       <ConfirmDialog group="ConfirmDialogTemplating" />
+
+      <TransactionReceipt
+        modalData={transactionReceiptData}
+        visible={receiptDialogVisible}
+        onHide={() => setReceiptDialogVisible(false)}
+      />
+
       <div className="table-filter-area">
         <DateFilter 
           selectedFilter={selectedDateFilter}
@@ -234,7 +281,7 @@ export default function MerchantReconciliation() {
         }}
         initialRange={selectedRange}
       />
-      <ReportsFilterDialog
+      <FilterDialog
         visible={filterDialogVisible}
         onHide={() => setFilterDialogVisible(false)}
         onFilter={handleFilter}
@@ -243,7 +290,7 @@ export default function MerchantReconciliation() {
         { !loading ? (
           <DataTable 
             header={header}
-            value={filteredList || merchantReconciliationList} 
+            value={filteredList || transactionList} 
             paginator 
             rows={10} 
             rowsPerPageOptions={[5, 10, 25, 50]} 
@@ -261,6 +308,7 @@ export default function MerchantReconciliation() {
           */}
           {!loading && visibleColumns.map((col, index) => (
               <Column 
+                headerClassName="center-column"
                 className='center-column'
                 key={index} 
                 {...col} 

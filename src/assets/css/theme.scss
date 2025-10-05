@@ -576,6 +576,7 @@ button,
                 font-size: 18px;
                 color: $sub-text-color;
                 transition: $transition;
+                cursor: pointer;
                 > i {
                     font-size: inherit;
                 }
@@ -1105,6 +1106,11 @@ button,
             color: $white-color;
         }
     }
+    &.overflow {
+        .p-dialog-content {
+            overflow-y: auto;
+        }
+    }
 }
 
 .datatable-area-container {
@@ -1349,7 +1355,30 @@ button,
         @include gradient-2;
         color: $white-color;
     }
+    &.p-tooltip-button {
+        padding: 0;
+        background: transparent;
+        border-radius: 0;
+        box-shadow: none;
+        outline: none;
+    }
 }
+
+.p-tooltip {
+    &.p-tooltip-bottom .p-tooltip-arrow {
+        border-bottom-color: $primary-color;
+    }
+    .p-tooltip-text {
+        background: $primary-color;
+        padding: 4px 10px;
+        @include text-5-semibold;
+        color: $white-color;
+        border-radius: 50px;
+    }
+}
+
+.p-tooltip
+
 
 .p-datepicker table td > span {
     outline: none;

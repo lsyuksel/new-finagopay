@@ -31,6 +31,7 @@ import LinkPayment from "../../pages/LinkPayment/Paylink/LinkPayment";
 import DetailLinkPayment from "../../pages/LinkPayment/LinkPaymentList/DetailLinkPayment";
 import CreateLinkPayment from "../../pages/LinkPayment/LinkPaymentList/CreateLinkPayment";
 import Layout from "../Layout/Layout";
+import InvoiceReports from "../../pages/Reports/InvoiceReports/InvoiceReports";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -179,6 +180,8 @@ const AppRoutes = () => {
 
 
         {/* reports */}
+
+        {/*
         <Route
           path="/transaction-reports"
           element={
@@ -187,6 +190,7 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        */}
         <Route
           path="/merchant-reconciliation"
           element={
@@ -199,7 +203,7 @@ const AppRoutes = () => {
           path="/invoice-reports"
           element={
             <ProtectedRoute>
-              <MerchantReconciliation />
+              <InvoiceReports />
             </ProtectedRoute>
           }
         />

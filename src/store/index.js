@@ -18,6 +18,8 @@ import linkPaymentDetailReducer from './slices/linkPayment/linkPaymentDetailSlic
 import transactionListReducer from './slices/transaction-managment/transactionListSlice';
 import transactionDetailReducer from './slices/transaction-managment/transactionDetailSlice';
 
+import merchantReconciliationListReducer from './slices/reports/merchantReconciliationSlice';
+
 import selectOptionsReducer from './slices/selectOptionSlice';
 
 const persistConfig = {
@@ -41,6 +43,8 @@ const rootReducer = combineReducers({
   transactionList: transactionListReducer,
   transactionDetail: transactionDetailReducer,
   
+  merchantReconciliationList: merchantReconciliationListReducer,
+
   menu: menuReducer,
 });
 

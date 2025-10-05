@@ -1,0 +1,64 @@
+.receipt {
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  color: #111827;
+  background: #fff;
+}
+
+.receipt__header {
+  position: relative;
+  padding: 12px 16px 8px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+.receipt__logo {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  height: 40px;
+  transform: translateY(-50%);
+}
+.receipt__header-center { text-align: center; }
+.receipt__title {font-weight: 700;letter-spacing: 1px;font-size: 16px;}
+.receipt__subtitle {font-size: 14px;margin-top: 0;}
+
+.receipt__org {
+  font-size: 15px;
+  padding: 10px 10px;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 600;
+  background: #e7e7e7;
+}
+
+.receipt__table {width: 100%;border-collapse: collapse;font-size: 15px;margin: 10px 5px;}
+.receipt__th {width: 30%;padding: 7px 12px;/* border-bottom: 1px solid #e5e7eb; */font-weight: 500;}
+.receipt__sep {width: 2%;padding: 6px 0;/* border-bottom: 1px solid #e5e7eb; */}
+.receipt__td {padding: 6px 10px;/* border-bottom: 1px solid #e5e7eb; */}
+
+.receipt__section-title {
+  background: #0ea5a3;
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 15px;
+  border-top: 1px solid #0b8c8a;
+  border-bottom: 1px solid #0b8c8a;
+}
+
+.receipt__columns { display: grid; grid-template-columns: 1fr 1fr; }
+.receipt__col {border-right: 1px solid #dadada;}
+.receipt__col:last-child { border-right: 0; }
+.receipt__col-title { background: #0ea5a3; color: #fff; padding: 6px 10px; font-size: 15px; text-align: center; border-top: 1px solid #0b8c8a; border-bottom: 1px solid #0b8c8a; }
+.receipt__col-sub {font-weight: 400;font-size: 13px;}
+
+.receipt__footer {padding: 10px 20px;border-top: 1px solid #e5e7eb;}
+.receipt__footer-img {max-height: 200px;display: block;}
+
+.receipt-dialog-hidden { position: fixed !important; left: -99999px !important; top: -99999px !important; opacity: 0 !important; pointer-events: none !important; }
+
+.receipt__col .receipt__table tr:last-child > * {
+    border-bottom: 0;
+}
+
+.receipt__col .receipt__org {
+    padding: 10px 10px;
+}
