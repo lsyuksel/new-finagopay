@@ -200,7 +200,7 @@ const AppRoutes = () => {
           }
         />
         <Route
-          path="/invoice-reports"
+          path="/receipts"
           element={
             <ProtectedRoute>
               <InvoiceReports />
