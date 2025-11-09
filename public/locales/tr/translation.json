@@ -411,6 +411,39 @@
     "headerChargeback": "Chargeback Geçmişi"
 
   },
+  "settings": {
+    "returnHome": "Anasayfaya Dön",
+    "userdefinitionTitle": "Profil Bilgilerim",
+    "userdefinitionName": "Ad Soyad",
+    "userdefinitionPhone": "Telefon",
+    "userdefinitionEmail": "E-Posta",
+    "userdefinitionMerchantId": "İşyeri Numarası",
+
+    "userdefinitionPasswordTitle": "Şifre Güncelle",
+
+    "userdefinitionPasswordOld": "Eski Şifre",
+    "userdefinitionPasswordOldPlaceholder": "Eski şifrenizi yazınız",
+
+    "userdefinitionPassword": "Şifre",
+    "userdefinitionPasswordPlaceholder": "Şifrenizi yazınız",
+
+    "userdefinitionPasswordAgain": "Şifre Tekrarı",
+    "userdefinitionPasswordAgainPlaceholder": "Şifrenizi yazınız",
+
+    "userdefinitionUpdateButton": "Güncelle",
+
+    "userdefinitionPasswordCriteriaTitle": "Şifreniz aşağıdaki kriterlere uygun olmalıdır.",
+    "userdefinitionPasswordCriteria1": "En az 8 karakterden oluşmalıdır.",
+    "userdefinitionPasswordCriteria2": "Harflerin yanı sıra, rakam ve \"?, @, !, #, %, +, -, *, %\" gibi özel karakterler içermelidir.",
+    "userdefinitionPasswordCriteria3": "Büyük ve küçük harf kullanılmalıdır.",
+    
+
+
+    "activityHistoryTitle": "Aktivite Geçmişi",
+    "userGuid": "User Guid",
+    "ipAddress": "IP/Port",
+    "status": "Durum"
+  },
   "errors": {
     "incorrectPassword": "Girmiş olduğunuz şifre hatalı. Lütfen tekrar deneyiniz.",
     "required": "Lütfen tüm alanları doldurunuz.",
@@ -418,6 +451,11 @@
     "invalidEmail": "Geçersiz e-posta adresi",
     "passwordsMustMatch": "Şifreler eşleşmiyor",
     "invalidPassword": "Şifre en az 6 karakter olmalıdır",
+    "passwordMinLength": "Şifre en az 8 karakter olmalıdır",
+    "passwordLowercase": "Şifre en az bir küçük harf içermelidir",
+    "passwordUppercase": "Şifre en az bir büyük harf içermelidir",
+    "passwordNumber": "Şifre en az bir rakam içermelidir",
+    "passwordSpecialChar": "Şifre en az bir özel karakter içermelidir (?@!#%+-*%)",
     "invalidOtp": "Lütfen 6 haneli doğrulama kodunu giriniz",
     "invalidResponse": "Doğrulama başarısız - API yanıtı geçersiz format",
     "menuError": "Menü verileri alınamadı",

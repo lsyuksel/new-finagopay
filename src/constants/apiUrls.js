@@ -39,10 +39,20 @@ export const TRANSACTION_URL = {
 
 
 export const REPORTS_URL = {
-  GetMerchantPaymentFileSearchByUserName: 'MerchantPaymentFile/GetMerchantPaymentFileSearchByUserName',
+  GetMerchantPaymentFileSearchByUserName: '/MerchantPaymentFile/GetMerchantPaymentFileSearchByUserName',
 };
 
 
+export const SETTINGS_URL = {
+  GetProfile: '/MerchantUserProfile/GetProfile',
+  ChangePasswordProfile: '/MerchantUserProfile/ChangePasswordProfile',
+  GetMerchantProfileActivityLog: '/MerchantUserProfile/GetMerchantProfileActivityLog',
+
+  MerchantGetKeys: '/MerchantProfile/GetKeys',
+  MerchantUpdateKeys: '/MerchantProfile/UpdateKeys',
+  
+  MerchantGetProfile: '/MerchantProfile/GetProfile',
+};
 
 export const SELECT_OPTIONS_URL = {
   GetCurrencyDef: '/Currency/GetCurrencyDef',

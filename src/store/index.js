@@ -22,6 +22,9 @@ import merchantReconciliationListReducer from './slices/reports/merchantReconcil
 
 import selectOptionsReducer from './slices/selectOptionSlice';
 
+import userDefinitionReducer from './slices/settings/userDefinitionSlice';
+import keyDefinitionReducer from './slices/settings/keyDefinitionSlice';
+
 const persistConfig = {
   key: 'root',
   storage,
@@ -44,6 +47,9 @@ const rootReducer = combineReducers({
   transactionDetail: transactionDetailReducer,
   
   merchantReconciliationList: merchantReconciliationListReducer,
+
+  userDefinition: userDefinitionReducer,
+  keyDefinition: keyDefinitionReducer,
 
   menu: menuReducer,
 });

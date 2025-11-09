@@ -25,6 +25,8 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
+
+      // LOGOUT APISI CALISACAK.
     },
     setLoading: (state, action) => {
       state.loading = action.payload;

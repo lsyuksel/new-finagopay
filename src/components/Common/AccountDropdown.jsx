@@ -17,9 +17,9 @@ export default function AccountDropdown() {
   const [isOpen, setIsOpen] = useState(false);
 
   const accountLinks = [
-    { link: "/accounts", name: t("menu.account"), icon: "pi-user" },
-    { link: "/profile", name: t("menu.profileSettings"), icon: "pi-cog" },
-    { link: "/company-settings", name: t("menu.companySettings"), icon: "pi-pen-to-square" },
+    // { link: "/accounts", name: t("menu.account"), icon: "pi-user" },
+    { link: "/user-definition", name: t("menu.profileSettings"), icon: "pi-cog" },
+    { link: "/key-definition", name: t("menu.companySettings"), icon: "pi-pen-to-square" },
     { link: "/logout", name: t("menu.exit"), icon: "pi-sign-out" },
   ];
 
@@ -41,9 +41,9 @@ export default function AccountDropdown() {
       >
         <Dropdown.Toggle>
           <div>
-            <i>
+            {/* <i>
               <img src={demoProfilePicture} />
-            </i>
+            </i> */}
             <div>
               <b>{user.firstName} {user.lastName}</b>
               <span>{user.guid}</span>

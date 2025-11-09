@@ -18,10 +18,11 @@ import DetailChargeback from "../../pages/Transaction/ChargebackMonitoring/Detai
 
 
 import MerchantReconciliation from "../../pages/Reports/ReconciliationManagement/MerchantReconciliation";
-import MerchantCommissionList from "../../pages/Settings/InstallmentAndCommissionManagement/MerchantCommissionList";
-import KeyDefinition from "../../pages/Settings/KeyManagement/KeyDefinition";
-import UserDefinition from "../../pages/Settings/UserManagement/UserDefinition";
-import UserRoleRelation from "../../pages/Settings/UserManagement/UserRoleRelation";
+
+import MerchantCommissionList from "../../pages/Settings/MerchantCommissionList";
+import KeyDefinition from "../../pages/Settings/KeyDefinition";
+import UserDefinition from "../../pages/Settings/UserDefinition";
+
 import ProtectedRoute from "./ProtectedRoute";
 import AuthLayout from "../../pages/Login/AuthLayout";
 import ForgotPassword from "../../pages/Login/ForgotPassword";
@@ -240,14 +241,6 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <MerchantCommissionList />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/user-role-relation"
-          element={
-            <ProtectedRoute>
-              <UserRoleRelation />
             </ProtectedRoute>
           }
         />
