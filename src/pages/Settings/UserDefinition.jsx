@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { changePasswordProfile, getMerchantProfileActivityLog, getProfile, setUserDefinitionError } from '../../store/slices/settings/userDefinitionSlice';
+import { changePasswordProfile, changePasswordProfileVerify, getMerchantProfileActivityLog, getProfile, setUserDefinitionError } from '../../store/slices/settings/userDefinitionSlice';
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Form } from "react-bootstrap";
 import { Password } from "primereact/password";
+import { Dialog } from "primereact/dialog";
+import { Button } from "primereact/button";
+import AuthCode from "react-auth-code-input";
 import { toast } from 'react-toastify';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import activityLogIcon from '@assets/images/icons/activity-log.svg';
@@ -23,6 +26,9 @@ export default function UserDefinition() {
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth);
   const { loading, error, success, profileData, activityLogData } = useSelector((state) => state.userDefinition);
+
+  const [otpDialogVisible, setOtpDialogVisible] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
 
   useEffect(() => {
     dispatch(getProfile({
@@ -67,8 +73,6 @@ export default function UserDefinition() {
     },
     validationSchema,
     onSubmit: async (values) => {
-      console.log("useFormik values",values)
-
       dispatch(changePasswordProfile({
         merchantId: `${authData.merchantId}`,
         userGuid: authData.user.guid,
@@ -78,7 +82,8 @@ export default function UserDefinition() {
       }))
         .unwrap()
         .then(() => {
-          toast.success(t("messages.success"));
+          setOtpDialogVisible(true);
+          formik.resetForm();
         })
         .catch((error) => {
           dispatch(setUserDefinitionError(error));
@@ -98,6 +103,31 @@ export default function UserDefinition() {
   };
 
   const passwordCriteria = checkPasswordCriteria(formik.values.password);
+
+  const handleOtpSubmit = async () => {
+    if (!otpCode || otpCode.length !== 6) {
+      toast.error(t("errors.invalidOtp"));
+      return;
+    }
+
+    const currentDateTime = new Date().toISOString();
+    dispatch(changePasswordProfileVerify({
+      merchantId: `${authData.merchantId}`,
+      userGuid: authData.user.guid,
+      verificationCode: otpCode,
+      otpDatetime: currentDateTime,
+    }))
+    .unwrap()
+    .then(() => {
+      toast.success(t("messages.success"));
+      setOtpDialogVisible(false);
+      setOtpCode("");
+    })
+    .catch((error) => {
+      dispatch(setUserDefinitionError(error));
+      toast.error(error);
+    });
+  };
 
   const activityLogHeader = (
       <div className="title">
@@ -240,6 +270,36 @@ export default function UserDefinition() {
           </Form>
         </div>
       </div>
+      <Dialog
+        className='filter-modal-dialog'
+        visible={otpDialogVisible}
+        style={{ width: '30vw', minWidth: 400 }}
+        onHide={() => {
+          setOtpDialogVisible(false);
+          setOtpCode("");
+        }}
+        footer={
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+            <Button label={t('common.save')} onClick={handleOtpSubmit} className="filter-button mx-0" disabled={!otpCode || otpCode.length !== 6} autoFocus />
+          </div>
+        }
+        modal
+      >
+        <div className="title-area">
+          <div className="title">{t('common.otpVerification')} </div>
+          <div className="subtitle">{t('common.otpInstructions')} </div>
+        </div>
+        <div style={{ padding: '1rem' }}>
+          <Form.Group className="form-item">
+            <AuthCode
+              onChange={(res) => setOtpCode(res)}
+              length={6}
+              inputClassName="form-control otp-input"
+              containerClassName="otp-input-container"
+            />
+          </Form.Group>
+        </div>
+      </Dialog>
       <div className="log-table-box">
           <div className='detail-table-section'>
               { !loading ? (

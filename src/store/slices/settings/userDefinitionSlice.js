@@ -33,6 +33,20 @@ export const changePasswordProfile = createAsyncThunk(
   }
 );
 
+export const changePasswordProfileVerify = createAsyncThunk(
+  "/MerchantUserProfile/ChangePasswordProfileVerify",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await api.post(SETTINGS_URL.ChangePasswordProfileVerify, {...userData});
+      return response;
+    } catch (error) {
+      return rejectWithValue(
+        parseErrorResponse(error.response.data).message || t("messages.error")
+      );
+    }
+  }
+);
+
 export const getMerchantProfileActivityLog = createAsyncThunk(
   "/MerchantUserProfile/GetMerchantProfileActivityLog",
   async (userData, { rejectWithValue }) => {

@@ -46,6 +46,9 @@ export const REPORTS_URL = {
 export const SETTINGS_URL = {
   GetProfile: '/MerchantUserProfile/GetProfile',
   ChangePasswordProfile: '/MerchantUserProfile/ChangePasswordProfile',
+
+  ChangePasswordProfileVerify: '/MerchantUserProfile/ChangePasswordProfileVerify',
+
   GetMerchantProfileActivityLog: '/MerchantUserProfile/GetMerchantProfileActivityLog',
 
   MerchantGetKeys: '/MerchantProfile/GetKeys',
