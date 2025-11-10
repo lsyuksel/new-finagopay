@@ -21,6 +21,7 @@ import { formatDate, getDateRange } from '../../../utils/helpers';
 
 import DateRangeDialog from '../../../components/Common/Table/DateRangeDialog';
 import { ConfirmDialog } from 'primereact/confirmdialog';
+import { Dialog } from 'primereact/dialog';
 import { MultiSelect } from 'primereact/multiselect';
 import { Dropdown } from 'react-bootstrap';
 import { exportDataToCSV, exportDataToExcel } from '../../../utils/exportUtils';
@@ -41,6 +42,9 @@ export default function MerchantReconciliation() {
   const [selectedRange, setSelectedRange] = useState(null);
 
   const [dialogVisible, setDialogVisible] = useState(false);
+  
+  const [reconciliationDialogVisible, setReconciliationDialogVisible] = useState(false);
+  const [selectedRowData, setSelectedRowData] = useState(null);
 
   const { user } = useSelector((state) => state.auth);
 
@@ -90,16 +94,21 @@ export default function MerchantReconciliation() {
         frozen: true,
         body: (rowData) => (
             <div className="row-user-buttons">
-                <Link>
-                    <i className="pi pi-eye" style={{fontSize: '22px'}}></i>
-                </Link>
-                <div><i className="fa-regular fa-file-lines"></i></div>
+                <Button tooltip="Görüntüle" className='p-tooltip-button' tooltipOptions={{ position: 'bottom' }} onClick={()=>reconciliationDialogShow(rowData)}>
+                  <i className="pi pi-eye" style={{fontSize: '22px'}}></i>
+                </Button>
+                {/* <div><i className="fa-regular fa-file-lines"></i></div> */}
             </div>
         ),
         className: "fixed-user-buttons"
     },
   ];
 
+  const reconciliationDialogShow = (rowData) => {
+    setSelectedRowData(rowData);
+    console.log("rowData",rowData);
+    setReconciliationDialogVisible(true);
+  };
 
   const handleFilter = (filters) => {
     console.log("handleFilter filters",filters)
@@ -239,6 +248,54 @@ export default function MerchantReconciliation() {
         onHide={() => setFilterDialogVisible(false)}
         onFilter={handleFilter}
       />
+
+      <Dialog
+        header="Mutabakat Detayları"
+        visible={reconciliationDialogVisible}
+        style={{ width: '50vw', minWidth: 500 }}
+        onHide={() => setReconciliationDialogVisible(false)}
+        modal
+      >
+        {selectedRowData && (
+          <div style={{ padding: '.5rem' }}>
+
+            <div style={{ marginBottom: '.5rem' }}>
+              <strong>Sipariş Numarası:</strong> {selectedRowData?.merchantPayment?.merchantPaymentDetails[0]?.transactionProvisionSettle?.orderId}
+            </div>
+            <div style={{ marginBottom: '.5rem' }}>
+              <strong>Ödeme ID:</strong> {selectedRowData?.merchantPayment?.merchantPaymentDetails[0]?.transactionProvisionSettle?.paymentId}
+            </div>
+            <div style={{ marginBottom: '.5rem' }}>
+              <strong>Kart No:</strong> {selectedRowData?.merchantPayment?.merchantPaymentDetails[0]?.transactionProvisionSettle?.cardNo}
+            </div>
+            {/* <div style={{ marginBottom: '.5rem' }}>
+              <strong>Kart Tipi:</strong> {selectedRowData?.merchantPayment?.merchantPaymentDetails[0]?.transactionProvisionSettle?.cardTypeGuid}
+            </div> */}
+            <div style={{ marginBottom: '.5rem' }}>
+              <strong>İşlem Tutarı:</strong> {selectedRowData?.merchantPayment?.merchantPaymentDetails[0]?.transactionProvisionSettle?.f004}
+            </div>
+            <div style={{ marginBottom: '.5rem' }}>
+              <strong>Pay Fac Komisyon Oranı:</strong> {selectedRowData?.merchantPayment?.merchantPaymentDetails[0]?.payFacCommissionRate}
+            </div>
+            <div style={{ marginBottom: '.5rem' }}>
+              <strong>Pay Fac Komisyon Tutarı:</strong> {selectedRowData?.merchantPayment?.merchantPaymentDetails[0]?.payFacCommissionAmount}
+            </div>
+            {/* <div style={{ marginBottom: '.5rem' }}>
+              <strong>Taksit Tipi:</strong> {selectedRowData?.merchantPayment?.merchantPaymentDetails[0]?.transactionProvisionSettle?.installmentTypeGuid}
+            </div> */}
+            <div style={{ marginBottom: '.5rem' }}>
+              <strong>Taksit Sayısı:</strong> {selectedRowData?.merchantPayment?.merchantPaymentDetails[0]?.transactionProvisionSettle?.installmentCount}
+            </div>
+            <div style={{ marginBottom: '.5rem' }}>
+              <strong>Günsonu Tarihi:</strong> {formatDate(selectedRowData?.merchantPayment?.eodDate)}
+            </div>
+            <div style={{ marginBottom: '.5rem' }}>
+              <strong>Ödeme Tarihi:</strong> {formatDate(selectedRowData?.merchantPayment?.paymentDate)}
+            </div>
+          </div>
+        )}
+      </Dialog>
+
       <div className="datatable-area-container">
         { !loading ? (
           <DataTable 

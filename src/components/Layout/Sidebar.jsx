@@ -50,7 +50,7 @@ const Sidebar = () => {
 
   const renderMenuItem = (item) => {
     if (!item) return null;
-    if (item.pageName === 'exit' || item.pageName === 'helpdesk') return null;
+    if (item.pageName === 'exit' || item.pageName === 'helpdesk' || item.pageName === 'suspiciousTransactions') return null;
 
     const isExpanded = expandedItems.includes(item.id);
     const hasChildren = Array.isArray(item.children) && item.children.length > 0;

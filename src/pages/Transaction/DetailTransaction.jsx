@@ -1,4 +1,3 @@
-
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import React, { useEffect, useState } from 'react';
@@ -11,6 +10,9 @@ import paymentIcon1 from '@assets/images/icons/payment-system-1.svg';
 import paymentIcon2 from '@assets/images/icons/payment-system-2.svg';
 import paymentIcon3 from '@assets/images/icons/payment-system-3.svg';
 import paymentIcon4 from '@assets/images/icons/payment-system-4.svg';
+
+import paymentIconFraud from '@assets/images/icons/paymentIconFraud.svg';
+import paymentIconChargerback from '@assets/images/icons/paymentIconChargerback.svg';
 
 import refundIcon from '@assets/images/icons/icon-refund.svg';
 import cancelIcon from '@assets/images/icons/icon-cancel.svg';
@@ -27,11 +29,11 @@ import { ConfirmDialog } from 'primereact/confirmdialog';
 import { showDialog } from '@/utils/helpers';
 import { toast } from 'react-toastify';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { getTransactionDetail } from '../../../store/slices/transaction-managment/transactionDetailSlice';
-import { formatDate } from '../../../utils/helpers';
-import { cancelTransaction, refundTransaction } from '../../../store/slices/transaction-managment/transactionListSlice';
+import { getTransactionDetail } from '../../store/slices/transaction-managment/transactionDetailSlice';
+import { formatDate } from '../../utils/helpers';
+import { cancelTransaction, refundTransaction } from '../../store/slices/transaction-managment/transactionListSlice';
 
-export default function DetailChargeback() {
+export default function DetailTransaction() {
     const { param } = useParams();
     const { t } = useTranslation();
   
@@ -59,6 +61,7 @@ export default function DetailChargeback() {
             const amount = transactionDetail[0]?.refundableTotalAmount || 0;
             setAvailableAmount(amount);
         }
+        console.log("transactionDetail",transactionDetail);
     }, [transactionDetail])
 
 
@@ -168,6 +171,45 @@ export default function DetailChargeback() {
         { field: 'cardFamily', header: t('transactionDetail.tableTitle20'), className: "" },
         { field: 'cardType', header: t('transactionDetail.tableTitle21'), className: "" },
 
+    ];
+    
+    const headerFraud = (
+        <div className="title danger-color">
+            <img src={paymentIconFraud} alt="" />
+            <span>{t("transactionDetail.headerFraud")}</span>
+        </div>
+    );
+    const columnsFraud = [
+        { field: 'orderId', header: t('Fraud ID'), className: "" },
+        { 
+            field: 'transactionStatusDesc', 
+            header: t('Fraud Durumu'), 
+            body: (rowData) => (
+                rowData.transactionStatusCode === '00' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="waiting" value="Başarısız"></Tag>
+            )
+        },
+        { field: 'description', header: t('transactionDetail.tableTitle15'), className: "" },
+        { field: 'refundDatetime', header: t('transactionDetail.tableTitle16'), className: "" },
+    ];
+
+    const headerChargeback = (
+        <div className="title warning-color">
+            <img src={paymentIconChargerback} alt="" />
+            <span>{t("transactionDetail.headerChargeback")}</span>
+        </div>
+    );
+    const columnsChargeback = [
+        { field: 'chargebackNumber', header: t('Chargeback ID'), className: "" },
+        { 
+            field: 'chargebackStatus', 
+            header: t('Chargeback Durumu'), 
+            body: (rowData) => (
+                <Tag severity="secondary" value={rowData.chargebackStatus}></Tag>
+                // rowData.transactionStatusCode === '00' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="secondary" value={rowData.chargebackStatus}></Tag>
+            )
+        },
+        { field: 'chargebackDesc', header: t('transactionDetail.tableTitle15'), className: "" },
+        { field: 'chargebackDatetime', header: t('transactionDetail.tableTitle16'), className: "", body: (rowData) => formatDate(rowData.chargebackDatetime) },
     ];
     
 
@@ -399,6 +441,52 @@ export default function DetailChargeback() {
                                 scrollable
                             >
                                 {columns4.map((col, index) => (
+                                    <Column 
+                                        className='center-column'
+                                        key={index} 
+                                        {...col} 
+                                        style={{ 
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}
+                                    />
+                                ))}
+                            </DataTable>
+                        </div>
+                        {/* <div className="datatable-area-container detail-page-table">
+                            <DataTable 
+                                header={headerFraud}
+                                value={transactionDetail[0]?.fraudHistory} 
+                                emptyMessage={t('common.recordEmptyMessage')}
+                                currentPageReportTemplate={t('common.paginateText')}
+                                dataKey="guid"
+                                scrollable
+                            >
+                                {columnsFraud.map((col, index) => (
+                                    <Column 
+                                        className='center-column'
+                                        key={index} 
+                                        {...col} 
+                                        style={{ 
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}
+                                    />
+                                ))}
+                            </DataTable>
+                        </div> */}
+                        <div className="datatable-area-container detail-page-table">
+                            <DataTable 
+                                header={headerChargeback}
+                                value={transactionDetail[0]?.chargebackHistory} 
+                                emptyMessage={t('common.recordEmptyMessage')}
+                                currentPageReportTemplate={t('common.paginateText')}
+                                dataKey="guid"
+                                scrollable
+                            >
+                                {columnsChargeback.map((col, index) => (
                                     <Column 
                                         className='center-column'
                                         key={index} 

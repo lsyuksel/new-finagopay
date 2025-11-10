@@ -5,11 +5,11 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { cancelTransaction, getTransactionList, getTransactionSearchList, setTransactionListError } from '../../../store/slices/transaction-managment/transactionListSlice';
+import { cancelTransaction, getTransactionList, getTransactionSearchList, setTransactionListError } from '../../store/slices/transaction-managment/transactionListSlice';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'primereact/button';
-import FilterDialog from '../../../components/Common/Table/FilterDialog';
-import DateFilter from '../../../components/Common/Table/DateFilter';
+import FilterDialog from '../../components/Common/Table/FilterDialog';
+import DateFilter from '../../components/Common/Table/DateFilter';
 
 import ButtonIcon1 from "@/assets/images/icons/advanced-search.svg";
 import ButtonIcon2 from "@/assets/images/icons/by-date.svg";
@@ -42,22 +42,23 @@ import {
   formatDate,
   getDateRange,
   showDialog
- } from '../../../utils/helpers';
+ } from '../../utils/helpers';
 
-import { getAllAuthorizationResponseCode, getAllCardType, getAllCountry, getAllPosEntryModeDef, getAllProvisionStatusDef, getAllTransactionInstallmentTypeDef, getAllTransactionNetworkDef, getAllTransactionType, getCurrencyDef, getUsersPayFacIntegrationEnabledBankList } from '../../../store/slices/selectOptionSlice';
+import { getAllAuthorizationResponseCode, getAllCardType, getAllCountry, getAllPosEntryModeDef, getAllProvisionStatusDef, getAllTransactionInstallmentTypeDef, getAllTransactionNetworkDef, getAllTransactionType, getCurrencyDef, getUsersPayFacIntegrationEnabledBankList } from '../../store/slices/selectOptionSlice';
 import { InputSwitch } from 'primereact/inputswitch';
 import { Calendar } from 'primereact/calendar';
-import DateRangeDialog from '../../../components/Common/Table/DateRangeDialog';
+import DateRangeDialog from '../../components/Common/Table/DateRangeDialog';
 import { ConfirmDialog } from 'primereact/confirmdialog';
 import { MultiSelect } from 'primereact/multiselect';
 import { Dropdown } from 'react-bootstrap';
-import { exportDataToCSV, exportDataToExcel } from '../../../utils/exportUtils';
+import { exportDataToCSV, exportDataToExcel } from '../../utils/exportUtils';
 import { Tag } from 'primereact/tag';
 
-export default function ChargebackMonitoring() {
+export default function TransactionMonitoring({ pageType }) {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [transactionType, setTransactionType] = useState(pageType);
 
   const [selectedProducts, setSelectedProducts] = useState(null);
 
@@ -78,6 +79,8 @@ export default function ChargebackMonitoring() {
   useEffect(() => {
     setSelectedProducts(null);
     dispatch(setTransactionListError(null));
+/*
+    GEREKLI MI EMIN DEGILIM ?
 
     dispatch(getCurrencyDef());
     dispatch(getAllTransactionNetworkDef());
@@ -89,7 +92,7 @@ export default function ChargebackMonitoring() {
     dispatch(getAllPosEntryModeDef());
     dispatch(getUsersPayFacIntegrationEnabledBankList(user.userName));
     dispatch(getAllCountry());
-
+*/
   }, [])
   
   useEffect(()=> {
@@ -145,7 +148,7 @@ export default function ChargebackMonitoring() {
             <div className="row-user-buttons">
                 {/*<Button tooltip="Confirm to proceed" label="Save" />*/}
 
-                <Link to={`/detail-chargeback/${rowData.orderId}`}>
+                <Link to={`/detail-transaction/${rowData.orderId}`}>
                     <i className="pi pi-eye" style={{fontSize: '22px'}}></i>
                 </Link>
                 {/*
@@ -220,6 +223,12 @@ export default function ChargebackMonitoring() {
     );
   };
 
+  useEffect(() => {
+    if (pageType) {
+      setTransactionType(pageType);
+    }
+  }, [pageType])
+
   const handleFilter = (filters) => {
     console.log("handleFilter filters",filters)
 
@@ -228,7 +237,7 @@ export default function ChargebackMonitoring() {
       merchantId: `${authData.merchantId}`,
       beginDate: selectedRange ? selectedRange[0] : dateRange?.startDate,
       endDate: selectedRange ? selectedRange[1] : dateRange?.endDate,
-      transactionType: 6,
+      transactionType: transactionType,
 
       orderId: filters.paymentId,
       firstSixNumbersOfTheCard: filters.cardFirst6,
@@ -262,8 +271,8 @@ export default function ChargebackMonitoring() {
   ];
 
   const handleSelect = (code) => {
-    if(code == 'csv') exportDataToCSV(transactionList, columns, selectOptions, 'transactions');;
-    if(code == 'xlsx') exportDataToExcel(transactionList, columns, selectOptions, 'transactions');
+    if(code == 'csv') exportDataToCSV(filteredList, columns, selectOptions, 'transactions');;
+    if(code == 'xlsx') exportDataToExcel(filteredList, columns, selectOptions, 'transactions');
     if(code == 'pdf') exportPdf();
 
     setIsPrintOpen(false);
@@ -317,7 +326,7 @@ export default function ChargebackMonitoring() {
         userName: user.userName,
         beginDate: dateRange?.startDate,
         endDate: dateRange?.endDate,
-        transactionType: 6,
+        transactionType: transactionType,
       }));
     }
   }, [selectedDateFilter]);
@@ -329,7 +338,7 @@ export default function ChargebackMonitoring() {
         userName: user.userName,
         beginDate: selectedRange[0],
         endDate: selectedRange[1],
-        transactionType: 6,
+        transactionType: transactionType,
       }));
     }
   }, [selectedRange]);
