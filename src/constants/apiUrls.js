@@ -52,6 +52,8 @@ export const SETTINGS_URL = {
   MerchantUpdateKeys: '/MerchantProfile/UpdateKeys',
   
   MerchantGetProfile: '/MerchantProfile/GetProfile',
+  MerchantInsertLogo: '/MerchantProfile/InsertLogo',
+
 };
 
 export const SELECT_OPTIONS_URL = {

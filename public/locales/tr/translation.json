@@ -438,6 +438,21 @@
     "userdefinitionPasswordCriteria3": "Büyük ve küçük harf kullanılmalıdır.",
     
 
+    "keydefinitionTitle": "Firma Ayarları",
+    "keydefinitionTitle1": "API Bilgileri",
+    "keydefinitionTitle2": "Bilgilerim",
+    "keydefinitionTitle3": "Para Gönderim Tercihleri",
+    "keydefinitionTitle4": "Üye İşyeri Logo",
+    "keydefinitionApi1": "API Anahtarı",
+    "keydefinitionApi2": "Güvenlik Anahtarı",
+
+
+    "keydefinitionTableTitle1": "Üye İşyeri Numarası",
+    "keydefinitionTableTitle2": "Şirket Türü",
+    "keydefinitionTableTitle3": "E-Posta Adresi",
+    "keydefinitionTableTitle4": "Yasal Şirket Ünvanı",
+    "keydefinitionTableTitle5": "Websitesi",
+    "keydefinitionTableTitle6": "TL IBAN",
 
     "activityHistoryTitle": "Aktivite Geçmişi",
     "userGuid": "User Guid",
@@ -475,6 +490,8 @@
     "amountExceedsAvailable": "Girilen tutar uygun tutarı aşıyor: {{available}} ₺"
   },
   "messages": {
+    "copySuccess": "Kopyalama işlemi başarılı",
+    "copyError": "Kopyalama işlemi başarısız",
     "success": "İşlem başarılı",
     "error": "Bir hata oluştu",
     "loginSuccess": "Giriş başarılı",

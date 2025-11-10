@@ -46,6 +46,20 @@ export const merchantUpdateKeys = createAsyncThunk(
   }
 );
 
+export const merchantInsertLogo = createAsyncThunk(
+  "/MerchantProfile/InsertLogo",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await api.post(SETTINGS_URL.MerchantInsertLogo, userData);
+      return response;
+    } catch (error) {
+      return rejectWithValue(
+        parseErrorResponse(error.response.data).message || t("messages.error")
+      );
+    }
+  }
+);
+
 const keyDefinitionSlice = createSlice({
   name: "keyDefinition",
   initialState: {
