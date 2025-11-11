@@ -42,8 +42,11 @@ const OtpVerification = ({ loginData }) => {
         verificationCode: otp,
       };
       const response = await authService.verifyOtp(verificationData);
-      if (response && (response.data || response.accessToken)) {
+      if (response) {
         const responseData = response.data || response;
+
+        // Token'ı önce verifyOtp response'undan, yoksa loginData'dan, yoksa localStorage'dan al
+        const token = responseData.accessToken || loginData.accessToken || localStorage.getItem('accessToken');
 
         const merchantId = await api.post(AUTH_URL.GetSubMerchantIdByUserName, {
           userName: verificationData.userName,
@@ -54,8 +57,8 @@ const OtpVerification = ({ loginData }) => {
         
         dispatch(
           setCredentials({
-            user: responseData.user || responseData,
-            token: responseData.accessToken,
+            user: responseData.user || responseData || loginData,
+            token: token,
             merchantId: merchantId,
             merchantGuid: merchantGuid,
           })

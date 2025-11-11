@@ -145,7 +145,7 @@ export default function UserDefinition() {
           field: 'status', 
           header: t('settings.status'), 
           body: (rowData) => (
-              rowData.status === 'Success Login' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="waiting" value="Başarısız"></Tag>
+              rowData.status === 'Success Login' ? <Tag severity="success" value={rowData.status}></Tag> : <Tag severity="waiting" value={rowData.status}></Tag>
           )
       },
   ];

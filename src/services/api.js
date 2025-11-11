@@ -13,12 +13,23 @@ export const api = axios.create({
   transformResponse: [data => data] // Ham veriyi dönüştürmeden al
 });
 
+// Auth için ayrı axios instance
+export const authApi = axios.create({
+  baseURL: import.meta.env.VITE_API_AUTH_URL,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  transformResponse: [data => data] // Ham veriyi dönüştürmeden al
+});
+
 // Request interceptor
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    // Eski projede token direkt gönderiliyor, Bearer eklenmiyor
+    const token = localStorage.getItem('token') || localStorage.getItem('accessToken') || localStorage.getItem('Act');
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = token;
     }
     return config;
   },
@@ -41,6 +52,46 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('Act');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('enteredPassword');
+      localStorage.removeItem('otpDatetime');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
+// Auth API için interceptor'lar
+authApi.interceptors.request.use(
+  (config) => {
+    // Eski projede token direkt gönderiliyor, Bearer eklenmiyor
+    const token = localStorage.getItem('token') || localStorage.getItem('accessToken') || localStorage.getItem('Act');
+    if (token) {
+      config.headers.Authorization = token;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+authApi.interceptors.response.use(
+  (response) => {
+    try {
+      return response.data ? JSONbigInt.parse(response.data) : response.data;
+    } catch (error) {
+      console.warn('JSON parse error:', error);
+      return response.data;
+    }
+  },
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('Act');
       localStorage.removeItem('userName');
       localStorage.removeItem('enteredPassword');
       localStorage.removeItem('otpDatetime');
@@ -72,7 +123,7 @@ export const parseErrorResponse = (errorString) => {
 export const authService = {
   login: async (credentials) => {
     try {
-      const response = await api.post(AUTH_URL.Login, {
+      const response = await authApi.post(AUTH_URL.Login, {
         userName: credentials.email,
         password: credentials.password,
       });
@@ -97,7 +148,7 @@ export const authService = {
   },
   
   verifyOtp: async (data) => {
-    const response = await api.post(AUTH_URL.VerifyTwoFactorSecret, {
+    const response = await authApi.post(AUTH_URL.VerifyTwoFactorSecret, {
       userName: data.userName,
       password: data.password,
       verificationCode: data.verificationCode,
@@ -109,14 +160,25 @@ export const authService = {
     return response;
   },
 
-  logout: () => {
-    localStorage.clear();
-    window.location.href = '/login';
+  logout: async () => {
+    try {
+      // Logout API çağrısı yap - PUT metodu ve userGuid query parameter
+      const userGuid = localStorage.getItem('guid') || localStorage.getItem('userGuid');
+      if (userGuid) {
+        // Query parameter olarak userGuid gönder
+        await authApi.put(`${AUTH_URL.Logout}?userGuid=${userGuid}`);
+      }
+      return { success: true };
+    } catch (error) {
+      // Logout API hatası olsa bile devam et (localStorage temizlenecek)
+      console.warn('Logout API Error:', error);
+      return { success: false, error: error.message };
+    }
   },
 
   sendVerificationCode: async () => {
     try {
-      const response = await api.post(AUTH_URL.SendVerificationCode, {
+      const response = await authApi.post(AUTH_URL.SendVerificationCode, {
         userName: localStorage.getItem('userName'),
         password: localStorage.getItem('enteredPassword'),
         otpDatetime: localStorage.getItem('otpDatetime'),

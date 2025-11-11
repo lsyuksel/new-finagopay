@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Nav, Navbar, Button, Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { logout } from '../../store/slices/login/authSlice';
+import { logoutUser } from '../../store/slices/login/authSlice';
 import { fetchMenuItems, toggleMenuItem } from '../../store/slices/menuSlice';
 import { startTransition, useCallback, useEffect } from 'react';
 import 'boxicons/css/boxicons.min.css';
@@ -31,8 +31,8 @@ const Sidebar = () => {
   }, [dispatch, isAuthenticated, initialized, loading]);
 
   const handleLogout = () => {
-    dispatch(logout());
-    navigate('/login');
+    dispatch(logoutUser());
+    // navigate authService.logout içinde yapılıyor
   };
 
   const toKebabCase = (str) => {

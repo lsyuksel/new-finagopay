@@ -5,7 +5,7 @@ import { Dropdown } from "react-bootstrap";
 import demoProfilePicture from '@assets/images/demoProfilePicture.png';
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../store/slices/login/authSlice";
+import { logoutUser } from "../../store/slices/login/authSlice";
 
 export default function AccountDropdown() {
   const { user } = useSelector((state) => state.auth);
@@ -25,7 +25,8 @@ export default function AccountDropdown() {
 
   const navigateFunction = (item) => {
     if(item == '/logout') {
-      dispatch(logout())
+      dispatch(logoutUser());
+      // navigate authService.logout içinde yapılıyor
     } else {
       navigate(item)
       console.log("item",item)

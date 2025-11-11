@@ -14,6 +14,7 @@ export const AUTH_URL = {
   Register: '/UserAcount/CreateUserAcount',
   VerifyTwoFactorSecret: '/Authentication/VerifyTwoFactorSecret',
   SendVerificationCode: '/Authentication/SendVerificationCode',
+  Logout: '/Authentication/Logout',
   GetSubMerchantIdByUserName: '/MerchantPermission/GetSubMerchantIdByUserName',
   GetMerchantPermissionByUserName: '/MerchantPermission/GetMerchantPermissionByUserName',
   ForgotPassword: '/User/UserChangePasswordSendEmail',
