@@ -58,7 +58,7 @@ const KeyDefinition = () => {
       dispatch(merchantUpdateKeys({
         merchantId: `${authData.merchantId}`,
         apiSecret: values.apiSecret,
-        userGuid: authData.user.userName
+        userEmail: authData.user.userName
       }))
       .unwrap()
       .then(() => {
