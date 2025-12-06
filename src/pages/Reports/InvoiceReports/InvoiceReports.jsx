@@ -36,6 +36,7 @@ import { Dropdown } from 'react-bootstrap';
 import { exportDataToCSV, exportDataToExcel } from '../../../utils/exportUtils';
 import { Tag } from 'primereact/tag';
 import TransactionReceipt, { downloadReceiptDirect } from '../../../components/Common/Table/TransactionReceipt';
+import { useBackendPagination } from '../../../utils/useBackendPagination';
 
 export default function InvoiceReports() {
   const { t, i18n } = useTranslation();
@@ -62,6 +63,100 @@ export default function InvoiceReports() {
   const { loading, error, success, transactionList, deleteSuccess, filteredList, transactionReceiptData } = useSelector((state) => state.transactionList);
   const authData = useSelector((state) => state.auth);
 
+  // Backend Pagination Hook
+  const {
+    pageSize,
+    pageNumber,
+    sortField,
+    sortOrder,
+    totalRecords,
+    first,
+    handlePageChange,
+    handleSortChange,
+    resetPagination,
+    setTotalRecords,
+    getPaginationParams
+  } = useBackendPagination({
+    initialPageSize: 10,
+    onPaginationChange: (params) => {
+      // Pagination değiştiğinde API çağrısı
+      const dateRange = getDateRange(selectedDateFilter);
+      dispatch(getTransactionSearchList({
+        merchantId: `${authData.merchantId}`,
+        userName: user.userName,
+        beginDate: selectedRange ? selectedRange[0] : dateRange?.startDate,
+        endDate: selectedRange ? selectedRange[1] : dateRange?.endDate,
+        transactionType: null,
+        ...params, // pagination parametreleri
+      }));
+    }
+  });
+
+  // API response'undan totalCount'u set et
+  useEffect(() => {
+    if (filteredList?.totalCount !== undefined) {
+      setTotalRecords(filteredList.totalCount);
+    }
+  }, [filteredList, setTotalRecords]);
+
+
+  const handleFilter = (filters) => {
+    resetPagination(); // 1'e sıfırla
+
+    const dateRange = getDateRange(selectedDateFilter);
+    dispatch(getTransactionSearchList({
+      merchantId: `${authData.merchantId}`,
+      userName: user.userName,
+      beginDate: selectedRange ? selectedRange[0] : dateRange?.startDate,
+      endDate: selectedRange ? selectedRange[1] : dateRange?.endDate,
+      transactionType: null,
+      ...getPaginationParams(), // Pagination parametreleri
+
+      orderId: filters.paymentId,
+      firstSixNumbersOfTheCard: filters.cardFirst6,
+      lastFourNumbersOfTheCard: filters.cardLast4,
+
+      installmentCount: null,
+
+      lowAmount: filters.amountOperator == 'gt' ? filters.amount : null, // En düşük tutar
+      highAmount: filters.amountOperator == 'lt' ? filters.amount : null, // En yüksek tutar
+
+      f043CardAcceptorName: filters.cardHolder
+    }));
+
+  };
+
+
+  useEffect(() => {
+    if (selectedDateFilter) {
+      resetPagination(); // 1'e sıfırla
+      const dateRange = getDateRange(selectedDateFilter);
+      dispatch(getTransactionSearchList({
+        merchantId: `${authData.merchantId}`,
+        userName: user.userName,
+        beginDate: dateRange?.startDate,
+        endDate: dateRange?.endDate,
+        transactionType: null,
+        ...getPaginationParams(),
+      }));
+    }
+  }, [selectedDateFilter]);
+  
+  useEffect(() => {
+    if (selectedRange) {
+      resetPagination(); // 1'e sıfırla
+      dispatch(getTransactionSearchList({
+        merchantId: `${authData.merchantId}`,
+        userName: user.userName,
+        beginDate: selectedRange[0],
+        endDate: selectedRange[1],
+        transactionType: null,
+        ...getPaginationParams(), // Pagination parametreleri
+      }));
+    }
+  }, [selectedRange]);
+
+
   useEffect(() => {
     setSelectedProducts(null);
     dispatch(setTransactionListError(null));
@@ -80,19 +175,19 @@ export default function InvoiceReports() {
   }, [])
   
   const columns = [
-    { field: 'orderId', header: t('transaction.orderId2'), sortable: true, className: "primary-text text-center", },
+    { field: 'orderId', header: t('transaction.orderId2'), sortable: false, className: "primary-text text-center", },
     { field: 'amount', header: t('transaction.amount'), sortable: true },
-    { field: 'currencyName', header: t('transaction.currencyName'), sortable: true },
-    { field: 'bankName', header: t('transaction.bankName2'), sortable: true },
-    { field: 'tableName', header: t('Table_Name'), sortable: true },
+    { field: 'currencyName', header: t('transaction.currencyName'), sortable: false },
+    { field: 'bankName', header: t('transaction.bankName2'), sortable: false },
+    { field: 'tableName', header: t('Table_Name'), sortable: false },
     
-    { field: 'transactionDate', header: t('transaction.refundTransactionColumn5'), className: "center-column", sortable: true, body: (rowData) => formatDate(rowData.transactionDate) },
+    { field: 'transactionDate', header: t('transaction.refundTransactionColumn5'), className: "center-column", sortable: false, body: (rowData) => formatDate(rowData.transactionDate) },
     
     {
         field: 'selection',
         header: t('common.actions'),
         alignFrozen: "right",
-        frozen: true,
+        frozen: false,
         body: (rowData) => (
             <div className="row-user-buttons">
                 <Button tooltip="Görüntüle" className='p-tooltip-button' tooltipOptions={{ position: 'bottom' }} onClick={()=>transactionReceipt(rowData)}><i className="pi pi-eye" style={{fontSize: '22px'}}></i></Button>
@@ -102,30 +197,6 @@ export default function InvoiceReports() {
         className: "fixed-user-buttons"
     },
   ];
-
-  const handleFilter = (filters) => {
-    console.log("handleFilter filters",filters)
-
-    const dateRange = getDateRange(selectedDateFilter);
-    dispatch(getTransactionSearchList({
-      merchantId: `${authData.merchantId}`,
-      beginDate: selectedRange ? selectedRange[0] : dateRange?.startDate,
-      endDate: selectedRange ? selectedRange[1] : dateRange?.endDate,
-      transactionType: null,
-
-      orderId: filters.paymentId,
-      firstSixNumbersOfTheCard: filters.cardFirst6,
-      lastFourNumbersOfTheCard: filters.cardLast4,
-
-      installmentCount: null,
-
-      lowAmount: filters.amountOperator == 'gt' ? filters.amount : null, // En düşük tutar
-      highAmount: filters.amountOperator == 'lt' ? filters.amount : null, // En yüksek tutar
-
-      f043CardAcceptorName: filters.cardHolder
-    }));
-
-  };
 
   const [visibleColumns, setVisibleColumns] = useState(columns);
 
@@ -190,32 +261,6 @@ export default function InvoiceReports() {
       </div>
     </div>
   );
-
-  useEffect(() => {
-    if (selectedDateFilter) {
-      const dateRange = getDateRange(selectedDateFilter);
-      dispatch(getTransactionSearchList({
-        merchantId: `${authData.merchantId}`,
-        userName: user.userName,
-        beginDate: dateRange?.startDate,
-        endDate: dateRange?.endDate,
-        transactionType: null,
-      }));
-    }
-  }, [selectedDateFilter]);
-  
-  useEffect(() => {
-    if (selectedRange) {
-      dispatch(getTransactionSearchList({
-        merchantId: `${authData.merchantId}`,
-        userName: user.userName,
-        beginDate: selectedRange[0],
-        endDate: selectedRange[1],
-        transactionType: null,
-      }));
-    }
-  }, [selectedRange]);
-
 
   const transactionReceipt =(item) => {
     dispatch(getTransactionReceipt({
@@ -289,10 +334,17 @@ export default function InvoiceReports() {
       <div className="datatable-area-container">
         { !loading ? (
           <DataTable 
-            header={header}
-            value={filteredList || transactionList} 
+            lazy={true}  // Backend pagination için
             paginator 
-            rows={10} 
+            rows={pageSize}
+            first={first}
+            totalRecords={totalRecords}
+            onPage={handlePageChange}
+            onSort={handleSortChange}
+            sortField={sortField}
+            sortOrder={sortOrder}
+            header={header}
+            value={filteredList?.transaction || transactionList?.transaction || []}
             rowsPerPageOptions={[5, 10, 25, 50]} 
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
             emptyMessage={t('common.recordEmptyMessage')}

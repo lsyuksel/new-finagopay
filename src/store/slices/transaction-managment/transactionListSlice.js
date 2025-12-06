@@ -84,7 +84,7 @@ const transactionListSlice = createSlice({
     error: null,
     success: false,
     transactionList: [],
-    filteredList: null,
+    filteredList: [],
     transactionReceiptData: null,
     deleteSuccess: false,
   },

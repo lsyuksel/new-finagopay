@@ -10,7 +10,7 @@ const MerchantCommissionList = () => {
         {t('menu.merchantcommissionlist')}
       </h4>
       <p>
-        Üye İşyeri Komisyon Listesi sayfası içeriği burada yer alacak.
+        1.Üye İşyeri Komisyon Listesi sayfası içeriği burada yer alacak.
       </p>
     </Container>
   );

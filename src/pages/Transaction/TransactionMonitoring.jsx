@@ -53,6 +53,7 @@ import { MultiSelect } from 'primereact/multiselect';
 import { Dropdown } from 'react-bootstrap';
 import { exportDataToCSV, exportDataToExcel } from '../../utils/exportUtils';
 import { Tag } from 'primereact/tag';
+import { useBackendPagination } from '../../utils/useBackendPagination';
 
 export default function TransactionMonitoring({ pageType }) {
   const { t, i18n } = useTranslation();
@@ -75,6 +76,99 @@ export default function TransactionMonitoring({ pageType }) {
   
   const { loading, error, success, transactionList, deleteSuccess, filteredList } = useSelector((state) => state.transactionList);
   const authData = useSelector((state) => state.auth);
+
+
+
+  // Backend Pagination Hook
+  const {
+    pageSize,
+    pageNumber,
+    sortField,
+    sortOrder,
+    totalRecords,
+    first,
+    handlePageChange,
+    handleSortChange,
+    resetPagination,
+    setTotalRecords,
+    getPaginationParams
+  } = useBackendPagination({
+    initialPageSize: 10,
+    onPaginationChange: (params) => {
+      // Pagination değiştiğinde API çağrısı
+      const dateRange = getDateRange(selectedDateFilter);
+      dispatch(getTransactionSearchList({
+        merchantId: `${authData.merchantId}`,
+        userName: user.userName,
+        beginDate: selectedRange ? selectedRange[0] : dateRange?.startDate,
+        endDate: selectedRange ? selectedRange[1] : dateRange?.endDate,
+        transactionType: transactionType,
+        ...params, // pagination parametreleri
+      }));
+    }
+  });
+
+  // API response'undan totalCount'u set et
+  useEffect(() => {
+    if (filteredList?.totalCount !== undefined) {
+      setTotalRecords(filteredList.totalCount);
+    }
+  }, [filteredList, setTotalRecords]);
+
+  const handleFilter = (filters) => {
+    resetPagination(); // 1'e sıfırla
+    
+    const dateRange = getDateRange(selectedDateFilter);
+    dispatch(getTransactionSearchList({
+      merchantId: `${authData.merchantId}`,
+      userName: user.userName,
+      beginDate: selectedRange ? selectedRange[0] : dateRange?.startDate,
+      endDate: selectedRange ? selectedRange[1] : dateRange?.endDate,
+      transactionType: transactionType,
+      ...getPaginationParams(), // Pagination parametreleri
+      
+      orderId: filters.paymentId,
+      firstSixNumbersOfTheCard: filters.cardFirst6,
+      lastFourNumbersOfTheCard: filters.cardLast4,
+      installmentCount: null,
+      lowAmount: filters.amountOperator == 'gt' ? filters.amount : null,
+      highAmount: filters.amountOperator == 'lt' ? filters.amount : null,
+      f043CardAcceptorName: filters.cardHolder
+    }));
+  };
+
+  useEffect(() => {
+    if (selectedDateFilter) {
+      resetPagination(); // 1'e sıfırla
+      const dateRange = getDateRange(selectedDateFilter);
+      dispatch(getTransactionSearchList({
+        merchantId: `${authData.merchantId}`,
+        userName: user.userName,
+        beginDate: dateRange?.startDate,
+        endDate: dateRange?.endDate,
+        transactionType: transactionType,
+        ...getPaginationParams(),
+      }));
+    }
+  }, [selectedDateFilter]);
+  
+  useEffect(() => {
+    if (selectedRange) {
+      resetPagination(); // 1'e sıfırla
+      dispatch(getTransactionSearchList({
+        merchantId: `${authData.merchantId}`,
+        userName: user.userName,
+        beginDate: selectedRange[0],
+        endDate: selectedRange[1],
+        transactionType: transactionType,
+        ...getPaginationParams(), // Pagination parametreleri
+      }));
+    }
+  }, [selectedRange]);
+
+
+
+
 
   useEffect(() => {
     setSelectedProducts(null);
@@ -100,11 +194,11 @@ export default function TransactionMonitoring({ pageType }) {
   }, [transactionList])
 
   const columns = [
-    { field: 'orderId', header: t('transaction.orderId2'), sortable: true, className: "primary-text", },
-    { field: 'paymentMethod', header: t('transaction.paymentMethod'), sortable: true },
+    { field: 'orderId', header: t('transaction.orderId2'), sortable: false, className: "primary-text", },
+    { field: 'paymentMethod', header: t('transaction.paymentMethod'), sortable: false },
     { field: 'amount', header: t('transaction.amount'), sortable: true },
-    { field: 'conversationId', header: t('transaction.conversationId'), sortable: true },
-    { field: 'transactionType', header: t('transaction.transactionType2'), sortable: true,
+    { field: 'conversationId', header: t('transaction.conversationId'), sortable: false },
+    { field: 'transactionType', header: t('transaction.transactionType2'), sortable: false,
       body: (rowData) => (
         <div className="logos-text">
           <i><img src={smallLogo} /></i>
@@ -113,17 +207,17 @@ export default function TransactionMonitoring({ pageType }) {
       )
     },
     
-    { field: 'paymentChannel', header: t('transaction.paymentChannel'), sortable: true },
-    { field: 'paymentMethod', header: t('transaction.paymentMethod2'), sortable: true },
-    { field: 'currencyName', header: t('transaction.currencyName'), sortable: true },
-    { field: 'bankName', header: t('transaction.bankName2'), sortable: true },
-    { field: 'cardBank', header: t('transaction.cardBank'), sortable: true },
-    { field: 'cardOrganization', header: t('transaction.cardOrganization'), sortable: true },
-    { field: 'cardFirstSix', header: t('transaction.cardFirstSix'), sortable: true },
-    { field: 'cardLastFour', header: t('transaction.cardLastFour'), sortable: true },
-    { field: 'securityLevelIndicator', header: t('transaction.securityLevelIndicator2'), sortable: true },
-    { field: 'installmentCount', header: t('transaction.installmentCount2'), sortable: true },
-    { field: 'f043CardAcceptorName', header: t('transaction.f043CardAcceptorName'), sortable: true },
+    { field: 'paymentChannel', header: t('transaction.paymentChannel'), sortable: false },
+    { field: 'paymentMethod', header: t('transaction.paymentMethod2'), sortable: false },
+    { field: 'currencyName', header: t('transaction.currencyName'), sortable: false },
+    { field: 'bankName', header: t('transaction.bankName2'), sortable: false },
+    { field: 'cardBank', header: t('transaction.cardBank'), sortable: false },
+    { field: 'cardOrganization', header: t('transaction.cardOrganization'), sortable: false },
+    { field: 'cardFirstSix', header: t('transaction.cardFirstSix'), sortable: false },
+    { field: 'cardLastFour', header: t('transaction.cardLastFour'), sortable: false },
+    { field: 'securityLevelIndicator', header: t('transaction.securityLevelIndicator2'), sortable: false },
+    { field: 'installmentCount', header: t('transaction.installmentCount2'), sortable: false },
+    { field: 'f043CardAcceptorName', header: t('transaction.f043CardAcceptorName'), sortable: false },
 
     { 
       field: 'transactionStatusCode', 
@@ -132,12 +226,12 @@ export default function TransactionMonitoring({ pageType }) {
           rowData.transactionStatusCode === '00' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="waiting" value="Başarısız"></Tag>
       )
   },
-    { field: 'resultDesc', header: t('transaction.resultDesc'), sortable: true },
-    { field: 'responseCode', header: t('transaction.responseCode2'), sortable: true },
-    { field: 'transactionType', header: t('transaction.transactionTypeCode'), sortable: true },
-    { field: 'mdStatus', header: t('transaction.mdStatus'), sortable: true },
-    { field: 'authorizationResponseCode', header: t('transaction.authorizationResponseCode'), sortable: true },
-    { field: 'hostRefNo', header: t('transaction.hostRefNo'), sortable: true },
+    { field: 'resultDesc', header: t('transaction.resultDesc'), sortable: false },
+    { field: 'responseCode', header: t('transaction.responseCode2'), sortable: false },
+    { field: 'transactionType', header: t('transaction.transactionTypeCode'), sortable: false },
+    { field: 'mdStatus', header: t('transaction.mdStatus'), sortable: false },
+    { field: 'authorizationResponseCode', header: t('transaction.authorizationResponseCode'), sortable: false },
+    { field: 'hostRefNo', header: t('transaction.hostRefNo'), sortable: false },
 
     {
         field: 'selection',
@@ -229,29 +323,6 @@ export default function TransactionMonitoring({ pageType }) {
     }
   }, [pageType])
 
-  const handleFilter = (filters) => {
-    console.log("handleFilter filters",filters)
-
-    const dateRange = getDateRange(selectedDateFilter);
-    dispatch(getTransactionSearchList({
-      merchantId: `${authData.merchantId}`,
-      beginDate: selectedRange ? selectedRange[0] : dateRange?.startDate,
-      endDate: selectedRange ? selectedRange[1] : dateRange?.endDate,
-      transactionType: transactionType,
-
-      orderId: filters.paymentId,
-      firstSixNumbersOfTheCard: filters.cardFirst6,
-      lastFourNumbersOfTheCard: filters.cardLast4,
-
-      installmentCount: null,
-
-      lowAmount: filters.amountOperator == 'gt' ? filters.amount : null, // En düşük tutar
-      highAmount: filters.amountOperator == 'lt' ? filters.amount : null, // En yüksek tutar
-
-      f043CardAcceptorName: filters.cardHolder
-    }));
-
-  };
 
   const [visibleColumns, setVisibleColumns] = useState(columns);
 
@@ -318,31 +389,6 @@ export default function TransactionMonitoring({ pageType }) {
     </div>
   );
 
-  useEffect(() => {
-    if (selectedDateFilter) {
-      const dateRange = getDateRange(selectedDateFilter);
-      dispatch(getTransactionSearchList({
-        merchantId: `${authData.merchantId}`,
-        userName: user.userName,
-        beginDate: dateRange?.startDate,
-        endDate: dateRange?.endDate,
-        transactionType: transactionType,
-      }));
-    }
-  }, [selectedDateFilter]);
-  
-  useEffect(() => {
-    if (selectedRange) {
-      dispatch(getTransactionSearchList({
-        merchantId: `${authData.merchantId}`,
-        userName: user.userName,
-        beginDate: selectedRange[0],
-        endDate: selectedRange[1],
-        transactionType: transactionType,
-      }));
-    }
-  }, [selectedRange]);
-
   return (
     <>
       <ConfirmDialog group="ConfirmDialogTemplating" />
@@ -381,11 +427,20 @@ export default function TransactionMonitoring({ pageType }) {
       />
       <div className="datatable-area-container">
         { !loading ? (
+
+
           <DataTable 
-            header={header}
-            value={filteredList || transactionList} 
+            lazy={true}  // Backend pagination için
             paginator 
-            rows={10} 
+            rows={pageSize}
+            first={first}
+            totalRecords={totalRecords}
+            onPage={handlePageChange}
+            onSort={handleSortChange}
+            sortField={sortField}
+            sortOrder={sortOrder}
+            header={header}
+            value={filteredList?.transaction || transactionList?.transaction || []}
             rowsPerPageOptions={[5, 10, 25, 50]} 
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
             emptyMessage={t('common.recordEmptyMessage')}
@@ -396,6 +451,8 @@ export default function TransactionMonitoring({ pageType }) {
             dataKey="guid"
             scrollable
           >
+
+
           {/*
           <Column selectionMode="multiple" className='center-column' headerStyle={{ width: '3rem' }}></Column>
           */}
