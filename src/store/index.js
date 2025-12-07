@@ -24,6 +24,7 @@ import selectOptionsReducer from './slices/selectOptionSlice';
 
 import userDefinitionReducer from './slices/settings/userDefinitionSlice';
 import keyDefinitionReducer from './slices/settings/keyDefinitionSlice';
+import merchantCommissionReducer from './slices/settings/merchantCommissionSlice';
 
 const persistConfig = {
   key: 'root',
@@ -50,6 +51,7 @@ const rootReducer = combineReducers({
 
   userDefinition: userDefinitionReducer,
   keyDefinition: keyDefinitionReducer,
+  merchantCommission: merchantCommissionReducer,
 
   menu: menuReducer,
 });

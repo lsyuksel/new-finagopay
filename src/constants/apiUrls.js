@@ -58,6 +58,10 @@ export const SETTINGS_URL = {
   MerchantGetProfile: '/MerchantProfile/GetProfile',
   MerchantInsertLogo: '/MerchantProfile/InsertLogo',
 
+  GetMerchantCommissionList: '/PayFacCommission/GetPayFacAndMerchantCommissionDefByUserName',
+  GetPayFacCommissionBankListByUserName: '/DomesticBankDef/GetPayFacCommissionBankListByUserName',
+  UpdateMerchantCommissionDefListCommission: '/MerchantCommission/UpdateMerchantCommissionDefListCommission',
+
 };
 
 export const SELECT_OPTIONS_URL = {

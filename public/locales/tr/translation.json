@@ -457,7 +457,16 @@
     "activityHistoryTitle": "Aktivite Geçmişi",
     "userGuid": "User Guid",
     "ipAddress": "IP/Port",
-    "status": "Durum"
+    "status": "Durum",
+    
+    "installmentId": "Taksit Sayısı",
+    "installmentCount": "Taksit Sayısı",
+    "morParaCommissionRate": "MorPara Komisyon Oranı",
+    "reflectToMerchantCommission": "Müşteriye Yansıt",
+    "transferToAccount": "Aktarılacak Tutar",
+    "amount": "Tutar",
+    "singlePayment": "Tek Çekim",
+    "reflectToMerchantLabel": "Müşteriye Yansıt"
   },
   "errors": {
     "incorrectPassword": "Girmiş olduğunuz şifre hatalı. Lütfen tekrar deneyiniz.",

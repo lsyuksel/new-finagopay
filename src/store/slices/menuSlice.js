@@ -31,6 +31,11 @@ export const fetchMenuItems = createAsyncThunk(
   }
 );
 
+const logout = () => {
+  localStorage.clear();
+  window.location.href = '/login';
+}
+
 const initialState = {
   toggleSidebarStatus: false,
   items: [],
@@ -87,6 +92,8 @@ const menuSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         state.initialized = true;
+
+        logout();
       });
   },
 });
