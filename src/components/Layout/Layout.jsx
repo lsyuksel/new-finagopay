@@ -15,7 +15,9 @@ const Layout = () => {
   }, [authData])
 
   const getMainContentClass = () => {
-    if (pathname === '/link-payment-list' || pathname.startsWith('/detail-payment/')) {
+    if (pathname === '/link-payment-list' ||
+      pathname.startsWith('/create-link-payment') ||
+      pathname.startsWith('/detail-payment/')) {
       return 'main-content gray-bg';
     }
     return 'main-content';
