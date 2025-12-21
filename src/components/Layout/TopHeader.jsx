@@ -93,7 +93,7 @@ export default function TopHeader() {
                             <div className="wrapper">
                               {searchResults.map((menu, index) => (
                                 <div key={index} className="search-result-item">
-                                  <Link to={menu.pageUrl}>{menu.pageName}</Link>
+                                  <Link to={menu.pageUrl}>{t(`menu.${menu.pageName}`)}</Link>
                                 </div>
                               ))}
                             </div>

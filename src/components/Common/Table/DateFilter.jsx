@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { Dropdown } from 'primereact/dropdown';
+import { getCurrencyDef } from '../../../store/slices/selectOptionSlice';
 
-const DateFilter = ({ selectedFilter, onFilterChange }) => {
+const DateFilter = ({ 
+  selectedFilter, 
+  onFilterChange, 
+  showCurrencyFilter = false,
+  onCurrencyChange = null
+}) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const { currencyDef } = useSelector((state) => state.selectOptions);
+  const [currencyValue, setCurrencyValue] = useState('949');
+
+  useEffect(() => {
+    if (showCurrencyFilter && currencyDef.length === 0) {
+      dispatch(getCurrencyDef());
+    }
+  }, [showCurrencyFilter, currencyDef.length, dispatch]);
+
+  const handleCurrencyChange = (value) => {
+    setCurrencyValue(value);
+    if (onCurrencyChange) {
+      onCurrencyChange(value);
+    }
+  };
 
   const filterOptions = [
     { id: 'all', label: t('common.allTime') },
@@ -25,6 +49,20 @@ const DateFilter = ({ selectedFilter, onFilterChange }) => {
           {option.label}
         </div>
       ))}
+      {showCurrencyFilter && currencyDef?.length > 0 && (
+        <Dropdown
+          id="currencyGuid"
+          name="currencyGuid"
+          value={currencyValue}
+          onChange={(e) => handleCurrencyChange(e.value)}
+          options={currencyDef}
+          optionLabel="alphabeticCode"
+          optionValue="numericCode"
+          className="p-form-control"
+          placeholder=""
+          filter
+        />
+      )}
     </div>
   );
 };

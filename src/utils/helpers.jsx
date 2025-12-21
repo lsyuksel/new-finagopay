@@ -89,6 +89,11 @@ export const getCurrencyName = (guid) => {
     const found = currencyDef?.find((item) => item.guid == Number(guid));
     return found ? found.alphabeticCode : null;
 };
+export const getCurrencyNumericName = (numericCode) => {
+    const { currencyDef } = useSelector((state) => state.selectOptions);
+    const found = currencyDef?.find((item) => item.numericCode == numericCode);
+    return found ? found.alphabeticCode : null;
+};
 
 export const getAuthorizationResponseCode = (guid) => {
     const { allAuthorizationResponseCode } = useSelector((state) => state.selectOptions);
@@ -154,4 +159,29 @@ export const getTransactionCurrency = (numericCode) => {
     const { currencyDef } = useSelector((state) => state.selectOptions);
     const found = currencyDef?.find((item) => item.numericCode == Number(numericCode));
     return found ? found.currencyName : null;
+};
+
+export const priceFormat = (price) => {
+    if (price === null || price === undefined || price === '') return '';
+    
+    // Sayıyı parse et
+    const numPrice = typeof price === 'string' ? parseFloat(price.replace(',', '.')) : Number(price);
+    
+    // Geçerli bir sayı değilse boş string döndür
+    if (isNaN(numPrice)) return '';
+    
+    // Sayıyı string'e çevir ve ondalık kısmını ayır
+    const parts = numPrice.toString().split('.');
+    const integerPart = parts[0];
+    const decimalPart = parts[1] || '';
+    
+    // Binlik ayırıcı olarak nokta ekle
+    const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    
+    // Ondalık kısım varsa virgül ile birleştir
+    if (decimalPart) {
+        return `${formattedInteger},${decimalPart}`;
+    }
+    
+    return formattedInteger;
 };

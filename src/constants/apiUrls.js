@@ -43,6 +43,9 @@ export const REPORTS_URL = {
   GetMerchantPaymentFileSearchByUserName: '/MerchantPaymentFile/GetMerchantPaymentFileSearchByUserName',
 };
 
+export const  DASHBOARD_URL = {
+  GetDashboard: '/MerchantDashboard/GetDashboard',
+};
 
 export const SETTINGS_URL = {
   GetProfile: '/MerchantUserProfile/GetProfile',

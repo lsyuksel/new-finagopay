@@ -12,6 +12,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@reduxjs/toolkit": "^2.5.1",
+    "apexcharts": "^5.3.6",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "boxicons": "^2.1.4",
@@ -26,6 +27,7 @@
     "primeicons": "^7.0.0",
     "primereact": "^10.9.4",
     "react": "^18.3.1",
+    "react-apexcharts": "^1.9.0",
     "react-auth-code-input": "^3.2.1",
     "react-bootstrap": "^2.10.9",
     "react-country-flag": "^3.1.0",

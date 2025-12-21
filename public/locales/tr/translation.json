@@ -126,7 +126,8 @@
     "pdf": "PDF Olarak İndir",
     "excel": "Excel Olarak İndir",
     "word": "Word Olarak İndir",
-    "csv": "CSV Olarak İndir"
+    "csv": "CSV Olarak İndir",
+    "all": "Tümü"
 
   },
   "faq": {
@@ -200,6 +201,14 @@
     "paymentDetailTitle": "MorLink Oluştur",
     "paymentDetailText": "İlgi çekici bir resim ve etkileyici açıklamalar ekleyerek ürün satışlarınızı arttırabilirsiniz.",
     "linkCreateButton": "MorLink Oluştur",
+    "photo": "Fotoğraf",
+    "productNameDescription": "Ürün Adı/Açıklaması",
+    "productPriceHeader": "Ürünün Fiyatı",
+    "productTypeHeader": "Ürün Tipi",
+    "statusHeader": "Durum",
+    "actionHeader": "Aksiyon",
+    "deleteMoorlink": "Moorlink'i Sil",
+    "linkUrlHeader": "Link Adresi",
 
     "paymentLinkCreateTitle": "Henüz Bir <b>MorLink</b>'e Sahip Değilsiniz.",
     "paymentLinkItem1": "Bir web sitesine ihtiyacınız yok",
@@ -354,8 +363,6 @@
     "mdStatus": "MD Status",
     "authorizationResponseCode": "Auth Code",
     "hostRefNo": "Host Referans Numarası"
-
-    
   },
   "transactionDetail": {
     "sectionTitle1": "Ödeme Ayarları",
@@ -443,9 +450,10 @@
     "keydefinitionTitle2": "Bilgilerim",
     "keydefinitionTitle3": "Para Gönderim Tercihleri",
     "keydefinitionTitle4": "Üye İşyeri Logo",
-    "keydefinitionApi1": "API Anahtarı",
-    "keydefinitionApi2": "Güvenlik Anahtarı",
 
+    "keydefinitionClientSecret": "Client Secret",
+    "keydefinitionClientId": "Client ID",
+    "keydefinitionApiSecret": "Encryption Key",
 
     "keydefinitionTableTitle1": "Üye İşyeri Numarası",
     "keydefinitionTableTitle2": "Şirket Türü",
@@ -467,6 +475,24 @@
     "amount": "Tutar",
     "singlePayment": "Tek Çekim",
     "reflectToMerchantLabel": "Müşteriye Yansıt"
+  },
+  "dashboards": {
+    "transactionBoxTitle_0": "Tüm İşlemler",
+    "transactionBoxTitle_0600": "İptal & İadeler",
+    "transactionBoxTitle_1500-1600": "Şüpheli İşlemler",
+    "graphicTitle1": "Tüm İşlemler",
+    "graphicTitle2": "Şüpheli İşlemler",
+    "graphicTitle3": "İade İşlemleri",
+    "graphicTitle4": "İtirazlar",
+    "infoTitle": "Tüm İşlemlere Kolayca Ulaşın",
+    "infoText": "Tüm işlemler sayfasını ziyaret ederek <b>toplam ödemeleri</b> ve <b>gelecek ödemeleri</b> görüntüleyebilirsiniz.",
+    "activityHistoryTitle": "En Son Gerçekleşen İşlemleriniz",
+
+
+    "linkPaymentTitle1": "MorLink",
+    "linkPaymentTitle2": "Link ile ödeme almanın kolay yolu!",
+    "linkPaymentTitle3": "Oluşturduğunuz linkleri tüm dijital platformlarda paylaşın ve<br />güvenle ödeme almaya başlayın.",
+    "linkPaymentTitle4": "Son Eklenen MorLinkleriniz"
   },
   "errors": {
     "incorrectPassword": "Girmiş olduğunuz şifre hatalı. Lütfen tekrar deneyiniz.",

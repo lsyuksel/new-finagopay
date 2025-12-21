@@ -26,6 +26,9 @@ import userDefinitionReducer from './slices/settings/userDefinitionSlice';
 import keyDefinitionReducer from './slices/settings/keyDefinitionSlice';
 import merchantCommissionReducer from './slices/settings/merchantCommissionSlice';
 
+import dashboardReducer from './slices/dashboard/dashboardSlice';
+
+
 const persistConfig = {
   key: 'root',
   storage,
@@ -48,6 +51,8 @@ const rootReducer = combineReducers({
   transactionDetail: transactionDetailReducer,
   
   merchantReconciliationList: merchantReconciliationListReducer,
+  
+  homeDashboard: dashboardReducer,
 
   userDefinition: userDefinitionReducer,
   keyDefinition: keyDefinitionReducer,

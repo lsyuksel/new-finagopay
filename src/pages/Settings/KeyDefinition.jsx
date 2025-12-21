@@ -27,11 +27,12 @@ const KeyDefinition = () => {
 
   useEffect(() => {
     if(merchantProfile) {
-      console.log("merchantProfile", merchantProfile);
+      console.log("merchantProfile-merchantKeys", [merchantProfile,merchantKeys]);
     }
     formik.setValues({
-      apiSecret: merchantKeys?.apiSecret || "",
+      clientId: merchantKeys?.clientId || "",
       clientSecret: merchantKeys?.clientSecret || "",
+      apiSecret: merchantKeys?.apiSecret || "",
 
       productImageBase64: merchantProfile?.logo || null,
     });
@@ -41,14 +42,17 @@ const KeyDefinition = () => {
     apiSecret: Yup.string()
       .min(15, t("errors.minLength", { length: 15 }))
       .required(t("errors.required")),
+    clientId: Yup.string()
+      .required(t("errors.required")),
     clientSecret: Yup.string()
       .required(t("errors.required")),
   });
 
   const formik = useFormik({
     initialValues: {
-      apiSecret: "",
+      clientId: "",
       clientSecret: "",
+      apiSecret: "",
 
       productImageBase64: null,
     },
@@ -57,7 +61,9 @@ const KeyDefinition = () => {
       // console.log("useFormik values",values)
       dispatch(merchantUpdateKeys({
         merchantId: `${authData.merchantId}`,
+
         apiSecret: values.apiSecret,
+
         userEmail: authData.user.userName
       }))
       .unwrap()
@@ -104,6 +110,7 @@ const KeyDefinition = () => {
     reader.readAsDataURL(file);
 
   };
+
   return (
     <div className="settings-container">
       <div className="back-button" onClick={()=>navigate('/')}>
@@ -130,7 +137,7 @@ const KeyDefinition = () => {
                 <div className='profile-box-content'>
                   <div className="api-input-wrapper">
                     <Form.Group className="form-item">
-                      <div className="label">{ t('settings.keydefinitionApi1') }</div>
+                      <div className="label">{ t('settings.keydefinitionApiSecret') }</div>
                       <Password
                         className="p-form-control"
                         id="apiSecret"
@@ -150,7 +157,28 @@ const KeyDefinition = () => {
                       </div>
                     </Form.Group>
                     <Form.Group className="form-item">
-                      <div className="label">{ t('settings.keydefinitionApi2') }</div>
+                      <div className="label">{ t('settings.keydefinitionClientId') }</div>
+                      <Password
+                        className="p-form-control"
+                        id="clientId"
+                        name="clientId"
+                        value={formik.values.clientId}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        invalid={formik.touched.clientId && formik.errors.clientId}
+                        feedback={false}
+                        tabIndex={1}
+                        disabled
+                        toggleMask
+                      />
+                      <div className="copy-button" onClick={() => handleCopyToClipboard(formik.values.clientId, 'clientId')}>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                          <path d="M2.96786 15.58H4.58412V17.0406C4.58412 19.0072 5.56711 20 7.55198 20H17.0416C19.0076 20 20 19.0072 20 17.0406V7.37948C20 5.41289 19.0076 4.42005 17.0416 4.42005H15.4159V2.95943C15.4159 0.99284 14.4234 0 12.4575 0H2.96786C0.982987 0 0 0.99284 0 2.95943V12.6205C0 14.5871 0.982987 15.58 2.96786 15.58ZM2.98677 14.043C2.04159 14.043 1.52174 13.5274 1.52174 12.5346V3.04535C1.52174 2.05251 2.04159 1.53699 2.98677 1.53699H12.4291C13.3648 1.53699 13.8941 2.05251 13.8941 3.04535V4.42005H7.55198C5.56711 4.42005 4.58412 5.40334 4.58412 7.37948V14.043H2.98677ZM7.57089 18.463C6.63516 18.463 6.10586 17.9475 6.10586 16.9547V7.46539C6.10586 6.47255 6.63516 5.95704 7.57089 5.95704H17.0132C17.949 5.95704 18.4783 6.47255 18.4783 7.46539V16.9547C18.4783 17.9475 17.949 18.463 17.0132 18.463H7.57089Z" fill="#1D7AFC"/>
+                        </svg>
+                      </div>
+                    </Form.Group>
+                    <Form.Group className="form-item">
+                      <div className="label">{ t('settings.keydefinitionClientSecret') }</div>
                       <Password
                         className="p-form-control"
                         id="clientSecret"

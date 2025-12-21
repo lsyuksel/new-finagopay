@@ -19,6 +19,7 @@ import warningDialogIcon from '@assets/images/icons/warningDialogIcon.svg'
 
 import { showDialog } from "@/utils/helpers.jsx";
 import { toast } from "react-toastify";
+import { priceFormat } from "../../../utils/helpers";
 
 export default function LinkPaymentList() {
   const [selectedProducts, setSelectedProducts] = useState(null);
@@ -144,29 +145,29 @@ export default function LinkPaymentList() {
   
           <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
 
-          <Column field="productImageBase64" headerStyle={{ width: '3rem' }} header="Fotoğraf" body={(rowData) => (
+          <Column field="productImageBase64" headerStyle={{ width: '3rem' }} header={t('linkPayment.photo')} body={(rowData) => (
             <>
               <div className="product-picture">
                 <img src={`data:image/png;base64,${rowData.productImageBase64}`} alt={rowData.productName} />
               </div>
             </>
           )} />
-          <Column sortable className="product-content-column" field="productName" header="Ürün Adı/Açıklaması" body={(rowData) => (
+          <Column sortable className="product-content-column" field="productName" header={t('linkPayment.productNameDescription')} body={(rowData) => (
             <>
               <div className="product-name">{rowData.productName}</div>
               <div className="product-description">{rowData.productDescription}</div>
-              <div className="product-price d-none">{`${rowData.productPrice} ${rowData.currency?.alphabeticCode}`}</div>
+              <div className="product-price d-none">{`${priceFormat(rowData.productPrice)} ${rowData.currency?.alphabeticCode}`}</div>
             </>
           )} />
-          <Column sortable field="productPrice" headerClassName="center-column" className="productPrice center-column" header="Ürünün Fiyatı" body={(rowData) => (
-            <div className="product-price">{`${rowData.productPrice} ${rowData.currency?.alphabeticCode}`}</div>
+          <Column sortable field="productPrice" headerClassName="center-column" className="productPrice center-column" header={t('linkPayment.productPriceHeader')} body={(rowData) => (
+            <div className="product-price">{`${priceFormat(rowData.productPrice)} ${rowData.currency?.alphabeticCode}`}</div>
           )} />
-          <Column sortable field="productType.name" headerClassName="center-column" className="productType center-column" header="Ürün Tipi" body={(rowData)=> (
+          <Column sortable field="productType.name" headerClassName="center-column" className="productType center-column" header={t('linkPayment.productTypeHeader')} body={(rowData)=> (
             <div className="product-type">
               <span className={rowData.productType?.guid === 2 ? 'text-success' : ''}>{t(`common.${rowData.productType?.name}`)}</span>
             </div>
           )}/>
-          <Column sortable field="linkPaymentStatus.merchantEnabled" header="Durum" headerClassName="center-column" className="status-column center-column" body={(rowData)=> (
+          <Column sortable field="linkPaymentStatus.merchantEnabled" header={t('linkPayment.statusHeader')} headerClassName="center-column" className="status-column center-column" body={(rowData)=> (
             <>
               <div className="d-none morlink-button">
                 <span>{t('common.MorLinkAddress')}</span>
@@ -216,11 +217,11 @@ export default function LinkPaymentList() {
                 */}
                   <Link to={`/detail-payment/${rowData.guid}`}>
                     <i className="pi pi-pencil"></i>
-                    <span>Düzenle</span>
+                    <span>{t('common.edit')}</span>
                   </Link>
                   <div onClick={()=>confirmDeleteDialog(rowData.guid)}>
                     <i className="pi pi-trash" style={{color:'#EB3D4D'}}></i>
-                    <span style={{color:'#EB3D4D'}}>Moorlink’i Sil</span>
+                    <span style={{color:'#EB3D4D'}}>{t('linkPayment.deleteMoorlink')}</span>
                   </div>
                 </div>
               </>
@@ -233,7 +234,7 @@ export default function LinkPaymentList() {
             headerStyle={{ width: '3rem' }}
             header={
               <>
-                  <span>Aksiyon</span>
+                  <span>{t('linkPayment.actionHeader')}</span>
                   <div className="design-buttons">
                     <div onClick={()=> handleTableType(1)} className={tableType === 1 ? 'active' : ''}>
                       <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
