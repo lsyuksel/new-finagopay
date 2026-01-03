@@ -1,6 +1,6 @@
 // src/store/slices/registerSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { api, parseErrorResponse } from "@/services/api";
+import { authApi, parseErrorResponse } from "@/services/api";
 import { t } from "i18next";
 import { AUTH_URL } from "@/constants/apiUrls";
 
@@ -8,7 +8,7 @@ export const getUserAgreementByCreateAcount = createAsyncThunk(
   "getUserAgreementByCreateAcount",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get(AUTH_URL.GetUserAgreementByCreateAcount);
+      const response = await authApi.get(AUTH_URL.GetUserAgreementByCreateAcount);
       console.log("response",response)
       return response;
     } catch (error) {
@@ -23,7 +23,7 @@ export const registerUser = createAsyncThunk(
   "register/registerUser",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await api.post(AUTH_URL.Register, {
+      const response = await authApi.post(AUTH_URL.Register, {
         FirstName: userData.firstName,
         LastName: userData.lastName,
         Phone: userData.phoneCode + userData.phone,

@@ -35,9 +35,7 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-
       {/* Protected Routes */}
-
 
       {/* dashboard */}
       <Route element={<Layout />}>
@@ -50,7 +48,6 @@ const AppRoutes = () => {
           }
         />
 
-
         {/* merchantapplication */}
         <Route
           path="/merchant-application"
@@ -61,14 +58,15 @@ const AppRoutes = () => {
           }
         />
 
-
-
         {/* transaction */}
         <Route
           path="/transaction-monitoring"
           element={
             <ProtectedRoute>
-              <TransactionMonitoring key="transaction-monitoring" pageType={null}  />
+              <TransactionMonitoring
+                key="transaction-monitoring"
+                pageType={null}
+              />
             </ProtectedRoute>
           }
         />
@@ -85,7 +83,10 @@ const AppRoutes = () => {
           path="/refund-transaction-monitoring"
           element={
             <ProtectedRoute>
-              <TransactionMonitoring key="refund-transaction-monitoring" pageType={5}  />
+              <TransactionMonitoring
+                key="refund-transaction-monitoring"
+                pageType={5}
+              />
             </ProtectedRoute>
           }
         />
@@ -117,7 +118,10 @@ const AppRoutes = () => {
           path="/chargeback-monitoring"
           element={
             <ProtectedRoute>
-              <TransactionMonitoring key="chargeback-transaction-monitoring" pageType={6}  />
+              <TransactionMonitoring
+                key="chargeback-transaction-monitoring"
+                pageType={6}
+              />
             </ProtectedRoute>
           }
         />
@@ -129,9 +133,6 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         /> */}
-
-
-
 
         {/* link payment */}
         <Route
@@ -167,10 +168,6 @@ const AppRoutes = () => {
           }
         />
 
-
-
-
-
         {/* reports */}
 
         {/*
@@ -199,8 +196,6 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
-
-
 
         {/* settings */}
         <Route
@@ -235,7 +230,7 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
-        
+
         {/* * */}
         <Route
           path="/"
@@ -259,7 +254,6 @@ const AppRoutes = () => {
         />
       </Route>
 
-      
       {/* Public Routes */}
       <Route
         path="/login"
@@ -271,12 +265,37 @@ const AppRoutes = () => {
           )
         }
       />
-      <Route path="/register" element={<AuthLayout page="register" />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/passwordChangeConfirm" element={<PasswordChangeConfirm />} />
-     
+      <Route
+        path="/register"
+        element={
+          isAuthenticated ? (
+            <Navigate to="/dashboard" replace />
+          ) : (
+            <AuthLayout page="register" />
+          )
+        }
+      />
+      <Route
+        path="/forgot-password"
+        element={
+          isAuthenticated ? (
+            <Navigate to="/dashboard" replace />
+          ) : (
+            <ForgotPassword />
+          )
+        }
+      />
+      <Route
+        path="/passwordChangeConfirm"
+        element={
+          isAuthenticated ? (
+            <Navigate to="/dashboard" replace />
+          ) : (
+            <PasswordChangeConfirm />
+          )
+        }
+      />
       <Route path="/linkpayment/:param" element={<LinkPayment />} />
-
     </Routes>
   );
 };

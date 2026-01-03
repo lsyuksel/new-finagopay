@@ -173,7 +173,7 @@ export default function Dashboard() {
             </div>
           )}
         </div>
-        <div className="section">
+        {/* <div className="section">
           <div className="row">
             <div className="col-lg">
               {graphicData && <StatisticsChart graphicData={graphicData} />}
@@ -193,7 +193,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="section">
           <div className="row">
             <div className="col-lg-auto">
