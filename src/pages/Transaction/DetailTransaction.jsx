@@ -1,9 +1,9 @@
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import smallLogo from '@assets/images/small-logo.png';
 
 import paymentIcon1 from '@assets/images/icons/payment-system-1.svg';
@@ -36,6 +36,7 @@ import { cancelTransaction, refundTransaction } from '../../store/slices/transac
 export default function DetailTransaction() {
     const { param } = useParams();
     const { t } = useTranslation();
+    const location = useLocation();
   
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -46,8 +47,11 @@ export default function DetailTransaction() {
 
     const [availableAmount, setAvailableAmount] = useState();
 
+    // Ref'ler scroll için
+    const refundHistoryRef = useRef(null);
+    const chargebackHistoryRef = useRef(null);
+
     useEffect(() => {
-        console.log("param",param)
         if(param) {
             dispatch(getTransactionDetail({
                 merchantId: `${authData.merchantId}`,
@@ -61,9 +65,33 @@ export default function DetailTransaction() {
             const amount = transactionDetail[0]?.refundableTotalAmount || 0;
             setAvailableAmount(amount);
         }
-        console.log("transactionDetail",transactionDetail);
     }, [transactionDetail])
 
+    useEffect(() => {
+        if (!loading && transactionDetail && transactionDetail.length > 0) {
+            const previousPath = location.state?.prevUrl;
+            
+            if (previousPath && previousPath.includes('/refund-transaction-monitoring')) {
+                setTimeout(() => {
+                    if (refundHistoryRef.current) {
+                        refundHistoryRef.current.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }
+                }, 300);
+            } else if (previousPath && previousPath.includes('/chargeback-monitoring')) {
+                setTimeout(() => {
+                    if (chargebackHistoryRef.current) {
+                        chargebackHistoryRef.current.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }
+                }, 300);
+            }
+        }
+    }, [loading, transactionDetail, location.state])
 
     const validateAmount = (amount) => {
         const numericAmount = amount;
@@ -107,7 +135,7 @@ export default function DetailTransaction() {
     );
 
     const columns1 = [
-        { field: 'orderId', header: t('transactionDetail.tableTitle1'), className: "", },
+        { field: 'orderId', header: t('transaction.orderId2'), className: "", },
         { 
             field: 'paymentMethod', 
             header: t('transactionDetail.tableTitle2'), 
@@ -134,7 +162,7 @@ export default function DetailTransaction() {
         { field: 'installmentCount', header: t('transactionDetail.tableTitle7'), className: "primary-text", },
         { field: 'cardType', header: t('transactionDetail.tableTitle8'), className: "", },
         { field: 'conversationId', header: t('transactionDetail.tableTitle9'), className: ""},
-        { field: 'bankName', header: t('transactionDetail.tableTitle10'), className: "", },
+        { field: 'paymentMethod', header: t('transactionDetail.tableTitle10'), className: "", },
     ];
 
     const header3 = (
@@ -154,7 +182,7 @@ export default function DetailTransaction() {
                 rowData.transactionStatusCode === '00' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="waiting" value="Başarısız"></Tag>
             )
         },
-        { field: 'description', header: t('transactionDetail.tableTitle15'), className: "" },
+        // { field: 'description', header: t('transactionDetail.tableTitle15'), className: "" },
         { field: 'refundDatetime', header: t('transactionDetail.tableTitle16'), className: "" },
     ];
     
@@ -374,8 +402,8 @@ export default function DetailTransaction() {
                                 ))}
                             </DataTable>
                         </div>
-                        <div className="datatable-area-container detail-page-table">
-                            <div className='refund-cancel-section'>
+                        <div className="datatable-area-container detail-page-table" ref={refundHistoryRef}>
+                            {/* <div className='refund-cancel-section'>
                                 <div className="p-datatable-header">
                                     <div className="title">
                                         <img src={paymentIcon2} alt="" />
@@ -408,7 +436,7 @@ export default function DetailTransaction() {
                                         </button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                             <DataTable 
                                 header={header3}
                                 value={transactionDetail[0]?.refundHistory} 
@@ -477,7 +505,7 @@ export default function DetailTransaction() {
                                 ))}
                             </DataTable>
                         </div> */}
-                        <div className="datatable-area-container detail-page-table">
+                        <div className="datatable-area-container detail-page-table" ref={chargebackHistoryRef}>
                             <DataTable 
                                 header={headerChargeback}
                                 value={transactionDetail[0]?.chargebackHistory} 

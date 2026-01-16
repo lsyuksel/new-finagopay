@@ -196,9 +196,9 @@ export default function Dashboard() {
         </div> */}
         <div className="section">
           <div className="row">
-            <div className="col-lg-auto">
+            {/* <div className="col-lg-auto">
               <BannerSlider images={sliderImages} />
-            </div>
+            </div> */}
             <div className="col-lg">
               <div className="dashboard-link-datatable">
                 <DashboardLinkPayment />

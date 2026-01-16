@@ -146,6 +146,81 @@ export const getAllCountry = createAsyncThunk(
     }
 );
 
+export const getAllCompanyTypeDef = createAsyncThunk(
+  'CompanyTypeDef/GetAllCompanyTypeDef',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const response = await api.get(SELECT_OPTIONS_URL.GetAllCompanyTypeDef);
+      return response || [];
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
+    }
+  }
+);
+
+export const getAllMccDef = createAsyncThunk(
+  'MccDef/GetAllMccDef',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const response = await api.get(SELECT_OPTIONS_URL.GetAllMccDef);
+      return response || [];
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
+    }
+  }
+);
+
+export const getAllCityDef = createAsyncThunk(
+  'CityDef/GetAllCityDef',
+  async (countryGuid, { getState, rejectWithValue }) => {
+    try {
+      const url = countryGuid 
+        ? `${SELECT_OPTIONS_URL.GetAllCityDef}?guid=${countryGuid}`
+        : SELECT_OPTIONS_URL.GetAllCityDef;
+      const response = await api.get(url);
+      return response || [];
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
+    }
+  }
+);
+
+export const getDistrictDefinitions = createAsyncThunk(
+  'DistrictDef/GetDistrictDefinitions',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const response = await api.get(SELECT_OPTIONS_URL.GetDistrictDefinitions);
+      return response || [];
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
+    }
+  }
+);
+
+export const getDocumentTypes = createAsyncThunk(
+  'DocumentTypeDef/GetDocumentTypes',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const response = await api.get(SELECT_OPTIONS_URL.GetDocumentTypes);
+      return response || [];
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
+    }
+  }
+);
+
+export const getAllPaymentMethodDef = createAsyncThunk(
+  'PaymentMethodDef/GetAllPaymentMethodDef',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const response = await api.get(SELECT_OPTIONS_URL.GetAllPaymentMethodDef);
+      return response || [];
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message || 'Kullanıcı verileri alınamadı');
+    }
+  }
+);
+
 /*export const getAllSecurityLevelIndicator = createAsyncThunk(
   'getAllSecurityLevelIndicator',
   async (_, { getState, rejectWithValue }) => {
@@ -223,6 +298,11 @@ const initialState = {
   ],
 
   allPayOutStatusDef : [],
+  allCompanyTypeDef: [],
+  allMccDef: [],
+  allCityDef: [],
+  allDistrictDef: [],
+  allDocumentTypes: [],
 
   loading: false,
   error: null,
@@ -395,7 +475,10 @@ const selectOptionsSlice = createSlice({
       })
       .addCase(getAllCountry.fulfilled, (state, action) => {
         state.loading = false;
-        state.allCardAcceptorCountry = action.payload;
+        state.allCardAcceptorCountry = (action.payload || []).map(item => ({
+          ...item,
+          name: item.alpha2Code + " - " + item.countryName,
+        }));
         state.error = null;
       })
       .addCase(getAllCountry.rejected, (state, action) => {
@@ -403,7 +486,7 @@ const selectOptionsSlice = createSlice({
         state.error = action.payload;
       })
       
-      // ProductType cases
+      // PayOutStatusDef cases
       .addCase(getAllPayOutStatusDef.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -414,6 +497,105 @@ const selectOptionsSlice = createSlice({
         state.error = null;
       })
       .addCase(getAllPayOutStatusDef.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // CompanyTypeDef cases
+      .addCase(getAllCompanyTypeDef.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllCompanyTypeDef.fulfilled, (state, action) => {
+        state.loading = false;
+        state.allCompanyTypeDef = action.payload;
+        state.error = null;
+      })
+      .addCase(getAllCompanyTypeDef.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // MccDef cases
+      .addCase(getAllMccDef.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllMccDef.fulfilled, (state, action) => {
+        state.loading = false;
+        state.allMccDef = (action.payload || []).map(item => ({
+          ...item,
+          name: item.mcc + " - " + item.description,
+        }));
+        state.error = null;
+      })
+      .addCase(getAllMccDef.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // CityDef cases
+      .addCase(getAllCityDef.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllCityDef.fulfilled, (state, action) => {
+        state.loading = false;
+        state.allCityDef = (action.payload || []).map(item => ({
+          ...item,
+          name: item.cityCode + " - " + item.cityName,
+        }));
+        state.error = null;
+      })
+      .addCase(getAllCityDef.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // DistrictDef cases
+      .addCase(getDistrictDefinitions.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getDistrictDefinitions.fulfilled, (state, action) => {
+        state.loading = false;
+        state.allDistrictDef = (action.payload || []).map(item => ({
+          ...item,
+          name: item.districtCode + " - " + item.districtName,
+        }));
+        state.error = null;
+      })
+      .addCase(getDistrictDefinitions.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // DocumentTypes cases
+      .addCase(getDocumentTypes.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getDocumentTypes.fulfilled, (state, action) => {
+        state.loading = false;
+        state.allDocumentTypes = action.payload || [];
+        state.error = null;
+      })
+      .addCase(getDocumentTypes.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // PaymentMethodDef cases
+      .addCase(getAllPaymentMethodDef.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllPaymentMethodDef.fulfilled, (state, action) => {
+        state.loading = false;
+        state.allPaymentMethod = action.payload || [];
+        state.error = null;
+      })
+      .addCase(getAllPaymentMethodDef.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

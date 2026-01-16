@@ -5,7 +5,8 @@ export const MERCHANT_LINK_PAYMENT = {
   InsertMerchantLinkPayment: '/MerchantLinkPayment/InsertMerchantLinkPayment',
   UpdateMerchantLinkPayment: '/MerchantLinkPayment/UpdateMerchantLinkPayment',
   GetMerchantLinkPayment: '/MerchantLinkPayment/GetMerchantLinkPayment',
-  GetInstallments: '/Installment/GetInstallments',
+  GetInstallments: '/MerchantLinkPayment/ProcessCheckBin',
+  GetMerchantPermissionByMerchantId: 'MerchantPermission/GetMerchantPermissionByMerchantId',
   PayLink: '/MerchantLinkPayment/PayLink',
 };
 
@@ -64,6 +65,7 @@ export const SETTINGS_URL = {
   GetMerchantCommissionList: '/PayFacCommission/GetPayFacAndMerchantCommissionDefByUserName',
   GetPayFacCommissionBankListByUserName: '/DomesticBankDef/GetPayFacCommissionBankListByUserName',
   UpdateMerchantCommissionDefListCommission: '/MerchantCommission/UpdateMerchantCommissionDefListCommission',
+  InsertMerchantCommissionDefListCommission: '/MerchantCommission/InsertMerchantCommissionDefListCommission',
 
 };
 
@@ -79,10 +81,26 @@ export const SELECT_OPTIONS_URL = {
   GetAllPosEntryModeDef: '/PosEntryModeDef/GetAllPosEntryModeDef',
   GetUsersPayFacIntegrationEnabledBankList: '/DomesticBankDef/GetUsersPayFacIntegrationEnabledBankList',
   GetAllCountry: '/Country/GetAllCountry',
-
+  GetAllCompanyTypeDef: '/CompanyTypeDef/GetAllCompanyTypeDef',
+  GetAllMccDef: '/MccDef/GetAllMccDef',
+  GetAllCityDef: '/CityDef/GetAllCityDef',
+  GetDistrictDefinitions: '/DistrictDef/GetDistrictDefinitions',
   GetAllPayOutStatusDef: '/PayOutStatusDef/GetAllPayOutStatusDef',
+  GetDocumentTypes: '/DocumentTypeDef/GetDocumentTypes',
+  GetAllPaymentMethodDef: '/PaymentMethodDef/GetAllPaymentMethodDef',
 };
 
 export const PAYMENT_URL = {
   GetAllPayOutStatusDef: '/PayOutStatusDef/GetAllPayOutStatusDef'
+};
+
+export const MERCHANT_APPLICATION = {
+  InsertMerchantApplication: '/MerchantApplication/InsertMerchantApplication',
+  GetUserCanApproveAgreement: '/MerchantApplication/GetUserCanApproveAgreement',
+};
+
+export const MERCHANT_AGREEMENT = {
+  //GetMerchantAgreementForApproval: '/MerchantAgreement/GetMerchantAgreements',
+  GetMerchantAgreementForApproval: '/MerchantAgreement/GetMerchantAgreementForApproval',
+  ApproveMerchantAgreement: '/MerchantApplication/ApproveMerchantAgreement',
 }; 

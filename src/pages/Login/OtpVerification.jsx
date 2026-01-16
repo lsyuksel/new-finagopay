@@ -49,8 +49,8 @@ const OtpVerification = ({ loginData }) => {
         // Token'ı önce verifyOtp response'undan, yoksa loginData'dan, yoksa localStorage'dan al
         const token = responseData.accessToken || loginData.accessToken || localStorage.getItem('accessToken');
 
-        const merchantId = null;
-        const merchantGuid = null;
+        let merchantId = null;
+        let merchantGuid = null;
 
         if(responseData.isBoarding) {
           merchantId = await api.post(AUTH_URL.GetSubMerchantIdByUserName, {

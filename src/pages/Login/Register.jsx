@@ -72,7 +72,7 @@ export default function Register() {
       "all-agreements",
       t("errors.required"),
       function (value) {
-        return selectedAgreements.length === userAgreement.length;
+        return selectedAgreements?.length === userAgreement?.length;
       }
     ),
   });
@@ -207,8 +207,8 @@ export default function Register() {
           />
           <InputMask
             className="p-form-control"
-            mask="999 999 99 99"
-            placeholder="999 999 99 99"
+            mask="9999999999"
+            placeholder="9999999999"
             id="phone"
             invalid={formik.touched.phone && formik.errors.phone}
             value={formik.values.phone}

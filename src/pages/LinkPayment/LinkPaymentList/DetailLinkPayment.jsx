@@ -61,7 +61,7 @@ export default function DetailLinkPayment() {
         productPrice: data?.productPrice || "",
         currencyGuid: data?.currencyGuid || "240127211946100997",
         stock: data?.stock || 0,
-        stockEnabled: data?.stockEnabled || false,
+        stockEnabled: data?.stock ? true : false,
         installmentInfoEnabled: data?.installmentInfoEnabled || false,
         merchantAddressEnabled: data?.merchantAddressEnabled || false,
         merchantNameEnabled: data?.merchantNameEnabled || false,
@@ -328,7 +328,7 @@ export default function DetailLinkPayment() {
                 )}
 
               </div>
-              <div className="form-item">
+              {/* <div className="form-item">
                 <div className="input-switch">
                   <InputSwitch
                     id="installmentInfoEnabled"
@@ -348,7 +348,7 @@ export default function DetailLinkPayment() {
                     <img src={installmentTableImg2} alt="" />
                   </div>
                 </Dialog>
-              </div>
+              </div> */}
               <div className="form-item">
                 <div className="input-switch">
                   <InputSwitch
@@ -398,10 +398,10 @@ export default function DetailLinkPayment() {
                 {
                   param ? (
                     <>
-                      <Button type="submit" className="third-button" disabled={loading}>
+                      {/* <Button type="submit" className="third-button" disabled={loading}>
                         <img src={createProductButton} alt="" />
                         <span>{t("linkPayment.updateProductButton")}</span>
-                      </Button>
+                      </Button> */}
                       <Button className="secondary-button" onClick={() => setLinkPaymentPreview(true)}>
                         <img src={previewButtonIcon} alt="" />
                         <span>{t("linkPayment.previewProductButton")}</span>

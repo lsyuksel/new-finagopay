@@ -28,6 +28,9 @@ import merchantCommissionReducer from './slices/settings/merchantCommissionSlice
 
 import dashboardReducer from './slices/dashboard/dashboardSlice';
 
+import memberMerchantApplicationReducer from './slices/memberMerchantApplication/memberMerchantApplicationSlice';
+import merchantAgreementReducer from './slices/merchantAgreement/merchantAgreementSlice';
+
 
 const persistConfig = {
   key: 'root',
@@ -57,6 +60,9 @@ const rootReducer = combineReducers({
   userDefinition: userDefinitionReducer,
   keyDefinition: keyDefinitionReducer,
   merchantCommission: merchantCommissionReducer,
+
+  memberMerchantApplication: memberMerchantApplicationReducer,
+  merchantAgreement: merchantAgreementReducer,
 
   menu: menuReducer,
 });

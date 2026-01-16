@@ -23,9 +23,12 @@ export default function AuthBanner({title,subtitle,authText,buttonTitle,buttonLi
                 ))}
             </ul>
         </div>
-        <div className="button">
-            <Link to={buttonLink}>{buttonTitle}</Link>
-        </div>
+        { buttonTitle && (
+            <div className="button">
+                <Link to={buttonLink}>{buttonTitle}</Link>
+            </div>
+        ) }
+
     </div>
   )
 }

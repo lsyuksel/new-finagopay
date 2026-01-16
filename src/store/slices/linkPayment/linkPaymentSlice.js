@@ -3,23 +3,28 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api, parseErrorResponse } from "@/services/api";
 import { t } from "i18next";
 import { MERCHANT_LINK_PAYMENT } from "../../../constants/apiUrls";
+import { managementApi } from "../../../services/api";
 
 export const payLink = createAsyncThunk(
   "/MerchantLinkPayment/PayLink",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await api.post(MERCHANT_LINK_PAYMENT.PayLink, {
-        merchantInfo: {
-            nameSurname: userData.nameSurname,
-            phoneNumber: userData.phoneCode + userData.phoneNumber,
-            email: userData.email,
-            address: userData.address
-        },
+      // Request body'yi hazırla
+      const requestBody = {
         cardHolder: userData.cardHolder,
         cardNumber: userData.cardNumber,
         expireDate: userData.expireDate,
         cvv: userData.cvv,
         linkKey: userData.linkKey,
+      };
+
+      // merchantInfo varsa ekle
+      if (userData.merchantInfo && Object.keys(userData.merchantInfo).length > 0) {
+        requestBody.merchantInfo = userData.merchantInfo;
+      }
+
+      const response = await managementApi.post(MERCHANT_LINK_PAYMENT.PayLink, requestBody, {
+        timeout: 60000 // 60 saniye timeout
       });
       return response;
     } catch (error) {
@@ -31,10 +36,10 @@ export const payLink = createAsyncThunk(
 );
 
 export const getInstallments = createAsyncThunk(
-  "/Installment/GetInstallments",
+  "/MerchantLinkPayment/ProcessCheckBin",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await api.post(MERCHANT_LINK_PAYMENT.GetInstallments, userData);
+      const response = await managementApi.post(MERCHANT_LINK_PAYMENT.GetInstallments, userData);
       return response;
     } catch (error) {
       return rejectWithValue(
@@ -52,7 +57,7 @@ export const getLinkPayment = createAsyncThunk(
           const charIndex = [4, 5, 2, 0, 1, 3, 1, 1, null][index];
           return charIndex !== null ? String.fromCharCode(userData.charCodeAt(charIndex) + (index < 6 ? 3 : 1)) : userData;
         });
-        const response = await api.get(`${MERCHANT_LINK_PAYMENT.GetLink}?t=${paramsArray[0]}&k=${paramsArray[1]}&a=${paramsArray[2]}&l=${paramsArray[3]}&f=${paramsArray[4]}&c=${paramsArray[5]}&y=${paramsArray[6]}&q=${paramsArray[7]}&m=${paramsArray[8]}`);
+        const response = await managementApi.get(`${MERCHANT_LINK_PAYMENT.GetLink}?t=${paramsArray[0]}&k=${paramsArray[1]}&a=${paramsArray[2]}&l=${paramsArray[3]}&f=${paramsArray[4]}&c=${paramsArray[5]}&y=${paramsArray[6]}&q=${paramsArray[7]}&m=${paramsArray[8]}`);
         return response;
       } catch (error) {
         return rejectWithValue(
@@ -71,19 +76,6 @@ const linkPaymentSlice = createSlice({
     payment: null,
     installmentList: null,
     payLinkResult: null,
-    /*
-    payLinkResult: {
-      code: null,
-      message: null,
-      resultCode: "B0000",
-      resultDescription: "Approved",
-      responseDate: "12/05/2025 13:41:23",
-      orderId: "5000000045202502030148",
-      htmlFormSuccess: null,
-      okUrl: null,
-      failUrl: null
-    },
-    */
   },
   reducers: {
     clearPayLinkResult: (state) => {

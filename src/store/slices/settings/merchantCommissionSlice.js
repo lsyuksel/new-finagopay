@@ -47,6 +47,20 @@ export const updateMerchantCommissionDefList = createAsyncThunk(
   }
 );
 
+export const insertMerchantCommissionDefList = createAsyncThunk(
+  "MerchantCommission/InsertMerchantCommissionDefListCommission",
+  async (insertData, { rejectWithValue }) => {
+    try {
+      const response = await api.post(SETTINGS_URL.InsertMerchantCommissionDefListCommission, insertData);
+      return response;
+    } catch (error) {
+      return rejectWithValue(
+        parseErrorResponse(error.response?.data || error.response).message || t("messages.error")
+      );
+    }
+  }
+);
+
 const merchantCommissionSlice = createSlice({
   name: "merchantCommission",
   initialState: {
@@ -134,6 +148,21 @@ const merchantCommissionSlice = createSlice({
         toast.success(t("messages.success"));
       })
       .addCase(updateMerchantCommissionDefList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        toast.error(action.payload || t("messages.error"));
+      })
+      .addCase(insertMerchantCommissionDefList.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(insertMerchantCommissionDefList.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        toast.success(t("messages.success"));
+      })
+      .addCase(insertMerchantCommissionDefList.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
         toast.error(action.payload || t("messages.error"));

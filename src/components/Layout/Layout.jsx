@@ -5,8 +5,7 @@ import TopHeader from "./TopHeader";
 import BottomFooter from "./BottomFooter";
 import { Outlet, useLocation } from "react-router-dom";
 
-import MemberMerchantApplication from "@/pages/MemberMerchantApplication/MemberMerchantApplication";
-import AuthLayout from "../../pages/Login/AuthLayout";
+import MemberMerchantLayout from "../../pages/MemberMerchantApplication/MemberMerchantLayout";
 
 const Layout = () => {
   const authData = useSelector((state) => state.auth);
@@ -30,8 +29,8 @@ const Layout = () => {
 
   return (
     <>
-      {authData && authData?.user?.isBoarding == false ? (
-        <AuthLayout page="MemberMerchant" />
+      {authData && authData.isAuthenticated && authData?.user?.onBoardingStatus != 'Basvuru Onay' ? (
+        <MemberMerchantLayout />
       ) : (
         <div className="layout">
           <Sidebar />

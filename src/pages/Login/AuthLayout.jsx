@@ -6,7 +6,6 @@ import AuthBanner from './components/AuthBanner';
 import Login from './Login';
 import Register from './Register';
 import ForgotPassword from './ForgotPassword';
-import MemberMerchantApplication from '../MemberMerchantApplication/MemberMerchantApplication';
 
 export default function AuthLayout({page}) {
     const { t } = useTranslation();
@@ -16,7 +15,6 @@ export default function AuthLayout({page}) {
         'login': <Login />,
         'register': <Register />,
         'forgot-password': <ForgotPassword />,
-        'MemberMerchant': <MemberMerchantApplication />,
       };
 
     return (

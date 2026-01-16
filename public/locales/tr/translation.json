@@ -128,7 +128,9 @@
     "excel": "Excel Olarak İndir",
     "word": "Word Olarak İndir",
     "csv": "CSV Olarak İndir",
-    "all": "Tümü"
+    "all": "Tümü",
+    "fileUpload": "Dosya Yükle",
+    "continue": "Devam Et"
 
   },
   "faq": {
@@ -272,7 +274,9 @@
     "errorTitle": "Ödeme işlemi Başarısız Oldu!",
     "errorCode": "Hata Kodu",
     "retryText": "Ödeme işlemini tekrar baştan deneyebilirsiniz.",
-    "retryButton": "İşlemi Tekrarla"
+    "retryButton": "İşlemi Tekrarla",
+    "singlePayment": "Tek Çekim (Peşin)",
+    "installment": "Taksit"
     
   },
   "transaction": {
@@ -495,6 +499,47 @@
     "linkPaymentTitle3": "Oluşturduğunuz linkleri tüm dijital platformlarda paylaşın ve<br />güvenle ödeme almaya başlayın.",
     "linkPaymentTitle4": "Son Eklenen MorLinkleriniz"
   },
+  "memberMerchantApplication": {
+    "title": "Şirket Bilgileriniz",
+    "subtitle": "Sanal POS kullanmaya başlayabilmek için şirketinize ait bilgileri aşağıdaki forma girmeniz gerekmektedir.",
+    "contactName": "Yetkili Adı",
+    "contactSurname": "Yetkili Soyadı",
+    "contactEmail": "Yetkili Email",
+    "contactPhoneNumber": "Yetkili Telefon Numarası",
+    "ownerIdentityNumber": "Yetkili Kimlik Numarası",
+    "contactDateOfBirth": "Yetkili Doğum Tarihi",
+    "companyType": "Şirket Tipi",
+    "taxOffice": "Vergi Dairesi",
+    "taxNumber": "Vergi No",
+    "companyName": "Şirket Adı",
+    "commercialName": "Ticari Şirket Adı",
+    "tradeRegisterNumber": "Ticari Sicil Numarası",
+    "mcc": "Mcc",
+    "country": "Ülke",
+    "city": "Şehir",
+    "district": "İlçe",
+    "postalCode": "Posta Kodu",
+    "neighborhood": "Semt",
+    "addressline1": "Adres Satırı 1",
+    "addressline2": "Adres Satırı 2",
+    "addressline3": "Adres Satırı 3",
+    "paymentMethod": "Ödeme Yöntemi",
+    "webUrl": "Web URL",
+    "completeApplication": "Başvuruyu Tamamla",
+    "success": "Üyeliğiniz başarıyla oluşturuldu!",
+
+    "applicationCurrentlyTitle1": "Başvurunuz Değerlendirme Aşamasındadır.",
+    "applicationCurrentlyText1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam risus eros, mollis eu accumsan quis, molestie vitae lorem. Maecenas in vehicula sem, sit amet tincidunt quam. Donec venenatis blandit cursus.<br /><br />In hac habitasse platea dictumst. Vestibulum cursus ex eu odio sollicitudin, sed rutrum felis imperdiet. Nam vulputate magna nisl, vel ultricies est tempus id. Integer sit amet rutrum nunc, pretium varius nisi.",
+    "applicationCurrentlyTitle2": "Sözleşme Onay Aşaması",
+    "applicationCurrentlySubTitle2": "Sözleşme metinlerini okuyup onaylamanız gerekmektedir.",
+    "downloadAgreementDocument": "Sözleşme Belgesini İndir",
+    "noAgreementFound": "Sözleşme bulunamadı.",
+    "allAgreementsMustBeApproved": "Lütfen tüm sözleşmeleri onaylayınız.",
+    "agreementApprovalSuccess": "Sözleşme onayı başarıyla tamamlandı!",
+    "agreementApprovalError": "Sözleşme onayı sırasında bir hata oluştu.",
+    "agreementAlreadyApproved": "Sözleşme zaten onaylanmış,"
+
+  },
   "errors": {
     "incorrectPassword": "Girmiş olduğunuz şifre hatalı. Lütfen tekrar deneyiniz.",
     "required": "Lütfen tüm alanları doldurunuz.",
@@ -516,6 +561,7 @@
     
     "onlyLetters": "Sadece harf karakterleri kullanılabilir",
     "onlyNumbers": "Sadece rakam karakterleri kullanılabilir",
+    "invalidIdentityNumber": "Kimlik numarası 11 haneli olmalı ve sadece rakam içermelidir",
     "minLength": "En az {{length}} karakter olmalıdır",
     "maxLength": "En fazla {{length}} karakter olmalıdır",
     "invalidCardNumber": "Geçersiz kart numarası",
@@ -533,7 +579,7 @@
     "loginSuccess": "Giriş başarılı",
     "otpSent": "Doğrulama kodu gönderildi",
     "logoutSuccess": "Çıkış başarılı",
-    "registerSuccess": "Kayıt işlemi başarılı! Giriş yapabilirsiniz.",
+    "registerSuccess": "Üyeliğiniz başarıyla oluşturuldu! E-posta adresinize bir aktivasyon e-postası gönderildi.",
     "registerError": "Kayıt işlemi başarısız oldu.",
     "passwordChangeSuccess": "Şifre Sıfırlama başarılı!",
     "passwordChangeError": "Şifre Sıfırlama başarısız oldu.",

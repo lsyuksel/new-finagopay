@@ -28,29 +28,31 @@ const [isOpen, setIsOpen] = useState(false);
   };
 
   return (
-    <Dropdown className="language-selector" show={isOpen} onToggle={(isOpen) => setIsOpen(isOpen)}>
-      <Dropdown.Toggle>
-        <img 
-          src={getCurrentLanguage().flag}
-        />
-        <span>{getCurrentLanguage().name}</span>
-      </Dropdown.Toggle>
+    <>
+      {/* <Dropdown className="language-selector" show={isOpen} onToggle={(isOpen) => setIsOpen(isOpen)}>
+        <Dropdown.Toggle>
+          <img 
+            src={getCurrentLanguage().flag}
+          />
+          <span>{getCurrentLanguage().name}</span>
+        </Dropdown.Toggle>
 
-      <Dropdown.Menu>
-        {languages.map((language) => (
-          <Dropdown.Item 
-            key={language.code}
-            onClick={() => handleSelect(language.code)}
-            active={i18n.language === language.code}
-          >
-            <img 
-              src={language.flag}
-            />
-            <span>{language.name}</span>
-          </Dropdown.Item>
-        ))}
-      </Dropdown.Menu>
-    </Dropdown>
+        <Dropdown.Menu>
+          {languages.map((language) => (
+            <Dropdown.Item 
+              key={language.code}
+              onClick={() => handleSelect(language.code)}
+              active={i18n.language === language.code}
+            >
+              <img 
+                src={language.flag}
+              />
+              <span>{language.name}</span>
+            </Dropdown.Item>
+          ))}
+        </Dropdown.Menu>
+      </Dropdown> */}
+    </>
   );
 };
 

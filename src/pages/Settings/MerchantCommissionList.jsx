@@ -5,7 +5,7 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getMerchantCommissionList, getPayFacCommissionBankList, updateMerchantCommissionDefList, setMerchantCommissionError } from '../../store/slices/settings/merchantCommissionSlice';
+import { getMerchantCommissionList, getPayFacCommissionBankList, updateMerchantCommissionDefList, insertMerchantCommissionDefList, setMerchantCommissionError } from '../../store/slices/settings/merchantCommissionSlice';
 import { InputNumber } from 'primereact/inputnumber';
 import { Button } from 'primereact/button';
 import { InputSwitch } from 'primereact/inputswitch';
@@ -25,20 +25,26 @@ const MerchantCommissionList = () => {
   const [savingBanks, setSavingBanks] = useState({}); // Her banka için ayrı loading state
   
   useEffect(() => {
-    if (bankGroups?.length > 0) {
+    if (bankGroups?.length > 0 && originalBankData?.length > 0) {
       const newEditableData = {};
       const newToggles = {};
       
       bankGroups.forEach((bank) => {
         const bankKey = bank.bankGuid;
         newEditableData[bankKey] = bank.installments;
-        newToggles[bankKey] = false;
+        
+        // payOutTypeGuid'e göre toggle durumunu ayarla
+        // payOutTypeGuid: 0 → toggle aktif (true)
+        // payOutTypeGuid: 3 → toggle pasif (false)
+        const originalBank = originalBankData.find(item => item.bankGuid === bankKey);
+        const payOutTypeGuid = originalBank?.payOutTypeGuid;
+        newToggles[bankKey] = payOutTypeGuid === 0;
       });
       
       setBankEditableData(newEditableData);
       setBankToggles(newToggles);
     }
-  }, [bankGroups]);
+  }, [bankGroups, originalBankData]);
 
   useEffect(() => {
     dispatch(setMerchantCommissionError(null));
@@ -206,6 +212,35 @@ const MerchantCommissionList = () => {
         return;
       }
 
+      // Toggle durumunu kontrol et
+      const isToggleActive = bankToggles[bankGuid] || false;
+      
+      // Toggle durumuna göre payOutTypeGuid belirle
+      // Toggle açık (true) → payOutTypeGuid: 0 (UPDATE) → status: true
+      // Toggle kapalı (false) → payOutTypeGuid: 0 (UPDATE) → status: false
+      // Toggle açık ve payOutTypeGuid başlangıçta 3 ise → payOutTypeGuid: 3 (INSERT) → status: true
+      const originalPayOutTypeGuid = originalBank.payOutTypeGuid;
+      let payOutTypeGuid;
+      
+      if (isToggleActive) {
+        // Toggle açık
+        if (originalPayOutTypeGuid === 3) {
+          // İlk kez açılıyor, INSERT yap
+          payOutTypeGuid = 3;
+        } else {
+          // Zaten açıktı, UPDATE yap
+          payOutTypeGuid = 0;
+        }
+      } else {
+        // Toggle kapalı → her zaman UPDATE
+        payOutTypeGuid = 0;
+      }
+      
+      // Toggle durumuna göre status belirle
+      // Toggle açık → status: true
+      // Toggle kapalı → status: false
+      const status = isToggleActive;
+
       const updatedInstallments = bankEditableData[bankGuid] || bankGroups.find(b => b.bankGuid === bankGuid)?.installments || [];
       
       const merchantCommissionInstallmentDefs = updatedInstallments.map((installment, index) => {
@@ -230,20 +265,27 @@ const MerchantCommissionList = () => {
         };
       });
 
-      const updateData = {
-        guid: originalBank.merchantCommissionGuid || "",
+      const requestData = {
+        guid: originalBank.merchantCommissionGuid || 0,
         payFacGuid: originalBank.payFacGuid,
         bankGuid: bankGuid,
         payFacCommissionGuid: originalBank.payFacCommissionGuid || "",
-        payOutTypeGuid: originalBank.payOutTypeGuid || "",
+        payOutTypeGuid: payOutTypeGuid,
         valueDateDayCount: originalBank.valueDateDayCount || "",
-        status: originalBank.status !== undefined ? originalBank.status : true,
+        status: status,
         merchantCommissionInstallmentDefs: merchantCommissionInstallmentDefs,
         updateUser: user.userName,
         userName: user.userName
       };
 
-      await dispatch(updateMerchantCommissionDefList(updateData)).unwrap();
+      // payOutTypeGuid'e göre INSERT veya UPDATE seç
+      if (payOutTypeGuid === 3) {
+        // INSERT metodu
+        await dispatch(insertMerchantCommissionDefList(requestData)).unwrap();
+      } else {
+        // UPDATE metodu
+        await dispatch(updateMerchantCommissionDefList(requestData)).unwrap();
+      }
 
       dispatch(getMerchantCommissionList({
         userName: user.userName,
@@ -271,22 +313,25 @@ const MerchantCommissionList = () => {
         <div className="datatable-area-container editable-table-container">
           {!loading ? (
             bankGroups?.length > 0 ? (
-              bankGroups.map((bank) => {
+              bankGroups.map((bank, bankIndex) => {
                 const bankKey = bank.bankGuid;
                 const isEditable = bankToggles[bankKey] || false;
-                const bankData = bankEditableData[bankKey] || bank.installments || [];
+                const bankData = (bankEditableData[bankKey] || bank.installments || []).map((item, rowIndex) => ({
+                  ...item,
+                  _uniqueKey: `${bankIndex}-${rowIndex}`
+                }));
                 const columns = getColumns(bankKey, isEditable);
                 const displayBankName = bankList?.find(b => b.guid === bank.bankGuid)?.bankName;
                 
                 return (
-                  <div key={bankKey} className='bank-section'>
+                  <div key={bankIndex} className='bank-section'>
                     <div className="title-wrapper">
                       <div className="bank-title">{ displayBankName }</div>
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="input-switch">
                           <InputSwitch
-                            id="isEditable"
-                            name="isEditable"
+                            id={`isEditable-${bankKey}`}
+                            name={`isEditable-${bankKey}`}
                             checked={isEditable}
                             onChange={() => handleToggleChange(bankKey)}
                           />
@@ -305,9 +350,10 @@ const MerchantCommissionList = () => {
                     </div>
                     
                     <DataTable 
+                      key={bankIndex}
                       value={bankData}
                       editMode={isEditable ? "cell" : undefined}
-                      dataKey="merchantCommissionInstallmentGuid"
+                      dataKey="_uniqueKey"
                       scrollable
                       style={{ backgroundColor: 'white' }}
                     >

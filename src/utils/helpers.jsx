@@ -52,6 +52,58 @@ export const formatDate = (dateString) => {
     return `${day}-${month}-${year} ${hours}:${minutes}`;
 };
 
+export const formatDateForAPI = (date) => {
+    if (!date) return '';
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
+/**
+ * String'in ilk harfini büyük yapar
+ * @param {string} str - Dönüştürülecek string
+ * @returns {string} İlk harfi büyük string
+ */
+export const capitalizeFirst = (str) => {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+/**
+ * Objeyi Form Data formatına (URLSearchParams) dönüştürür
+ * @param {Object} data - Dönüştürülecek obje
+ * @param {boolean} capitalizeKeys - Anahtarların ilk harfini büyük yap (varsayılan: true)
+ * @returns {URLSearchParams} Form Data formatında veri
+ */
+export const objectToFormData = (data, capitalizeKeys = true) => {
+    const formData = new URLSearchParams();
+    
+    Object.keys(data).forEach((key) => {
+        const finalKey = capitalizeKeys ? capitalizeFirst(key) : key;
+        const value = data[key];
+        
+        // UploadDocumentList array ise özel işleme
+        if (key === 'UploadDocumentList' && Array.isArray(value)) {
+            value.forEach((item, index) => {
+                if (item.File) {
+                    formData.append(`UploadDocumentList[${index}].File`, item.File);
+                }
+                if (item.DocumentType !== undefined) {
+                    formData.append(`UploadDocumentList[${index}].DocumentType`, item.DocumentType);
+                }
+            });
+            return;
+        }
+        
+        // Null veya undefined değerleri boş string olarak ekle
+        formData.append(finalKey, value !== null && value !== undefined ? value : '');
+    });
+    
+    return formData;
+};
+
 export const getDateRange = (filter) => {
     const now = new Date();
     const startDate = new Date();
@@ -143,12 +195,6 @@ export const getBankName = (guid) => {
     return found ? found.bankName : null;
 };
 
-export const getCardAcceptorCountry = (numericCode) => {
-    const { allCardAcceptorCountry } = useSelector((state) => state.selectOptions);
-    const found = allCardAcceptorCountry?.find((item) => item.numericCode == Number(numericCode));
-    return found ? found.countryName : "getCardAcceptorCountry calısmıyorr";
-};
-
 export const getSecurityLevelIndicator = (guid) => {
     const { allSecurityLevelIndicator } = useSelector((state) => state.selectOptions);
     const found = allSecurityLevelIndicator?.find((item) => item.guid == Number(guid));
@@ -184,4 +230,30 @@ export const priceFormat = (price) => {
     }
     
     return formattedInteger;
+};
+
+/**
+ * API error response'undan hata mesajını çıkarır
+ * @param {Error} error - Axios error objesi
+ * @param {string} defaultMessage - Varsayılan hata mesajı (opsiyonel)
+ * @returns {string} Hata mesajı
+ */
+export const getApiErrorMessage = (error, defaultMessage = null) => {
+    const fallbackMessage = defaultMessage || t("messages.error");
+    
+    if (error.response?.data) {
+        try {
+            const parsedError = typeof error.response.data === 'string' 
+                ? JSON.parse(error.response.data) 
+                : error.response.data;
+            
+            return parsedError?.Message || fallbackMessage;
+        } catch {
+            return error.response.data || fallbackMessage;
+        }
+    } else if (error.message) {
+        return error.message;
+    }
+    
+    return fallbackMessage;
 };

@@ -65,6 +65,17 @@ const authSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    updateUser: (state, action) => {
+      // User objesini güncelle - mevcut user bilgilerini koru, yeni bilgileri ekle/güncelle
+      if (state.user) {
+        state.user = {
+          ...state.user,
+          ...action.payload,
+        };
+      }
+      console.log("state.user",state.user);
+      
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -94,6 +105,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, logout, setLoading, setError, clearError } = authSlice.actions;
+export const { setCredentials, logout, setLoading, setError, clearError, updateUser } = authSlice.actions;
 
 export default authSlice.reducer; 

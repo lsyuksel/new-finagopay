@@ -1,5 +1,11 @@
 @import "mixin";
 
+html {
+    @media screen and (min-width: 1024px) and (max-width: 1600px) {
+        zoom: 0.85;
+    }
+}
+
 body {
     position: relative;
     color: $text-color;
@@ -54,6 +60,7 @@ button,
 }
 
 .p-dropdown-panel {
+    max-width: 100%;
     .p-dropdown-items {
         .p-dropdown-item {
             box-shadow: none;
@@ -1504,8 +1511,8 @@ button,
     background-color: $white-color;
     border: 1px solid $border-2;
     border-radius: 8px;
-    .p-inputtext,
-    .p-dropdown-label.p-placeholder {
+    > .p-inputtext,
+    > .p-dropdown-label.p-placeholder {
         font-family: $font-family;
         color: $sub-text-color;
         @include text-9-semibold;
@@ -1526,6 +1533,7 @@ button,
     }
 }
 
+.p-calendar .p-inputtext,
 .phone-input-container .form-control,
 .p-form-control.p-inputtext,
 .p-form-control .p-component,
@@ -3275,6 +3283,10 @@ footer {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    img {
+        max-width: 100%;
+        margin: 0 0 10px;
+    }
     .icon {
         margin: 0 auto var(--spacer-3);
     }
@@ -3962,6 +3974,202 @@ footer {
     }
 }
 
+/*Merchant Page*/
+.merchant-page-content {
+    .auth-form-area {
+        padding: var(--spacer-8) var(--spacer-8);
+    }
+    .form-content-box {
+        margin: 0 0 var(--spacer-5);
+        .form-item-wrapper {
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin: -6px;
+            .form-item {
+                width: 50%;
+                padding: 6px;
+                margin: 0;
+
+            }
+        }
+        .p-dropdown-panel {
+            .p-dropdown-header .p-dropdown-filter {
+                padding: 0.5rem 0.5rem;
+            }
+            .p-dropdown-items .p-dropdown-item {
+                font-size: 85%;
+                padding: 0.5rem 1rem;
+            }
+        }
+        .file-upload-container {
+            position: relative;
+            padding: var(--spacer-3) var(--spacer-5);
+            .p-fileupload {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                opacity: 0;
+            }
+            .p-fileupload .p-button {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+    .button-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: var(--spacer-4);
+        .step-button {
+            padding: var(--spacer-4) var(--spacer-8);
+            @include center;
+            @include gradient-2;
+            border-radius: 50px;
+            @include text-10-bold;
+            color: $white-color;
+            box-shadow: none;
+            outline: none;
+            border: 0;
+            transition: $transition;
+            gap: var(--spacer-5);
+            cursor: pointer;
+        }
+    }
+    .custom-page-proggress {
+        width: 100%;
+        height: 100%;
+    }
+    .file-upload-container {
+        padding: var(--spacer-5) var(--spacer-8);
+        border: 1px solid $border-2;
+        background: transparent;
+        border-radius: 8px;
+        justify-content: flex-start;
+        .file-upload-header {
+            width: 100%;
+            .file-upload-title {
+                display: flex;
+                align-items: flex-start;
+                gap: 4px;
+                color: $primary-color;
+                @include text-15-semibold;
+                margin-bottom: var(--spacer-2);
+                > span {
+                    color: $red;
+                }
+            }
+            .file-upload-description {
+                display: flex;
+                align-items: center;
+                gap: var(--spacer-2);
+                color: $sub-text-color;
+                @include text-7-regular;
+            }
+        }
+        .uploaded-files-list {
+            width: 100%;
+            .uploaded-file-item {
+                span {
+
+                }
+            }
+        }
+        .file-upload-placeholder {
+            // background: $blue-bg;
+            // padding: var(--spacer-2) var(--spacer-5);
+            // border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacer-2);
+            color: $blue-color;
+            @include text-10-bold;
+            margin: var(--spacer-3) auto 0 0;
+        }
+
+    }
+    .uploaded-file-item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacer-2);
+        margin: var(--spacer-3) auto 0 0;
+        > span {
+            // color: $primary-color;
+            // color: $orange-color;
+            color: $green-succes;
+            // color: $refund-color;
+            // color: $fourth-color;
+            @include text-10-bold;
+        }
+        .remove-file-btn {
+            border: 0;
+            background: transparent;
+            padding: 0;
+            margin: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: $red;
+        }
+    }
+    .agreement-download-list {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacer-8);
+        flex-direction: column;
+        width: 684px;
+        max-width: 100%;
+        margin-bottom: var(--spacer-10);
+        .agreement-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: var(--spacer-6);
+            border: 1px solid $fourth-color;
+            border-radius: 8px;
+            .item-content {
+                flex: 1 0 0;
+                display: flex;
+                align-items: center;
+                gap: var(--spacer-2);
+                @include text-10-bold;
+                color: $black;
+                i {
+                    color: $primary-color;
+                    font-size: 28px;
+                }
+            }
+            .item-button {
+                display: flex;
+                align-items: center;
+                gap: var(--spacer-2);
+                color: $text-color;
+                @include text-7-regular;
+                cursor: pointer;
+                transition: $transition;
+                i {
+                    font-size: 20px;
+                }
+                &:hover {
+                    color: $primary-color;
+                }
+            }
+        }
+    }
+    .agreement-approval-list {
+        margin-bottom: var(--spacer-10);
+        .agreement-item {
+
+        }
+    }
+}
+
 /*Login Page*/
 .auth-container {
     background: $purple-light;
@@ -3992,6 +4200,8 @@ footer {
             gap: var(--spacer-5);
             color: $text-color;
             @include text-15-semibold;
+            outline: none;
+            box-shadow: none;
         }
     }
 
@@ -4002,6 +4212,16 @@ footer {
         @include text-3-regular;
         color: $sub-text-color;
         min-width: fit-content;
+    }
+
+    .logout-button {
+        display: flex;
+        align-items: center;
+        gap: var(--spacer-2);
+        cursor: pointer;
+        font-weight: 500;
+        color: $primary-color;
+        @include text-15-semibold;
     }
 
     @include max($xs) {
@@ -4246,6 +4466,7 @@ footer {
         color: $white-color;
         border: 0;
         transition: $transition;
+        cursor: pointer;
     }
 
     .p-dropdown {
@@ -4285,6 +4506,7 @@ footer {
         }
     }
     
+    .p-calendar .p-inputtext,
     .p-form-control.p-inputtext,
     .p-form-control .p-component,
     .form-control {
@@ -4362,9 +4584,18 @@ footer {
 }
 
 .process-result-container {
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     .icon {
         @include center;
+        font-size: 80px;
         margin: 0 0 var(--spacer-4);
+        i {
+            font-size: inherit
+        }
     }
 
     .result-text {
@@ -4391,6 +4622,9 @@ footer {
         p {
             margin: 0;
         }
+    }
+    .warning-color {
+        color: $orange-color;
     }
 }
 

@@ -4,7 +4,7 @@ import { DataTable } from 'primereact/datatable'
 import { ProgressSpinner } from 'primereact/progressspinner';
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { cancelTransaction, getTransactionList, getTransactionSearchList, setTransactionListError } from '../../store/slices/transaction-managment/transactionListSlice';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'primereact/button';
@@ -35,7 +35,6 @@ import {
   getInstallmentType,
   getPosEntryMode,
   getBankName,
-  getCardAcceptorCountry,
   getSecurityLevelIndicator,
   getCurrencyName,
   getTransactionCurrency,
@@ -59,6 +58,8 @@ export default function TransactionMonitoring({ pageType }) {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [transactionType, setTransactionType] = useState(pageType);
 
   const [selectedProducts, setSelectedProducts] = useState(null);
@@ -232,6 +233,7 @@ export default function TransactionMonitoring({ pageType }) {
     { field: 'mdStatus', header: t('transaction.mdStatus'), sortable: false },
     { field: 'authorizationResponseCode', header: t('transaction.authorizationResponseCode'), sortable: false },
     { field: 'hostRefNo', header: t('transaction.hostRefNo'), sortable: false },
+    { field: 'transactionDate', header: t('transactionDetail.tableTitle6'), body: (rowData) => formatDate(rowData.transactionDate) },
 
     {
         field: 'selection',
@@ -242,7 +244,7 @@ export default function TransactionMonitoring({ pageType }) {
             <div className="row-user-buttons">
                 {/*<Button tooltip="Confirm to proceed" label="Save" />*/}
 
-                <Link to={`/detail-transaction/${rowData.orderId}`}>
+                <Link to={`/detail-transaction/${rowData.orderId}`} state={{ prevUrl: location.pathname }}>
                     <i className="pi pi-eye" style={{fontSize: '22px'}}></i>
                 </Link>
                 {/*

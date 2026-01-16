@@ -4,6 +4,16 @@ import JSONbig from 'json-bigint';
 
 const JSONbigInt = JSONbig({ storeAsString: true });
 
+// managementApi için ayrı axios instance (bazı durumlarda)
+export const managementApi = axios.create({
+  baseURL: import.meta.env.VITE_API_MANAGEMENT_URL,
+  timeout: 60000, // 60 saniye timeout (uzun süren işlemler için)
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  transformResponse: [data => data] // Ham veriyi dönüştürmeden al
+});
+
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 10000,
@@ -79,6 +89,30 @@ authApi.interceptors.request.use(
 );
 
 authApi.interceptors.response.use(
+  (response) => {
+    try {
+      return response.data ? JSONbigInt.parse(response.data) : response.data;
+    } catch (error) {
+      console.warn('JSON parse error:', error);
+      return response.data;
+    }
+  },
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('Act');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('enteredPassword');
+      localStorage.removeItem('otpDatetime');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
+
+managementApi.interceptors.response.use(
   (response) => {
     try {
       return response.data ? JSONbigInt.parse(response.data) : response.data;

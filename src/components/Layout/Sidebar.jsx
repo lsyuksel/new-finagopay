@@ -125,7 +125,7 @@ const Sidebar = () => {
             </Link>
           </div>
           <div className='menu-item'>
-            <Link to={"/support"} className={`menu-button`}>
+            <Link to={"mailto:info@morpara.com"} className={`menu-button`}>
               <div>
                 <i className='bx bxs-help-circle menu-icon'></i>
                 <span>{t('menu.helpdesk')}</span>
@@ -134,7 +134,7 @@ const Sidebar = () => {
           </div> 
         </Nav>
       </div>
-      <div className="sidebar-bottom">
+      {/* <div className="sidebar-bottom">
         <div className="sidebar-support-box">
           <div className="support-icon">
             <img src={supportIcon} alt="" />
@@ -143,7 +143,7 @@ const Sidebar = () => {
           <div className="support-text">{t('menu.supportBoxText')}</div>
           <Link to={'/'} className="support-button">{t('menu.supportBoxButton')}</Link>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

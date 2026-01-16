@@ -224,10 +224,10 @@ export default function MerchantReconciliation() {
           }}
         />
         <div className="other-buttons">
-          <Button onClick={() => setFilterDialogVisible(true)}>
+          {/* <Button onClick={() => setFilterDialogVisible(true)}>
             <img src={ButtonIcon1} alt="" />
             <span>{t("common.advancedSearch")}</span>
-          </Button>
+          </Button> */}
           <Button onClick={() => setDialogVisible(true)}>
             <img src={ButtonIcon2} alt="" />
             <span>{t("common.byDate")}</span>

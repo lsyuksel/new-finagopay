@@ -4,8 +4,18 @@ import { Link } from 'react-router-dom'
 import logo from '@assets/images/MorPosLogo.png'
 import LanguageSelector from '../../../components/Common/LanguageSelector'
 import { t } from 'i18next'
+import { useDispatch, useSelector } from 'react-redux'
+import { logoutUser } from '../../../store/slices/login/authSlice'
+import { useTranslation } from 'react-i18next'
 
 export default function LoginHeader({pageTitle}) {
+    const { t } = useTranslation();
+  const authData = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const logout = () => {
+    dispatch(logoutUser());
+  };
   return (
     <div className='login-header'>
         <div className="container">
@@ -27,6 +37,14 @@ export default function LoginHeader({pageTitle}) {
                         <span>{t('common.safeShopping')}</span>
                     </div>
                     <LanguageSelector />
+                    {authData && authData.isAuthenticated && authData?.user?.onBoardingStatus != 'Basvuru Onay' && 
+                        (
+                            <div onClick={logout} className="logout-button">
+                                <span>{t('common.logout')}</span>
+                                <i className="pi pi-sign-out"></i>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

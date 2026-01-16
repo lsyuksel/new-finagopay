@@ -265,9 +265,9 @@ export default function LinkPaymentList() {
                 <Link to={`/detail-payment/${rowData.guid}`}>
                   <i className="pi pi-eye" style={{fontSize: '22px'}}></i>
                 </Link>
-                <Link to={`/detail-payment/${rowData.guid}`}>
+                {/* <Link to={`/detail-payment/${rowData.guid}`}>
                   <i className="pi pi-pencil"></i>
-                </Link>
+                </Link> */}
                 <div onClick={(e) => share.current.toggle(e)}>
                   <i className="pi pi-share-alt"></i>
                   <OverlayPanel className="user-share-overlay" ref={share}>
