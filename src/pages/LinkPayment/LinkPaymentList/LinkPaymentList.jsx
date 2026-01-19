@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { deletePaymentRecord, getLinkPaymentList, setLinkPaymentListError } from "../../../store/slices/linkPayment/linkPaymentListSlice";
+import { clearLinkPaymentListState, deletePaymentRecord, getLinkPaymentList, setLinkPaymentListError, updateMerchantLinkPayment } from "../../../store/slices/linkPayment/linkPaymentListSlice";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
@@ -32,6 +32,56 @@ export default function LinkPaymentList() {
 
   const { user } = useSelector((state) => state.auth);
   const { loading, error, success, paymentList, deleteSuccess } = useSelector((state) => state.linkPaymentList);
+  
+  const linkPaymentStatusUpdate = (rowData) => {
+    const data = {
+      guid: rowData.guid,
+      productTypeGuid: rowData.productTypeGuid,
+      currencyGuid: rowData.currencyGuid,
+      merchantId: rowData.merchantId,
+      productName: rowData.productName,
+      productPrice: rowData.productPrice,
+      productDescription: rowData.productDescription,
+      linkDescription: rowData.linkDescription,
+      merchantNameEnabled: rowData.merchantNameEnabled,
+      merchantAddressEnabled: rowData.merchantAddressEnabled,
+      installmentInfoEnabled: rowData.installmentInfoEnabled,
+      stock: rowData.stock,
+      remaingStock: rowData.remaingStock,
+      productImageBase64: rowData.productImageBase64,
+      linkUrl: rowData.linkUrl,
+      linkPaymentStatusName: rowData.linkPaymentStatus.description,
+      linkPaymentStatusGuid: 3
+    }
+
+    dispatch(updateMerchantLinkPayment(data))
+      .unwrap()
+      .then((result) => {
+        toast.success(t("messages.success"));
+        dispatch(clearLinkPaymentListState(null));
+        dispatch(getLinkPaymentList(user.userName));
+      })
+      .catch((error) => {
+        dispatch(setLinkPaymentListError(error));
+        toast.error(error);
+      });
+  }
+
+  const confirmUpdateDialog = (rowData) => {
+    if(rowData.linkPaymentStatus?.guid === 3) {
+      return
+    }
+    showDialog(
+      'danger',
+      {
+          title: t('messages.UpdateDialogTitle'),
+          content: t('messages.UpdateDialogText'),
+      },
+      dangerDialogIcon,
+      null,
+      () => linkPaymentStatusUpdate(rowData)
+    );
+  };
 
   useEffect(() => {
     setSelectedProducts(null);
@@ -183,13 +233,16 @@ export default function LinkPaymentList() {
                 </a>
               </div>
 
-              <div>
-                <InputSwitch checked={rowData.linkPaymentStatus?.name !== 'WaitingForApproval'}/>
+              <div onClick={()=>confirmUpdateDialog(rowData)}>
+                <InputSwitch checked={rowData.linkPaymentStatus?.guid !== 3}/>
+                <span className="d-none">{rowData.linkPaymentStatus?.description}</span>
+{/*                 
                 {rowData.linkPaymentStatus?.name !== 'WaitingForApproval' ? (
                   <span className="d-none">{t(`common.ForSaletrue`)}</span>
                 ) : (
                   <span className="d-none">{t(`common.ForSalefalse`)}</span>
                 )}
+                 */}
               </div>
 
             </>
