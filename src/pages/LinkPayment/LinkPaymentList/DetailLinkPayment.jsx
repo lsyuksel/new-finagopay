@@ -177,7 +177,7 @@ export default function DetailLinkPayment() {
           <div className="text">{t('linkPayment.paymentDetailText')}</div>
         </div>
       </div>
-      <div className="link-payment-detail-content">
+      <div className={`link-payment-detail-content ${param ? 'disabled' : ''}`}>
         <Form onSubmit={formik.handleSubmit}>
           {error && (
             <Message
@@ -236,6 +236,7 @@ export default function DetailLinkPayment() {
                     chooseLabel={t("linkPayment.productImageUploadButton")}
                     maxFileSize={1000000}
                     onSelect={customBase64Uploader}
+                    disabled={loading || param}
                   />
                 </div>
               </div>
@@ -249,7 +250,7 @@ export default function DetailLinkPayment() {
                   value={formik.values.productName}
                   onChange={formik.handleChange}
                   invalid={formik.touched.productName && formik.errors.productName}
-                  disabled={loading}
+                  disabled={loading || param}
                 />
               </div>
               <div className="form-item">
@@ -262,7 +263,7 @@ export default function DetailLinkPayment() {
                   value={formik.values.productDescription}
                   onChange={formik.handleChange}
                   invalid={formik.touched.productDescription && formik.errors.productDescription}
-                  disabled={loading} rows={5} cols={30}
+                  disabled={loading || param} rows={5} cols={30}
                 />
               </div>
               <div className="d-flex gap-4">
@@ -276,7 +277,7 @@ export default function DetailLinkPayment() {
                     value={formik.values.productPrice}
                     onChange={formik.handleChange}
                     invalid={formik.touched.productPrice && formik.errors.productPrice}
-                    disabled={loading}
+                    disabled={loading || param}
                   />
                 </div>
                 <div className="form-item">
@@ -288,7 +289,7 @@ export default function DetailLinkPayment() {
                       value={formik.values.currencyGuid}
                       onChange={formik.handleChange}
                       invalid={formik.touched.currencyGuid && formik.errors.currencyGuid}
-                      disabled={loading}
+                      disabled={loading || param}
                       options={currencyDef}
                       optionLabel="alphabeticCode"
                       optionValue="guid"
@@ -309,6 +310,7 @@ export default function DetailLinkPayment() {
                     name="stockEnabled"
                     checked={formik.values.stockEnabled}
                     onChange={formik.handleChange}
+                    disabled={loading || param}
                   />
                   <span>{t("linkPayment.stockEnabled")}</span>
                 </div>
@@ -322,7 +324,7 @@ export default function DetailLinkPayment() {
                       value={formik.values.stock}
                       onChange={formik.handleChange}
                       invalid={formik.touched.stock && formik.errors.stock}
-                      disabled={loading}
+                      disabled={loading || param}
                     />
                   </div>
                 )}
@@ -356,6 +358,7 @@ export default function DetailLinkPayment() {
                     name="merchantAddressEnabled"
                     checked={formik.values.merchantAddressEnabled}
                     onChange={formik.handleChange}
+                    disabled={loading || param}
                   />
                   <span>{t("linkPayment.merchantAddressEnabled")}</span>
                 </div>
@@ -367,6 +370,7 @@ export default function DetailLinkPayment() {
                     name="merchantNameEnabled"
                     checked={formik.values.merchantNameEnabled}
                     onChange={formik.handleChange}
+                    disabled={loading || param}
                   />
                   <span>{t("linkPayment.merchantNameEnabled")}</span>
                 </div>
@@ -386,6 +390,7 @@ export default function DetailLinkPayment() {
                             value={item.guid}
                             checked={formik.values.productTypeGuid === item.guid}
                             onChange={formik.handleChange}
+                            disabled={loading || param}
                           />
                           <label htmlFor={item.guid} className="ml-2">{t(`common.${item.name}`)}</label>
                       </div>

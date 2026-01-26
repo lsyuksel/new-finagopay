@@ -190,9 +190,9 @@ export default function TransactionMonitoring({ pageType }) {
 */
   }, [])
   
-  useEffect(()=> {
-    console.log("transactionList99",transactionList)
-  }, [transactionList])
+  // useEffect(()=> {
+  //   console.log("transactionList99",transactionList)
+  // }, [transactionList])
 
   const columns = [
     { field: 'orderId', header: t('transaction.orderId2'), sortable: false, className: "primary-text", },
@@ -224,7 +224,7 @@ export default function TransactionMonitoring({ pageType }) {
       field: 'transactionStatusCode', 
       header: t('transaction.transactionStatusCode'), 
       body: (rowData) => (
-          rowData.transactionStatusCode === '00' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="waiting" value="Başarısız"></Tag>
+          rowData.transactionStatusCode === '00' ? <Tag severity="success" value={t('common.success')}></Tag> : <Tag severity="waiting" value={t('common.unsuccessful')}></Tag>
       )
   },
     { field: 'resultDesc', header: t('transaction.resultDesc'), sortable: false },

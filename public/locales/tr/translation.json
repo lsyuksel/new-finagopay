@@ -49,6 +49,7 @@
     "loading": "Yükleniyor...",
     "error": "Hata",
     "success": "Başarılı",
+    "unsuccessful": "Başarısız",
     "itemsPerPage": "Kayıt/Sayfa",
     "showing": "Gösterilen",
     "items": "kayıt",
@@ -276,6 +277,8 @@
     "retryText": "Ödeme işlemini tekrar baştan deneyebilirsiniz.",
     "retryButton": "İşlemi Tekrarla",
     "singlePayment": "Tek Çekim (Peşin)",
+    "paymentStatusError": "Bu statüdeki ödeme linki paylasılamaz",
+
     "installment": "Taksit"
     
   },
@@ -586,8 +589,8 @@
     "confirmationEmailSent": "Onay E-Posta'sı Gönderildi!",
     "confirmationEmailContent": "<p>Şifre yenileme süreci başlatıldı ve e-posta adresinize bundan sonraki aşamalarda ne yapmanız gerektiğine dair yönergeler içeren bir e-posta gönderildi. Lütfen e-posta adresinizi kontrol ediniz.<br /><br />Yönergeleri içeren e-postaya ulaşamadıysanız lütfen junk mail (gereksiz e-posta) klasörünü de kontrol etmeyi unutmayınız. E-posta adresimizi güvenli gönderenler listesine eklemenizi önemle rica ederiz.</p>",
 
-    "UpdateDialogTitle": "Bu işlem geri alınamaz.",
-    "UpdateDialogText": "Satışa kapatılan link <b>tekrar satışa açılamaz.</b> Devam etmek istediğinizi onaylıyor musunuz?",
+    "UpdateDialogTitle": "Emin Misiniz?",
+    "UpdateDialogText": "Linki satışa kapatma işlemini onaylıyor musunuz?",
 
     "DeletionDialogTitle": "MorLink'i Sil?",
     "DeletionDialogText": "Oluşturduğunuz <b>MorLink</b>'in silme işlemini<br />onaylıyor musunuz?",

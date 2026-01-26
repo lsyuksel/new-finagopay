@@ -1,7 +1,7 @@
 @import "mixin";
 
 html {
-    @media screen and (min-width: 1024px) and (max-width: 1600px) {
+    @media screen and (min-width: 1200px) and (max-width: 1600px) {
         zoom: 0.85;
     }
 }
@@ -2631,37 +2631,84 @@ main {
         padding: var(--spacer-5);
         transition: $transition;
     }
-
-    &.sidebar-small {
-        max-width: 80px;
-        min-width: 80px;
-        .sidebar-logo {
-            width: 100%;
-            > a > img {
+    @include min($lg) {
+        &.sidebar-actived {
+            max-width: 80px;
+            min-width: 80px;
+            .sidebar-logo {
+                width: 100%;
+                > a > img {
+                    display: none;
+                }
+                .small-logo {
+                    display: flex;
+                }
+            }
+            .sidebar-content .menu-item .menu-button > div {
+                justify-content: center;
+            }
+            .sidebar-content .menu-item .menu-button {
+                width: 40px;
+            }
+            .sidebar-content .menu-item .menu-button > i,
+            .sidebar-content .menu-item .menu-button > div > span {
                 display: none;
             }
-            .small-logo {
-                display: flex;
+            .sidebar-content .menu-item .submenu {
+                display: none !important;
+            }
+            .sidebar-bottom {
+                opacity: 0;
+            }
+            & + main {
+                width: calc(100% - 80px);
             }
         }
-        .sidebar-content .menu-item .menu-button > div {
-            justify-content: center;
-        }
-        .sidebar-content .menu-item .menu-button {
-            width: 40px;
-        }
-        .sidebar-content .menu-item .menu-button > i,
-        .sidebar-content .menu-item .menu-button > div > span {
-            display: none;
-        }
-        .sidebar-content .menu-item .submenu {
-            display: none !important;
-        }
-        .sidebar-bottom {
-            opacity: 0;
+    }
+    @include max($lg) {
+        max-width: 100%;
+        width: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 101;
+        transform: translateX(-20px);
+        visibility: hidden;
+        opacity: 0;
+        display: block;
+        background: transparent;
+        &.sidebar-actived {
+            transform: translateX(0);
+            visibility: visible;
+            opacity: 1;
         }
         & + main {
-            width: calc(100% - 80px);
+            width: 100%;
+        }
+
+        .wrapper {
+            width: 264px;
+            overflow-y: auto;
+            @include gradient;
+            display: block;
+            height: 100vh;
+        }
+        .sidebar-toggle-menu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgb(0 0 0 / 75%);
+            width: 100%;
+            height: 100%;
+            margin-left: 264px;
+            justify-content: flex-start;
+            align-items: flex-start;
+            color: #fff;
+            padding: 12px;
+            font-size: 120%;
+            i {
+                font-size: 100%;
+            }
         }
     }
 }
@@ -2870,6 +2917,12 @@ main {
                         }
                     }
                 }
+            }
+        }
+
+        .sidebar-logo {
+            img {
+                max-height: 44px;
             }
         }
     }
@@ -3269,6 +3322,12 @@ footer {
                 max-width: 100%;
                 justify-content: center;
             }
+        }
+    }
+    &.disabled {
+        .p-disabled,
+        .p-component:disabled {
+            opacity: 1;    
         }
     }
 }
@@ -3834,6 +3893,9 @@ footer {
             }
 
         }    
+    }
+    .p-datatable .p-datatable-tbody > tr > td.p-frozen-column {
+        border-left: 0;
     }
 }
 
@@ -4537,6 +4599,23 @@ footer {
     @include max($sm) {
         .login-button {
             width: 100%;
+        }
+    }
+}
+
+
+.hosted-payment-form {
+    padding: var(--spacer-8) !important;
+    background: $white-color;
+    border: 1px solid $border-2;
+    border-radius: 20px;
+    margin: var(--spacer-10) 0 0;
+    .auth-form-area {
+        min-height: 0;
+        padding: 0;
+        box-shadow: none;
+        .link-preview-modal-bottom {
+            padding: 0 !important;
         }
     }
 }

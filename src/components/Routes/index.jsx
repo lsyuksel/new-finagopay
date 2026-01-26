@@ -24,6 +24,7 @@ import DetailLinkPayment from "../../pages/LinkPayment/LinkPaymentList/DetailLin
 import CreateLinkPayment from "../../pages/LinkPayment/LinkPaymentList/CreateLinkPayment";
 import Layout from "../Layout/Layout";
 import InvoiceReports from "../../pages/Reports/InvoiceReports/InvoiceReports";
+import HostedPaymentPage from "../../pages/HostedPayment/HostedPaymentPage";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -296,6 +297,8 @@ const AppRoutes = () => {
         }
       />
       <Route path="/linkpayment/:param" element={<LinkPayment />} />
+      {/* URL içinde "/" gelebilen tokenlar için wildcard route */}
+      <Route path="/hostedpaymentpage/*" element={<HostedPaymentPage />} />
     </Routes>
   );
 };

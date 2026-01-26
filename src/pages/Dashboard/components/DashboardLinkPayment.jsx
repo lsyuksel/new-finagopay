@@ -4,7 +4,7 @@ import { Carousel } from "primereact/carousel";
 import { DataTable } from "primereact/datatable";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { deletePaymentRecord, getLinkPaymentList, setLinkPaymentListError } from "../../../store/slices/linkPayment/linkPaymentListSlice";
+import { clearLinkPaymentListState, deletePaymentRecord, getLinkPaymentList, setLinkPaymentListError, updateMerchantLinkPayment } from "../../../store/slices/linkPayment/linkPaymentListSlice";
 import { ProgressSpinner } from "primereact/progressspinner";
 
 import linkPaymentIcon from "@/assets/images/icons/share-link-1.svg";
@@ -16,6 +16,7 @@ import { Column } from "primereact/column";
 import { priceFormat, showDialog } from "../../../utils/helpers";
 import { InputSwitch } from "primereact/inputswitch";
 import { OverlayPanel } from "primereact/overlaypanel";
+import { toast } from "react-toastify";
 
 export default function DashboardLinkPayment() {
   const { t } = useTranslation();
@@ -100,6 +101,65 @@ export default function DashboardLinkPayment() {
     );
   };
 
+  const linkPaymentStatusUpdate = (rowData) => {
+    const data = {
+      guid: rowData.guid,
+      productTypeGuid: rowData.productTypeGuid,
+      currencyGuid: rowData.currencyGuid,
+      merchantId: rowData.merchantId,
+      productName: rowData.productName,
+      productPrice: rowData.productPrice,
+      productDescription: rowData.productDescription,
+      linkDescription: rowData.linkDescription,
+      merchantNameEnabled: rowData.merchantNameEnabled,
+      merchantAddressEnabled: rowData.merchantAddressEnabled,
+      installmentInfoEnabled: rowData.installmentInfoEnabled,
+      stock: rowData.stock,
+      remaingStock: rowData.remaingStock,
+      productImageBase64: rowData.productImageBase64,
+      linkUrl: rowData.linkUrl,
+      linkPaymentStatusName: rowData.linkPaymentStatus.description,
+      linkPaymentStatusGuid: rowData.linkPaymentStatusGuid == 3 ? 5 : 3,
+      // linkPaymentStatusGuid satışa kapalıysa satışa aç satışa açıksa kapa
+    }
+
+    dispatch(updateMerchantLinkPayment(data))
+      .unwrap()
+      .then((result) => {
+        toast.success(t("messages.success"));
+        dispatch(clearLinkPaymentListState(null));
+        dispatch(getLinkPaymentList(user.userName));
+      })
+      .catch((error) => {
+        dispatch(setLinkPaymentListError(error));
+        toast.error(error);
+      });
+  }
+
+  const confirmUpdateDialog = (rowData) => {
+    if(rowData.linkPaymentStatus?.guid === 3) {
+      linkPaymentStatusUpdate(rowData);
+    } else {
+      showDialog(
+        'danger',
+        {
+            title: t('messages.UpdateDialogTitle'),
+            content: t('messages.UpdateDialogText'),
+        },
+        dangerDialogIcon,
+        null,
+        () => linkPaymentStatusUpdate(rowData)
+      );
+    }
+  };
+
+  const linkPaymentUrl = (rowData) => {
+    if(rowData.linkPaymentStatusGuid != 5 || rowData.remaingStock == 0) {
+      toast.error(t("linkPayment.paymentStatusError"));
+      return
+    }
+    navigate(`/linkpayment/${rowData.linkUrlKey}`);
+  }
   
   return (
     <>
@@ -137,7 +197,7 @@ export default function DashboardLinkPayment() {
 
       <DataTable 
         className='custom-datatable-2'
-        value={paymentList.slice(0,4)} 
+        value={paymentList?.slice(0,4)} 
         emptyMessage={emptyMessage}
         currentPageReportTemplate={t('common.paginateText')}
         scrollable>
@@ -159,7 +219,10 @@ export default function DashboardLinkPayment() {
           <span>{t(`common.${rowData.productType?.name}`)}</span>
         )}/>
         <Column field="linkPaymentStatus.merchantEnabled" header={t('linkPayment.statusHeader')} className="status-column" body={(rowData)=> (
-          <InputSwitch checked={rowData.linkPaymentStatus?.name !== 'WaitingForApproval'}/>
+          <div onClick={()=>confirmUpdateDialog(rowData)}>
+            <InputSwitch checked={rowData.linkPaymentStatus?.guid !== 3}/>
+            <span className="d-none">{rowData.linkPaymentStatus?.description}</span>
+          </div>
         )}/>
         <Column
           field="guid"
@@ -171,9 +234,9 @@ export default function DashboardLinkPayment() {
               <Link to={`/detail-payment/${rowData.guid}`}>
                 <i className="pi pi-eye" style={{fontSize: '22px'}}></i>
               </Link>
-              <Link to={`/detail-payment/${rowData.guid}`}>
+              {/* <Link to={`/detail-payment/${rowData.guid}`}>
                 <i className="pi pi-pencil"></i>
-              </Link>
+              </Link> */}
               <div onClick={(e) => share.current.toggle(e)}>
                 <i className="pi pi-share-alt"></i>
                 <OverlayPanel className="user-share-overlay" ref={share}>
@@ -190,7 +253,7 @@ export default function DashboardLinkPayment() {
                   </div>
                 </OverlayPanel>
               </div>
-              <a href={`/linkpayment/${rowData.linkUrlKey}`} target="_blank">
+              <a onClick={()=>linkPaymentUrl(rowData)} target="_blank">
                 <i className="pi pi-external-link"></i>
               </a>
               <div onClick={()=>confirmDeleteDialog(rowData.guid)}>

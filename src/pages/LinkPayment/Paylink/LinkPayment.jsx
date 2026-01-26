@@ -558,8 +558,6 @@ export default function LinkPayment() {
                             <>
                               <div className="installment-title">Taksit Seçenekleri</div>
                               <div className="installment-list">
-                                {/* API response'unda taksit listesi yok, kart bilgileri var */}
-                                {/* Taksit listesi için başka bir API çağrısı gerekebilir */}
                                 {installmentList?.installmentList && Array.isArray(installmentList.installmentList) && installmentList.installmentList.length > 0 ? (
                                   installmentList.installmentList.map((item, index) => (
                                     <div className="item" key={index}>

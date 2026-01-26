@@ -26,7 +26,7 @@ import TransactionBox from "./components/TransactionBox";
 import StatisticsChart from "./components/StatisticsChart";
 import BannerSlider from "./components/BannerSlider";
 import DashboardLinkPayment from "./components/DashboardLinkPayment";
-import DashboardActivityLog from "./components/DashboardActivityLog";
+import DashboardLastTransaction from "./components/DashboardLastTransaction";
 import { ProgressSpinner } from "primereact/progressspinner";
 
 export default function Dashboard() {
@@ -207,7 +207,7 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="section">
-          <DashboardActivityLog />
+          <DashboardLastTransaction />
         </div>
       </div>
     ) : (

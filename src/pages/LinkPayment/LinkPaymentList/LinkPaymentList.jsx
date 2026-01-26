@@ -51,7 +51,8 @@ export default function LinkPaymentList() {
       productImageBase64: rowData.productImageBase64,
       linkUrl: rowData.linkUrl,
       linkPaymentStatusName: rowData.linkPaymentStatus.description,
-      linkPaymentStatusGuid: 3
+      linkPaymentStatusGuid: rowData.linkPaymentStatusGuid == 3 ? 5 : 3,
+      // linkPaymentStatusGuid satışa kapalıysa satışa aç satışa açıksa kapa
     }
 
     dispatch(updateMerchantLinkPayment(data))
@@ -69,18 +70,19 @@ export default function LinkPaymentList() {
 
   const confirmUpdateDialog = (rowData) => {
     if(rowData.linkPaymentStatus?.guid === 3) {
-      return
+      linkPaymentStatusUpdate(rowData);
+    } else {
+      showDialog(
+        'danger',
+        {
+            title: t('messages.UpdateDialogTitle'),
+            content: t('messages.UpdateDialogText'),
+        },
+        dangerDialogIcon,
+        null,
+        () => linkPaymentStatusUpdate(rowData)
+      );
     }
-    showDialog(
-      'danger',
-      {
-          title: t('messages.UpdateDialogTitle'),
-          content: t('messages.UpdateDialogText'),
-      },
-      dangerDialogIcon,
-      null,
-      () => linkPaymentStatusUpdate(rowData)
-    );
   };
 
   useEffect(() => {
@@ -160,6 +162,14 @@ export default function LinkPaymentList() {
       () => handleDeleteRecord(guid)
     );
   };
+
+  const linkPaymentUrl = (rowData) => {
+    if(rowData.linkPaymentStatusGuid != 5 || rowData.remaingStock == 0) {
+      toast.error(t("linkPayment.paymentStatusError"));
+      return
+    }
+    navigate(`/linkpayment/${rowData.linkUrlKey}`);
+  }
 
   return (
     <>
@@ -337,7 +347,7 @@ export default function LinkPaymentList() {
                     </div>
                   </OverlayPanel>
                 </div>
-                <a href={`/linkpayment/${rowData.linkUrlKey}`} target="_blank">
+                <a onClick={()=>linkPaymentUrl(rowData)} target="_blank">
                   <i className="pi pi-external-link"></i>
                 </a>
                 <div onClick={()=>confirmDeleteDialog(rowData.guid)}>

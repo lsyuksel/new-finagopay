@@ -33,7 +33,7 @@ export default function PayLinkResult() {
                                 <div className="title">{t("linkPayment.successTitle")}</div>
                                 <div className="price">{payment?.u} {payment?.y}</div>
                                 <div className="subtitle">{t("linkPayment.orderNumber")}: <b>{payLinkResult?.orderId}</b></div>
-                                <div className="product-info-sum">
+                                {/* <div className="product-info-sum">
                                     <table>
                                         <tr>
                                             <td>{t('linkPayment.productName')}:</td>
@@ -52,7 +52,7 @@ export default function PayLinkResult() {
                                             <td>3 Taksit x 21.300 TL</td>
                                         </tr>
                                     </table>
-                                </div>
+                                </div> */}
                                 <Link to={"/"} className="result-button mx-auto">
                                     {t("linkPayment.returnHome")}
                                 </Link>

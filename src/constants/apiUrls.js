@@ -8,6 +8,9 @@ export const MERCHANT_LINK_PAYMENT = {
   GetInstallments: '/MerchantLinkPayment/ProcessCheckBin',
   GetMerchantPermissionByMerchantId: 'MerchantPermission/GetMerchantPermissionByMerchantId',
   PayLink: '/MerchantLinkPayment/PayLink',
+
+  GetHostedPage: '/HostedPaymentPage/GetHostedPage',
+  HostedPageDoPayment: '/HostedPayment/HostedPageDoPayment',
 };
 
 export const AUTH_URL = {

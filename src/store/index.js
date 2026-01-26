@@ -15,6 +15,8 @@ import linkPaymentListReducer from './slices/linkPayment/linkPaymentListSlice';
 import linkPaymentReducer from './slices/linkPayment/linkPaymentSlice';
 import linkPaymentDetailReducer from './slices/linkPayment/linkPaymentDetailSlice';
 
+import hostedPaymentReducer from './slices/hostedPayment/hostedPaymentSlice';
+
 import transactionListReducer from './slices/transaction-managment/transactionListSlice';
 import transactionDetailReducer from './slices/transaction-managment/transactionDetailSlice';
 
@@ -50,6 +52,8 @@ const rootReducer = combineReducers({
   linkPayment: linkPaymentReducer,
   linkPaymentDetail: linkPaymentDetailReducer,
   
+  hostedPayment: hostedPaymentReducer,
+
   transactionList: transactionListReducer,
   transactionDetail: transactionDetailReducer,
   

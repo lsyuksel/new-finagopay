@@ -3,7 +3,7 @@ import { Nav, Navbar, Button, Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { logoutUser } from '../../store/slices/login/authSlice';
-import { fetchMenuItems, toggleMenuItem } from '../../store/slices/menuSlice';
+import { fetchMenuItems, toggleMenuItem, toggleSidebar } from '../../store/slices/menuSlice';
 import { startTransition, useCallback, useEffect } from 'react';
 import 'boxicons/css/boxicons.min.css';
 import logo from '@assets/images/logo.png'
@@ -50,7 +50,7 @@ const Sidebar = () => {
 
   const renderMenuItem = (item) => {
     if (!item) return null;
-    if (item.pageName === 'exit' || item.pageName === 'helpdesk' || item.pageName === 'suspiciousTransactions') return null;
+    if (item.pageName === 'exit' || item.pageName === 'helpdesk' || item.pageName === 'suspiciousTransactions' || item.pageName === 'merchantApplication') return null;
 
     const isExpanded = expandedItems.includes(item.id);
     const hasChildren = Array.isArray(item.children) && item.children.length > 0;
@@ -83,67 +83,76 @@ const Sidebar = () => {
     );
   };
 
+  const sidebarToggle = () => {
+    dispatch(toggleSidebar(!toggleSidebarStatus));
+  }
+
   if (!isAuthenticated) {
     return null;
   }
 
   return (
-    <div className={`sidebar${toggleSidebarStatus ? ' sidebar-small' : ''}`}>
-      <div className="sidebar-logo">
-          <Link to={'/'}>
-            <img src={logo} alt="" />
-            <div className="small-logo"><img src={smallLogo} alt="" /></div>
-          </Link>
-      </div>
-      <div className="sidebar-content">
-        <Nav className="flex-column">
-          {loading ? (
-            <div className="loading-spinner">
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">{t('menu.loading')}</span>
-              </div>
-            </div>
-          ) : error ? (
-            <div className="error-message">
-              {t('menu.error')}
-            </div>
-          ) : Array.isArray(items) && items.length > 0 ? (
-            items.map((item) => renderMenuItem(item))
-          )
-          : (
-            <div className="empty-message">
-              {t('menu.empty')}
-            </div>
-          )}
-          {/**/}
-          <div className='menu-item'>
-            <Link onClick={handleLogout} className={`menu-button`}>
-              <div>
-                <i className='bx bx-window-close menu-icon'></i>
-                <span>{t('menu.exit')}</span>
-              </div>
+    <div className={`sidebar${toggleSidebarStatus ? ' sidebar-actived' : ''}`}>
+      <div className='wrapper'>
+        <div className="sidebar-logo">
+            <Link to={'/'}>
+              <img src={logo} alt="" />
+              <div className="small-logo"><img src={smallLogo} alt="" /></div>
             </Link>
-          </div>
-          <div className='menu-item'>
-            <Link to={"mailto:info@morpara.com"} className={`menu-button`}>
-              <div>
-                <i className='bx bxs-help-circle menu-icon'></i>
-                <span>{t('menu.helpdesk')}</span>
-              </div>
-            </Link>
-          </div> 
-        </Nav>
-      </div>
-      {/* <div className="sidebar-bottom">
-        <div className="sidebar-support-box">
-          <div className="support-icon">
-            <img src={supportIcon} alt="" />
-          </div>
-          <div className='support-title' dangerouslySetInnerHTML={{ __html: t("menu.supportBoxTitle") }} />
-          <div className="support-text">{t('menu.supportBoxText')}</div>
-          <Link to={'/'} className="support-button">{t('menu.supportBoxButton')}</Link>
         </div>
-      </div> */}
+        <div className="sidebar-content">
+          <Nav className="flex-column">
+            {loading ? (
+              <div className="loading-spinner">
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">{t('menu.loading')}</span>
+                </div>
+              </div>
+            ) : error ? (
+              <div className="error-message">
+                {t('menu.error')}
+              </div>
+            ) : Array.isArray(items) && items.length > 0 ? (
+              items.map((item) => renderMenuItem(item))
+            )
+            : (
+              <div className="empty-message">
+                {t('menu.empty')}
+              </div>
+            )}
+            {/**/}
+            <div className='menu-item'>
+              <Link onClick={handleLogout} className={`menu-button`}>
+                <div>
+                  <i className='bx bx-window-close menu-icon'></i>
+                  <span>{t('menu.exit')}</span>
+                </div>
+              </Link>
+            </div>
+            <div className='menu-item'>
+              <Link to={"mailto:info@morpara.com"} className={`menu-button`}>
+                <div>
+                  <i className='bx bxs-help-circle menu-icon'></i>
+                  <span>{t('menu.helpdesk')}</span>
+                </div>
+              </Link>
+            </div> 
+          </Nav>
+        </div>
+        {/* <div className="sidebar-bottom">
+          <div className="sidebar-support-box">
+            <div className="support-icon">
+              <img src={supportIcon} alt="" />
+            </div>
+            <div className='support-title' dangerouslySetInnerHTML={{ __html: t("menu.supportBoxTitle") }} />
+            <div className="support-text">{t('menu.supportBoxText')}</div>
+            <Link to={'/'} className="support-button">{t('menu.supportBoxButton')}</Link>
+          </div>
+        </div> */}
+      </div>
+      <div className="sidebar-toggle-menu d-xl-none" onClick={sidebarToggle}>
+        <i className="pi pi-times"></i>
+      </div>
     </div>
   );
 };

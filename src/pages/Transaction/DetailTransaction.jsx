@@ -152,7 +152,7 @@ export default function DetailTransaction() {
             field: 'transactionStatusDesc', 
             header: t('transactionDetail.tableTitle5'), 
             body: (rowData) => (
-                rowData.transactionStatusCode === '00' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="waiting" value="Başarısız"></Tag>
+                rowData.transactionStatusCode === '00' ? <Tag severity="success" value={t('common.success')}></Tag> : <Tag severity="waiting" value={t('common.unsuccessful')}></Tag>
             )
         },
         { field: 'transactionDate', header: t('transactionDetail.tableTitle6'), className: "", body: (rowData) => formatDate(rowData.transactionDate) },
@@ -179,7 +179,7 @@ export default function DetailTransaction() {
             field: 'transactionStatusDesc', 
             header: t('transactionDetail.tableTitle14'), 
             body: (rowData) => (
-                rowData.transactionStatusCode === '00' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="waiting" value="Başarısız"></Tag>
+                rowData.transactionStatusCode === '00' ? <Tag severity="success" value={t('common.success')}></Tag> : <Tag severity="waiting" value={t('common.unsuccessful')}></Tag>
             )
         },
         // { field: 'description', header: t('transactionDetail.tableTitle15'), className: "" },
@@ -213,7 +213,7 @@ export default function DetailTransaction() {
             field: 'transactionStatusDesc', 
             header: t('Fraud Durumu'), 
             body: (rowData) => (
-                rowData.transactionStatusCode === '00' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="waiting" value="Başarısız"></Tag>
+                rowData.transactionStatusCode === '00' ? <Tag severity="success" value={t('common.success')}></Tag> : <Tag severity="waiting" value={t('common.unsuccessful')}></Tag>
             )
         },
         { field: 'description', header: t('transactionDetail.tableTitle15'), className: "" },
@@ -233,7 +233,7 @@ export default function DetailTransaction() {
             header: t('Chargeback Durumu'), 
             body: (rowData) => (
                 <Tag severity="secondary" value={rowData.chargebackStatus}></Tag>
-                // rowData.transactionStatusCode === '00' ? <Tag severity="success" value="Başarılı"></Tag> : <Tag severity="secondary" value={rowData.chargebackStatus}></Tag>
+                // rowData.transactionStatusCode === '00' ? <Tag severity="success" value={t('common.success')}></Tag> : <Tag severity="secondary" value={rowData.chargebackStatus}></Tag>
             )
         },
         { field: 'chargebackDesc', header: t('transactionDetail.tableTitle15'), className: "" },

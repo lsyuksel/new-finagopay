@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { ScrollPanel } from 'primereact/scrollpanel';
 import { useLocation } from 'react-router-dom';
 import AccountDropdown from "../Common/AccountDropdown";
+import logo from '@assets/images/logo.png'
 
 export default function TopHeader() {
   const [searchValue, setSearchValue] = useState("");
@@ -76,7 +77,7 @@ export default function TopHeader() {
                         <path d="M4 16C3.44772 16 3 16.4477 3 17C3 17.5523 3.44772 18 4 18H20C20.5523 18 21 17.5523 21 17C21 16.4477 20.5523 16 20 16H4Z" fill="#8200BA"/>
                       </svg>
                     </div>
-                    <div className="search-content">
+                    <div className="search-content d-none d-xl-flex">
                         <i className="search-icon"><img src={smallLogo} /></i>
                         <InputText 
                           value={searchValue}
@@ -99,6 +100,11 @@ export default function TopHeader() {
                             </div>
                           </div>
                         )}
+                    </div>
+                    <div className="sidebar-logo d-xl-none">
+                        <Link to={'/'}>
+                          <img src={logo} alt="" />
+                        </Link>
                     </div>
                 </div>
             </div>

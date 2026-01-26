@@ -16,7 +16,7 @@ export const managementApi = axios.create({
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
-  timeout: 10000,
+  timeout: 60000, // 60 saniye timeout (uzun süren işlemler için)
   headers: {
     'Content-Type': 'application/json',
   },
@@ -26,7 +26,7 @@ export const api = axios.create({
 // Auth için ayrı axios instance
 export const authApi = axios.create({
   baseURL: import.meta.env.VITE_API_AUTH_URL,
-  timeout: 10000,
+  timeout: 60000, // 60 saniye timeout (uzun süren işlemler için)
   headers: {
     'Content-Type': 'application/json',
   },
@@ -111,6 +111,20 @@ authApi.interceptors.response.use(
   }
 );
 
+
+managementApi.interceptors.request.use(
+  (config) => {
+    // Token'ı Authorization header'ına ekle
+    const token = localStorage.getItem('token') || localStorage.getItem('accessToken') || localStorage.getItem('Act');
+    if (token) {
+      config.headers.Authorization = token;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 managementApi.interceptors.response.use(
   (response) => {
