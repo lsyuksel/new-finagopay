@@ -164,7 +164,7 @@ export default function LinkPaymentList() {
   };
 
   const linkPaymentUrl = (rowData) => {
-    if(rowData.linkPaymentStatusGuid != 5 || rowData.remaingStock == 0) {
+    if((rowData.linkPaymentStatusGuid != 5 && rowData.linkPaymentStatusGuid != 2) || rowData.remaingStock == 0) {
       toast.error(t("linkPayment.paymentStatusError"));
       return
     }

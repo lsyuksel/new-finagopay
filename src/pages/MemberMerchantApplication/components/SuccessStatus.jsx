@@ -11,7 +11,7 @@ export default function SuccessStatus({ onBoardingSubStatus }) {
                     <div className="title">{t("memberMerchantApplication.applicationCurrentlyTitle1")}</div>
                     <div className="icon"><img src={successIcon} /></div>
                     <div className="result-text success-color">{onBoardingSubStatus}</div>
-                    <div className='text-content mb-0' dangerouslySetInnerHTML={{ __html: t("memberMerchantApplication.applicationCurrentlyText1") }} />
+                    {/* <div className='text-content mb-0' dangerouslySetInnerHTML={{ __html: t("memberMerchantApplication.applicationCurrentlyText1") }} /> */}
                 </div>
             </div>
         </div>
